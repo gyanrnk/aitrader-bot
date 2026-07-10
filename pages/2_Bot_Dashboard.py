@@ -24,9 +24,9 @@ st.markdown("""
 st.title("🤖 aitrader — AI Trading Architecture")
 st.caption("Ek research trading bot. Mock mode = free, instant, no keys. yfinance = real data.")
 
-tabs = st.tabs(["🏗️ Architecture", "📈 Markets", "🧠 Live Decision",
-                "📊 Backtest", "💰 Carry (5–10% path)", "🧪 Learnings"])
-tab_arch, tab_mkt, tab_dec, tab_bt, tab_carry, tab_learn = tabs
+tabs = st.tabs(["🏗️ Architecture", "📈 Markets", "🧠 Live Decision", "📊 Backtest",
+                "💰 Carry (5–10% path)", "📡 Signals", "🧪 Learnings"])
+tab_arch, tab_mkt, tab_dec, tab_bt, tab_carry, tab_sig, tab_learn = tabs
 
 CARRY_SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
 
@@ -185,6 +185,61 @@ with tab_carry:
             "code nahi). Pehla kadam: **selective carry ko mahino paper-trade** karke confirm karo.")
     st.warning("⚠️ Leverage risk badhata hai. Exchange outage/extreme vol me hedge tootta hai. "
                "Sirf utna jo doob jaye toh farak na pade.")
+
+# ----------------------------------------------------------------- SIGNALS
+with tab_sig:
+    st.subheader("📡 Live Signals + honest forward accuracy")
+    st.caption("24/7 collector se banaye signals. Accuracy FORWARD measure hoti hai "
+               "(prediction pehle, outcome baad me) — nakli backtest nahi.")
+    try:
+        from aitrader.collector import analytics
+        hist = analytics.load_history()
+    except Exception as e:
+        hist, _err = None, e
+        st.error(f"Could not load collected data: {e}")
+
+    if hist is None or hist.empty:
+        st.info("Abhi tak collected data nahi. Collector (GitHub Action) har 30 min pe jama kar "
+                "raha hai — thodi der me yahan dikhega. Actions tab → 'Run workflow' se turant test karo.")
+    else:
+        n_snaps = hist["ts"].nunique()
+        span_h = (hist["ts"].max() - hist["ts"].min()).total_seconds() / 3600
+        c = st.columns(3)
+        c[0].metric("Snapshots", f"{n_snaps}")
+        c[1].metric("Symbols", f"{hist['symbol'].nunique()}")
+        c[2].metric("Time span", f"{span_h:.1f} h")
+
+        rows = []
+        for sym, g in hist.groupby("symbol"):
+            sig = analytics.compute_signal(g)
+            if sig:
+                rows.append({"symbol": sym, "signal": sig["signal"], "prob_up": sig["prob_up"],
+                             "funding_z": sig["funding_z"], "momentum": round(sig["mom"], 4)})
+        if rows:
+            st.markdown("**Current signals**")
+            st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
+        else:
+            st.info(f"Signals ~20 snapshots ke baad start honge (abhi {n_snaps}). Roughly ~10 ghante.")
+
+        try:
+            piv = hist.pivot_table(index="ts", columns="symbol", values="funding") * 3 * 365 * 100
+            st.markdown("**Funding rate over time (annualized %)**")
+            st.line_chart(piv, height=240)
+        except Exception:
+            pass
+
+        st.markdown("**Forward accuracy — matured predictions only (the HONEST number)**")
+        score = analytics.score_predictions(hist)
+        if score.get("scored", 0) == 0:
+            st.warning(f"{score.get('note')}. Accuracy 1–2 hafte me real hogi — abhi samples bahut kam.")
+        else:
+            k = st.columns(3)
+            k[0].metric("Predictions scored", score["scored"])
+            k[1].metric("Hit rate", f"{score['hit_rate']:.1%}")
+            k[2].metric("Expectancy/call", f"{score['avg_return_per_call']:+.3%}",
+                        "profitable" if score["expectancy_positive"] else "not yet")
+            st.caption("Hit-rate akela profit nahi — **expectancy** (net return per call) decide karta hai.")
+        st.warning("⚠️ Realistic accuracy ~50–55%. 90% dikhe toh leakage. Koi profit guarantee nahi.")
 
 # ----------------------------------------------------------------- LEARNINGS
 with tab_learn:
