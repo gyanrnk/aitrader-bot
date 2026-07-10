@@ -6,3 +6,5 @@ models_store/
 results/
 newsapp/
 .env
+
+research/cache/

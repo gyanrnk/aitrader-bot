@@ -4,9 +4,40 @@
     "name": "Funding-rate carry (delta-neutral)",
     "family": "funding_carry",
     "economic_rationale": "Spot long + perp short when funding is high: the perp shorts PAY me the funding. Real recurring cash flow, not a price prediction.",
-    "status": "proposed",
-    "tests": [],
-    "best_oos_sharpe": null,
+    "status": "tested",
+    "tests": [
+      {
+        "stamp": "2026-07-10T07:33:49+00:00",
+        "params": {
+          "entry_thresh": 0.0001,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "BNBUSDT"
+          ]
+        },
+        "is_sharpe": 4.302,
+        "oos_sharpe": 4.302,
+        "note": "pre-registered single config; pooled across 4 majors"
+      },
+      {
+        "stamp": "2026-07-10T07:34:44+00:00",
+        "params": {
+          "entry_thresh": 0.0001,
+          "symbols": [
+            "BTCUSDT",
+            "ETHUSDT",
+            "SOLUSDT",
+            "BNBUSDT"
+          ]
+        },
+        "is_sharpe": 4.302,
+        "oos_sharpe": 4.302,
+        "note": "pre-registered single config; pooled across 4 majors"
+      }
+    ],
+    "best_oos_sharpe": 4.302,
     "notes": ""
   },
   "basis_conv": {
