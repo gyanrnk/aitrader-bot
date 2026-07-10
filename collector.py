@@ -15,6 +15,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from aitrader.collector import fetch_snapshot, FIELDS
+from aitrader.collector import analytics
 
 SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT"]
 STORE = Path(__file__).resolve().parent / "data" / "market"
@@ -38,6 +39,16 @@ def main() -> None:
     for r in rows:
         print(f"  {r['symbol']:9} ${r['price']:>10,.2f}  funding {r['funding']*100:+.4f}%  "
               f"OI {r['open_interest']:,.0f}")
+
+    # --- intelligence layer: compute signals, log predictions, score matured ones ---
+    hist = analytics.load_history()
+    logged = analytics.log_predictions(hist)
+    if logged:
+        print("Signals logged:", ", ".join(f"{r['symbol']}={r['signal']}" for r in logged))
+    else:
+        print("Signals: not enough history yet (builds over time).")
+    score = analytics.score_predictions(hist)
+    print("Forward accuracy:", score)
 
 
 if __name__ == "__main__":
