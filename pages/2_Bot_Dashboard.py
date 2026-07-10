@@ -22,7 +22,26 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("🤖 aitrader — AI Trading Architecture")
-st.caption("Ek research trading bot. Mock mode = free, instant, no keys. yfinance = real data.")
+st.caption("Ek research trading bot — test karta hai ki koi strategy SACH me paisa banati hai ya "
+           "nahi, bina asli paisa lagaye. Neeche guide kholo.")
+
+with st.expander("❓ Ye dashboard kaise padhein — simple guide (pehle ye kholo)"):
+    st.markdown("""
+| Tab | Simple me kya dikhata hai |
+|---|---|
+| 🏗️ **Architecture** | Bot andar kaise sochta hai — bas ek **diagram** (padhne ke liye) |
+| 📈 **Markets** | Kisi coin ka **live price chart** + basic numbers |
+| 🧠 **Live Decision** | Bot ka **ek faisla** (BUY/SELL/HOLD) + **kyun** (AI agents ki debate) |
+| 📊 **Backtest** | Purane data pe strategy chalaake **profit/loss** — *fees ke baad* |
+| 💰 **Carry** | Humari **asli strategy** (funding se paisa) + honest result |
+| 📡 **Signals** | 24/7 data se **signals** + **REAL accuracy** (hafton me banti hai) |
+| 🧪 **Learnings** | Humne **kya-kya try kiya** aur kya nikla |
+
+**Asli kaam yahan hota hai:** 📊 Backtest, 💰 Carry, 📡 Signals.
+**"mock" data = nakli/instant (free test); "yfinance" = real (cloud pe kabhi slow).**
+**Ye report TUMHARE liye hai** — jaano strategy chalegi ya doobegi. *(Abhi tak koi guaranteed
+profit nahi mila — aur wo bhi imaandaar result hai.)*
+""")
 
 tabs = st.tabs(["🏗️ Architecture", "📈 Markets", "🧠 Live Decision", "📊 Backtest",
                 "💰 Carry (5–10% path)", "📡 Signals", "🧪 Learnings"])
@@ -89,6 +108,8 @@ with tab_mkt:
 # ----------------------------------------------------------------- LIVE DECISION
 with tab_dec:
     st.subheader("🧠 Live Decision — poora reasoning")
+    st.caption("Bot ek symbol pe **BUY/SELL/HOLD** decide karta hai. Neeche dekho: 4 AI analysts ki "
+               "ray → 🐂 Bull (tejī) vs 🐻 Bear (mandī) debate → risk debate → final faisla + kyun.")
     c = st.columns([2, 1, 1])
     d_sym = c[0].text_input("Symbol", "BTC-USD", key="d_sym")
     d_prov = c[1].selectbox("Data", ["mock", "yfinance"], index=0, key="d_prov")
@@ -126,6 +147,9 @@ with tab_dec:
 # ----------------------------------------------------------------- BACKTEST
 with tab_bt:
     st.subheader("📊 Walk-forward backtest — NET of costs")
+    st.caption("Strategy ko **purane data pe** chalate hain (fees minus karke). **Equity curve** upar "
+               "jaye = profit. 🟢 line = humari strategy, ⚪ line = 'bas coin kharid ke rakhna'. "
+               "Strategy grey se upar ho tabhi wo useful hai.")
     c = st.columns([2, 1, 1])
     b_sym = c[0].text_input("Symbol", "BTC-USD", key="b_sym")
     b_prov = c[1].selectbox("Data", ["mock", "yfinance"], index=0, key="b_prov")
