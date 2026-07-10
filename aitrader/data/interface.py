@@ -25,5 +25,8 @@ def get_provider(settings: Settings) -> DataProvider:
     if name == "yfinance":
         from .yfinance_provider import YFinanceProvider
         return YFinanceProvider()
+    if name == "mt5":
+        from .mt5_provider import MT5Provider
+        return MT5Provider(settings)
     from .mock_provider import MockProvider
     return MockProvider(seed=settings.seed)

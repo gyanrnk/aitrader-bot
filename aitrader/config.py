@@ -28,8 +28,14 @@ def _i(name: str, default: int) -> int:
 class Settings:
     # --- run mode ---
     mode: str = os.getenv("AITRADER_MODE", "mock")            # mock | live
-    data_provider: str = os.getenv("AITRADER_DATA_PROVIDER", "mock")  # mock | yfinance
-    broker: str = os.getenv("AITRADER_BROKER", "paper")       # paper | ccxt
+    data_provider: str = os.getenv("AITRADER_DATA_PROVIDER", "mock")  # mock | yfinance | mt5
+    broker: str = os.getenv("AITRADER_BROKER", "paper")       # paper | ccxt | mt5
+
+    # --- MT5 (forex/CFD) — LOCAL Windows only: needs MT5 terminal + broker demo login ---
+    mt5_login: int = _i("MT5_LOGIN", 0)
+    mt5_password: str = os.getenv("MT5_PASSWORD", "")
+    mt5_server: str = os.getenv("MT5_SERVER", "")
+    mt5_timeframe: str = os.getenv("AITRADER_MT5_TIMEFRAME", "D1")   # D1 | H1 | H4 | M15
 
     # --- llm ---
     # backend for the (optional) reasoning layer:

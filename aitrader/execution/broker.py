@@ -34,8 +34,12 @@ class Broker(Protocol):
 
 
 def get_broker(settings: Settings) -> Broker:
-    if settings.broker.lower() == "ccxt":
+    name = settings.broker.lower()
+    if name == "ccxt":
         from .ccxt_broker import CcxtBroker
         return CcxtBroker(settings)
+    if name == "mt5":
+        from .mt5_broker import MT5Broker
+        return MT5Broker(settings)
     from .paper_broker import PaperBroker
     return PaperBroker(settings)
