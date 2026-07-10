@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+.streamlit/secrets.toml
+models_store/
+results/
+newsapp/
+.env
