@@ -1,0 +1,37 @@
+name: collect-market-data
+
+# Free 24/7 collector. Public repos get unlimited Actions minutes.
+# Cron granularity is ~every 30 min (GitHub may delay under load; min allowed is 5 min).
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch: {}          # lets you run it manually from the Actions tab
+
+permissions:
+  contents: write                # allow the job to commit the collected data
+
+concurrency:
+  group: collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Collect snapshot
+        run: python collector.py
+      - name: Commit data
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/market
+          if git diff --staged --quiet; then
+            echo "No new data to commit."
+          else
+            git commit -m "data: market snapshot $(date -u +%FT%TZ)"
+            git push
+          fi
