@@ -45,6 +45,16 @@
         "is_sharpe": 5.32,
         "oos_sharpe": 5.32,
         "note": "Stage4 gauntlet 5/6 -> FAIL param_plateau (50% configs positive, param-sensitive). NOT deployable."
+      },
+      {
+        "stamp": "2026-07-10T08:33:20+00:00",
+        "params": {
+          "variant": "carry_core_continuous",
+          "grid": "ema x scale"
+        },
+        "is_sharpe": -24.84,
+        "oos_sharpe": -24.84,
+        "note": "Continuous carry OVER-TRADES: net APR -4.14%/yr, 2/6. Selective(threshold) was better but fragile. Carry real but too small to robustly harvest at retail unleveraged w/ pessimistic costs."
       }
     ],
     "best_oos_sharpe": 5.32,

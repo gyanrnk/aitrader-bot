@@ -144,6 +144,55 @@ def run_gauntlet(symbols: list[str], years: float = 2.0) -> dict:
     return checks
 
 
+def run_carry_core_gauntlet(symbols: list[str], years: float = 2.0) -> dict:
+    """Gauntlet on the ROBUST continuous carry (funding-proportional, no threshold cliff)."""
+    from .funding_backtest import carry_core_returns
+    funding = {s: fetch_funding(s, years=years)["funding"] for s in symbols}
+
+    spans = [2, 3, 5]
+    scales = [0.0002, 0.0003, 0.0005]
+    grid = [(sp, sc) for sp in spans for sc in scales]
+
+    def pooled(sp, sc, cost=ONE_WAY_COST):
+        cols = [carry_core_returns(funding[s], ema_span=sp, scale=sc, one_way_cost=cost)
+                for s in symbols]
+        return pd.concat(cols, axis=1).mean(axis=1)
+
+    config_series = {g: pooled(*g) for g in grid}
+    config_sharpe = {g: _sharpe(s) for g, s in config_series.items()}
+    best = max(config_sharpe, key=lambda g: config_sharpe[g])
+
+    plateau = _plateau_check(config_sharpe, best)
+    plateau["best_config"] = {"ema_span": best[0], "scale": best[1]}
+    pbo = _pbo_check(config_series, grid)
+    cost_stress = {f"{m}x": round(_sharpe(pooled(best[0], best[1], cost=ONE_WAY_COST * m)), 2)
+                   for m in (1, 2, 3)}
+    cost_stress["passes"] = bool(cost_stress["3x"] > 0)
+    per_asset = {s: _sharpe(carry_core_returns(funding[s], ema_span=best[0], scale=best[1]))
+                 for s in symbols}
+    pct_pos = float(np.mean([v > 0 for v in per_asset.values()]))
+    multi_asset = {"per_asset_sharpe": {k: round(v, 2) for k, v in per_asset.items()},
+                   "pct_positive": pct_pos, "passes": bool(pct_pos >= 0.75)}
+    best_series = config_series[best]
+    dsr = deflated_sharpe_ratio(config_sharpe[best], n_trials=len(grid),
+                                n_obs=int(best_series.notna().sum()))
+    drv = max(funding.values(), key=lambda s: s.mean())
+    fals = falsification_audit(
+        drv, lambda sh: carry_core_returns(sh, ema_span=best[0], scale=best[1]),
+        real_sharpe=config_sharpe[best], n_shuffles=150, periods_per_year=PERIODS_PER_YEAR)
+
+    # annualized net return of best config (money view, not just Sharpe)
+    apr = float(best_series.mean() * PERIODS_PER_YEAR)
+    passed = {
+        "plateau": plateau["passes"], "pbo": pbo.get("passes"),
+        "cost_stress": cost_stress["passes"], "multi_asset": multi_asset["passes"],
+        "dsr": dsr["passes"], "not_falsified": not fals["falsified"],
+    }
+    return {"param_plateau": plateau, "pbo": pbo, "cost_stress": cost_stress,
+            "multi_asset": multi_asset, "deflated_sharpe": dsr, "falsification": fals,
+            "net_apr": round(apr, 4), "VERDICT": _verdict(passed)}
+
+
 def run_tsmom_gauntlet(symbols: list[str]) -> dict:
     """Same gauntlet, applied to the time-series-momentum candidate on daily prices."""
     from .tsmom_backtest import (tsmom_net_returns, tsmom_from_returns,

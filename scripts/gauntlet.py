@@ -12,22 +12,28 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from aitrader.research.gauntlet import run_gauntlet, run_tsmom_gauntlet
+from aitrader.research.gauntlet import (run_gauntlet, run_tsmom_gauntlet,
+                                        run_carry_core_gauntlet)
 
 FUNDING = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
 TSMOM = ["BTC-USD", "ETH-USD", "SOL-USD", "BNB-USD"]
 
 
 def main() -> None:
-    which = sys.argv[1] if len(sys.argv) > 1 else "funding"
+    which = sys.argv[1] if len(sys.argv) > 1 else "carry_core"
     if which == "tsmom":
         print("Stage 4 — Validation Gauntlet on TIME-SERIES MOMENTUM (free)...\n")
         res = run_tsmom_gauntlet(TSMOM)
-    else:
-        print("Stage 4 — Validation Gauntlet on FUNDING-CARRY (free, cached data)...\n")
+    elif which == "funding":
+        print("Stage 4 — Validation Gauntlet on FUNDING-CARRY (threshold version)...\n")
         res = run_gauntlet(FUNDING, years=2.0)
+    else:
+        print("Stage 4 — Validation Gauntlet on CARRY CORE (robust continuous carry)...\n")
+        res = run_carry_core_gauntlet(FUNDING, years=2.0)
     if "error" in res:
         print("Error:", res["error"]); return
+    if "net_apr" in res:
+        print(f"  (best config net APR: {res['net_apr']:.2%}/yr — the money view)\n")
 
     def line(name, passed, extra=""):
         print(f"  [{'PASS' if passed else 'FAIL'}] {name:14} {extra}")

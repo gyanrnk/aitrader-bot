@@ -48,6 +48,19 @@ def carry_net_returns(funding: pd.Series,
     return gross - cost
 
 
+def carry_core_returns(funding: pd.Series, ema_span: int = 3, scale: float = 0.0003,
+                       one_way_cost: float = ONE_WAY_COST,
+                       holding_drag: float = HOLDING_DRAG) -> pd.Series:
+    """Robust delta-neutral carry: NO threshold cliff. Weight scales CONTINUOUSLY with
+    expected funding (EMA), long-carry only. Removing the binary entry/exit removes the
+    param-sensitivity that made the threshold version fragile in the gauntlet."""
+    fund_ema = funding.ewm(span=ema_span, adjust=False).mean().shift(1).fillna(0.0)
+    weight = (fund_ema / scale).clip(0.0, 1.0)          # 0..1, proportional to carry
+    gross = weight * (funding - holding_drag)
+    turnover = weight.diff().abs().fillna(weight.abs())
+    return gross - turnover * one_way_cost
+
+
 def _sharpe(r: pd.Series) -> float:
     r = r.dropna()
     if len(r) < 2 or r.std(ddof=1) == 0:
