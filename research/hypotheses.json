@@ -35,9 +35,19 @@
         "is_sharpe": 4.302,
         "oos_sharpe": 4.302,
         "note": "pre-registered single config; pooled across 4 majors"
+      },
+      {
+        "stamp": "2026-07-10T08:02:56+00:00",
+        "params": {
+          "stage": 4,
+          "grid": "3x2 thresholds"
+        },
+        "is_sharpe": 5.32,
+        "oos_sharpe": 5.32,
+        "note": "Stage4 gauntlet 5/6 -> FAIL param_plateau (50% configs positive, param-sensitive). NOT deployable."
       }
     ],
-    "best_oos_sharpe": 4.302,
+    "best_oos_sharpe": 5.32,
     "notes": ""
   },
   "basis_conv": {
@@ -69,5 +79,15 @@
     "tests": [],
     "best_oos_sharpe": null,
     "notes": ""
+  },
+  "tsmom": {
+    "id": "tsmom",
+    "name": "Time-series momentum (vol-scaled)",
+    "family": "vol_momo",
+    "economic_rationale": "Trend persistence: past positive return predicts near-term positive (Liu-Tsyvinski up to 8wk). Prediction, not cash flow -- must survive brutal costs.",
+    "status": "proposed",
+    "tests": [],
+    "best_oos_sharpe": null,
+    "notes": "Research: TSMOM>CSMOM in crypto but gross often insignificant net of costs."
   }
 }
