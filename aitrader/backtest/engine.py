@@ -67,4 +67,12 @@ class Backtester:
         report["symbol"] = symbol
         report["n_periods"] = len(net_s)
         report["net_of_cost"] = True
+
+        # expose curves for the dashboard (equity of strategy vs buy & hold)
+        import pandas as _pd
+        self.last_net = net_s
+        self.last_equity = (1 + net_s.fillna(0)).cumprod()
+        self.last_buyhold = (1 + baselines["buy_and_hold"].reindex(net_s.index).fillna(0)).cumprod()
+        self.last_curves = _pd.DataFrame(
+            {"strategy": self.last_equity, "buy_and_hold": self.last_buyhold})
         return report

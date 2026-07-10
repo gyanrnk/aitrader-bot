@@ -24,6 +24,19 @@ def _get(url: str) -> list:
         return json.loads(r.read())
 
 
+def latest_funding_rates(symbols: list[str]) -> dict:
+    """Latest 8h funding rate per symbol (fast, 1 call each). None if unreachable
+    (e.g. Binance geo-blocks the host). Caller must handle None gracefully."""
+    out = {}
+    for s in symbols:
+        try:
+            data = _get(f"{BASE}?symbol={s}&limit=1")
+            out[s] = float(data[-1]["fundingRate"]) if data else None
+        except Exception:
+            out[s] = None
+    return out
+
+
 def fetch_funding(symbol: str = "BTCUSDT", years: float = 2.0,
                   use_cache: bool = True) -> pd.DataFrame:
     """Return DataFrame indexed by fundingTime (UTC) with a 'funding' column."""
