@@ -75,7 +75,9 @@ with tab_decide:
     symbol = col[0].text_input("Symbol", "BTC-USD")
     provider = col[1].selectbox("Data", ["mock", "yfinance"], index=0)
     run = col[2].button("▶️ Run decision", use_container_width=True)
-    if run:
+    st.caption("Tip: 'mock' = instant example. Neeche 4 analysts ki raay + Bull/Bear debate dikhega.")
+    if run or "decided_once" not in st.session_state:
+        st.session_state["decided_once"] = True
         try:
             bot = TradingBot(Settings(mode="mock", data_provider=provider))
             with st.spinner("Agents soch rahe hain…"):
@@ -140,13 +142,22 @@ with tab_back:
             st.error(f"Error: {e}. 'mock' try karo agar yfinance slow ho.")
 
 with tab_learn:
-    st.subheader("Experiments — humne kya seekha")
+    st.subheader("Experiments + Validation Gauntlet — humne kya seekha")
+    st.markdown("**Signal experiments:**")
     st.dataframe(pd.DataFrame([
-        {"Approach": "Price features only", "Mean net Sharpe": 0.01, "Verdict": "noise"},
-        {"Approach": "+ Meta-labeling (technique)", "Mean net Sharpe": -0.31, "Verdict": "❌ didn't help"},
-        {"Approach": "+ Funding-rate data", "Mean net Sharpe": 0.35, "Verdict": "✅ real improvement"},
+        {"Approach": "Price ML (prediction)", "Result": "no edge (Sharpe ~0)", "Why": "price near-random"},
+        {"Approach": "Meta-labeling", "Result": "❌ didn't help", "Why": "can't create edge that isn't there"},
+        {"Approach": "Funding carry (cash flow)", "Result": "real but tiny (~0.76%/yr)", "Why": "real payment, not prediction"},
+    ]), use_container_width=True, hide_index=True)
+
+    st.markdown("**Stage 4 Validation Gauntlet (6 free checks — 'guilty until proven innocent'):**")
+    st.dataframe(pd.DataFrame([
+        {"Candidate": "Funding carry", "Checks passed": "5/6", "Failed on": "param_plateau (fragile)", "Deployable": "❌"},
+        {"Candidate": "Time-series momentum", "Checks passed": "3/6", "Failed on": "PBO + DSR + falsification", "Deployable": "❌"},
     ]), use_container_width=True, hide_index=True)
     st.markdown(
-        "**Sabak:** better *data* (funding rate) ne improve kiya — fancy *technique* nahi. "
-        "Lekin abhi bhi tradable gate (Sharpe > 1.0) se neeche — kaam jaari hai.")
-    st.warning("⚠️ Koi bhi bot 100% profit guarantee nahi karta.")
+        "**Sabak:** gauntlet dono ko sahi distinguish karta hai — carry (real cash flow) sirf "
+        "fragility pe fail hua, momentum (prediction) 3 deep checks pe. **Abhi koi deployable "
+        "edge nahi** — aur wo bhi ek imaandaar result hai. Yehi system tumhe fake edge deploy "
+        "karke doobने se bachata hai.")
+    st.warning("⚠️ Koi bhi bot 100% profit guarantee nahi karta. Yeh R&D hai, ATM nahi.")

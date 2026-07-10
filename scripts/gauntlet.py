@@ -1,26 +1,33 @@
-"""Run the Stage 4 Validation Gauntlet on the funding-carry candidate.
+"""Run the Stage 4 Validation Gauntlet on a candidate.
 
-    python scripts/gauntlet.py
+    python scripts/gauntlet.py funding   # delta-neutral funding carry
+    python scripts/gauntlet.py tsmom      # time-series momentum
 
-All checks are free (pure computation on already-cached data). Prints an honest,
-per-check pass/fail and the final deployable verdict.
+All checks are free (pure computation). Prints an honest per-check pass/fail + verdict.
 """
 from __future__ import annotations
 
-import json
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from aitrader.research.gauntlet import run_gauntlet
+from aitrader.research.gauntlet import run_gauntlet, run_tsmom_gauntlet
 
-SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
+FUNDING = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
+TSMOM = ["BTC-USD", "ETH-USD", "SOL-USD", "BNB-USD"]
 
 
 def main() -> None:
-    print("Stage 4 — Validation Gauntlet on funding-carry (free, cached data)...\n")
-    res = run_gauntlet(SYMBOLS, years=2.0)
+    which = sys.argv[1] if len(sys.argv) > 1 else "funding"
+    if which == "tsmom":
+        print("Stage 4 — Validation Gauntlet on TIME-SERIES MOMENTUM (free)...\n")
+        res = run_tsmom_gauntlet(TSMOM)
+    else:
+        print("Stage 4 — Validation Gauntlet on FUNDING-CARRY (free, cached data)...\n")
+        res = run_gauntlet(FUNDING, years=2.0)
+    if "error" in res:
+        print("Error:", res["error"]); return
 
     def line(name, passed, extra=""):
         print(f"  [{'PASS' if passed else 'FAIL'}] {name:14} {extra}")

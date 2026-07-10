@@ -85,9 +85,20 @@
     "name": "Time-series momentum (vol-scaled)",
     "family": "vol_momo",
     "economic_rationale": "Trend persistence: past positive return predicts near-term positive (Liu-Tsyvinski up to 8wk). Prediction, not cash flow -- must survive brutal costs.",
-    "status": "proposed",
-    "tests": [],
-    "best_oos_sharpe": null,
+    "status": "tested",
+    "tests": [
+      {
+        "stamp": "2026-07-10T08:07:04+00:00",
+        "params": {
+          "stage": 4,
+          "grid": "lookbacks 7-90"
+        },
+        "is_sharpe": 0.54,
+        "oos_sharpe": 0.54,
+        "note": "Stage4 gauntlet 3/6 -> FAIL pbo(0.76)+dsr(0)+falsification(p=0.15). No real edge. Rejected."
+      }
+    ],
+    "best_oos_sharpe": 0.54,
     "notes": "Research: TSMOM>CSMOM in crypto but gross often insignificant net of costs."
   }
 }

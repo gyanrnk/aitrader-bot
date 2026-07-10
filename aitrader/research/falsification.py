@@ -17,7 +17,8 @@ import pandas as pd
 
 
 def falsification_audit(driver: pd.Series, strategy_fn, real_sharpe: float,
-                        n_shuffles: int = 200, seed: int = 7) -> dict:
+                        n_shuffles: int = 200, seed: int = 7,
+                        periods_per_year: int = 3 * 365) -> dict:
     """driver: the series the strategy keys off (e.g. funding).
     strategy_fn(shuffled_series) -> per-period net return Series.
     real_sharpe: the strategy's Sharpe on the REAL (unshuffled) driver.
@@ -34,7 +35,7 @@ def falsification_audit(driver: pd.Series, strategy_fn, real_sharpe: float,
         null.append(r.mean() / sd if sd > 0 else 0.0)
     null = np.array(null)
     # scale null Sharpes to same annualization as real (per-period -> caller passes annualized real)
-    p_value = float((null >= _to_per_period(real_sharpe)).mean())
+    p_value = float((null >= _to_per_period(real_sharpe, periods_per_year)).mean())
     return {
         "null_mean_sharpe": round(float(null.mean()), 3),
         "null_p95_sharpe": round(float(np.percentile(null, 95)), 3),
