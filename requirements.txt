@@ -1,8 +1,9 @@
-# --- Dashboard + core bot (works for Streamlit deploy AND local, no keys needed) ---
+# --- App (News + Bot dashboard) — works for Streamlit deploy AND local, no keys ---
 streamlit>=1.36
 numpy>=1.26
 pandas>=2.1
 yfinance>=0.2.40        # real market data (dashboard falls back to mock if it fails)
+feedparser>=6.0         # news page RSS
 
 # --- Optional: only needed for the ML training path / live trading (not the dashboard) ---
 # scikit-learn>=1.4     # ML predictor fallback
