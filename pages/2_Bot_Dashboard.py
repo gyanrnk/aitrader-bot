@@ -29,7 +29,6 @@ with st.expander("❓ Ye dashboard kaise padhein — simple guide (pehle ye khol
     st.markdown("""
 | Tab | Simple me kya dikhata hai |
 |---|---|
-| 🏗️ **Architecture** | Bot andar kaise sochta hai — bas ek **diagram** (padhne ke liye) |
 | 📈 **Markets** | Kisi coin ka **live price chart** + basic numbers |
 | 🧠 **Live Decision** | Bot ka **ek faisla** (BUY/SELL/HOLD) + **kyun** (AI agents ki debate) |
 | 📊 **Backtest** | Purane data pe strategy chalaake **profit/loss** — *fees ke baad* |
@@ -43,9 +42,9 @@ with st.expander("❓ Ye dashboard kaise padhein — simple guide (pehle ye khol
 profit nahi mila — aur wo bhi imaandaar result hai.)*
 """)
 
-tabs = st.tabs(["🏗️ Architecture", "📈 Markets", "🧠 Live Decision", "📊 Backtest",
+tabs = st.tabs(["📈 Markets", "🧠 Live Decision", "📊 Backtest",
                 "💰 Carry (5–10% path)", "📡 Signals", "🧪 Learnings"])
-tab_arch, tab_mkt, tab_dec, tab_bt, tab_carry, tab_sig, tab_learn = tabs
+tab_mkt, tab_dec, tab_bt, tab_carry, tab_sig, tab_learn = tabs
 
 CARRY_SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
 
@@ -54,35 +53,6 @@ CARRY_SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
 def load_ohlcv(symbol: str, provider: str, n: int = 400):
     return get_provider(Settings(data_provider=provider)).ohlcv(symbol, lookback=n)
 
-
-# ----------------------------------------------------------------- ARCHITECTURE
-ARCH_DOT = r"""
-digraph G { rankdir=TB; bgcolor="transparent";
-  node [shape=box, style="rounded,filled", fontname="Arial", fontsize=11, color="#00000000"];
-  edge [color="#888888", fontsize=9];
-  subgraph cluster_d {label="1 · DATA (free)";style=rounded;color="#4C8BF5";
-    d1[label="Market data\n(yfinance/mock)",fillcolor="#DCE9FF"];
-    d2[label="Funding rate\n(Binance)",fillcolor="#DCE9FF"];
-    d3[label="🔒 Leakage firewall",fillcolor="#DCE9FF"];}
-  subgraph cluster_m {label="2 · FEATURES + ML";style=rounded;color="#8E5BE8";
-    m1[label="Indicators",fillcolor="#EBDDFB"];m3[label="LightGBM\nP(up)",fillcolor="#EBDDFB"];}
-  subgraph cluster_a {label="3 · AGENT DEBATE";style=rounded;color="#2F9E44";
-    a1[label="4 Analysts",fillcolor="#D7F5DE"];a2[label="🐂 Bull vs Bear 🐻",fillcolor="#D7F5DE"];
-    a5[label="Portfolio Mgr\nBuy/Sell/Hold",fillcolor="#D7F5DE"];}
-  mem[label="🧠 MEMORY\ndecay+reflect",fillcolor="#FFE8CC",color="#E8890C"];
-  subgraph cluster_e {label="4 · RISK + EXEC";style=rounded;color="#E03131";
-    r1[label="Sizing (caps)",fillcolor="#FFE0E0"];r2[label="Broker\npaper/ccxt",fillcolor="#FFE0E0"];}
-  gate[label="🚦 DISCIPLINE GATE + VALIDATION GAUNTLET\nnet-of-cost · PBO · deflated Sharpe · falsification",
-       fillcolor="#343A40",fontcolor="white"];
-  d1->d3;d2->d3;d3->m1->m3->a1->a2->a5->r1->r2;
-  mem->a2[style=dashed,color="#E8890C"];a5->mem[style=dashed,color="#E8890C"];
-  r2->gate[style=dotted];m3->gate[style=dotted]; }
-"""
-with tab_arch:
-    st.subheader("Poora system, ek nazar me")
-    st.graphviz_chart(ARCH_DOT, use_container_width=True)
-    st.info("Fast loop (har bar, FREE): data → firewall → features → agent debate → risk → paper broker. "
-            "LLM sirf slow-loop me. Har strategy DISCIPLINE GATE + GAUNTLET paar kare tabhi live.")
 
 # ----------------------------------------------------------------- MARKETS
 with tab_mkt:
