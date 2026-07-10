@@ -1,0 +1,42 @@
+{
+  "funding_carry": {
+    "id": "funding_carry",
+    "name": "Funding-rate carry (delta-neutral)",
+    "family": "funding_carry",
+    "economic_rationale": "Spot long + perp short when funding is high: the perp shorts PAY me the funding. Real recurring cash flow, not a price prediction.",
+    "status": "proposed",
+    "tests": [],
+    "best_oos_sharpe": null,
+    "notes": ""
+  },
+  "basis_conv": {
+    "id": "basis_conv",
+    "name": "Basis convergence",
+    "family": "basis",
+    "economic_rationale": "Perp/futures price converges to spot at/over time; capture the spread as it closes.",
+    "status": "proposed",
+    "tests": [],
+    "best_oos_sharpe": null,
+    "notes": ""
+  },
+  "liq_meanrev": {
+    "id": "liq_meanrev",
+    "name": "Liquidation-cascade mean reversion",
+    "family": "liq_meanrev",
+    "economic_rationale": "Forced liquidations overshoot price; I provide liquidity into the cascade and fade it.",
+    "status": "proposed",
+    "tests": [],
+    "best_oos_sharpe": null,
+    "notes": ""
+  },
+  "vol_momo_alts": {
+    "id": "vol_momo_alts",
+    "name": "Vol-filtered momentum on mid-cap alts",
+    "family": "vol_momo",
+    "economic_rationale": "Institutions avoid small caps for capacity reasons, leaving momentum less arbitraged; trade it only in calm-vol regimes to cut whipsaw.",
+    "status": "proposed",
+    "tests": [],
+    "best_oos_sharpe": null,
+    "notes": ""
+  }
+}
