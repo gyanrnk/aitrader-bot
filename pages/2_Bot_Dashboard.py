@@ -198,10 +198,17 @@ with tab_sig:
     else:
         n_snaps = hist["ts"].nunique()
         span_h = (hist["ts"].max() - hist["ts"].min()).total_seconds() / 3600
-        c = st.columns(3)
+        last_age_min = (pd.Timestamp.now(tz="UTC") - hist["ts"].max()).total_seconds() / 60
+        c = st.columns(4)
         c[0].metric("Snapshots", f"{n_snaps}")
         c[1].metric("Symbols", f"{hist['symbol'].nunique()}")
         c[2].metric("Time span", f"{span_h:.1f} h")
+        c[3].metric("Last update", f"{last_age_min:.0f} min ago")
+        if last_age_min > 45:
+            st.warning("⚠️ Collector shaayad ruk gaya (last update 45 min se purana). "
+                       "GitHub Actions tab check karo — 'collect-market-data' green hai?")
+        else:
+            st.success("🟢 Collector zinda hai — data aa raha hai.")
 
         rows = []
         for sym, g in hist.groupby("symbol"):
@@ -235,8 +242,8 @@ with tab_sig:
             st.caption("Hit-rate akela profit nahi — **expectancy** (net return per call) decide karta hai.")
         st.warning("⚠️ Realistic accuracy ~50–55%. 90% dikhe toh leakage. Koi profit guarantee nahi.")
 
-        # --- forward paper-trade equity (fake money, live data — THE real test) ---
-        st.markdown("**📈 Paper P&L — fake ₹, live data, forward (the real test)**")
+        # --- forward paper-trade: strategy vs buy&hold (fake money, live — THE real test) ---
+        st.markdown("**📈 Paper P&L — strategy vs buy&hold (fake ₹, live, forward)**")
         eq_path = analytics.ROOT / "data" / "paper_equity.csv"
         if eq_path.exists():
             eq = pd.read_csv(eq_path)
@@ -244,13 +251,16 @@ with tab_sig:
             eq = eq.set_index("ts")
             start = 10_000.0
             cur = float(eq["equity"].iloc[-1])
+            bh = float(eq["buyhold"].iloc[-1]) if "buyhold" in eq else start
             cc = st.columns(3)
-            cc[0].metric("Fake equity", f"${cur:,.0f}", f"{cur/start-1:+.2%}")
-            cc[1].metric("Steps", f"{len(eq)}")
-            cc[2].metric("Open positions", f"{int(eq['active_positions'].iloc[-1])}")
-            st.line_chart(eq["equity"], height=240, color="#16C784")
-            st.caption("Start $10,000 (nakli). Ye curve upar jaye = signals live paisa bana rahe. "
-                       "Hafton ka data chahiye — abhi shuruaat hai.")
+            cc[0].metric("Strategy", f"${cur:,.0f}", f"{cur/start-1:+.2%}")
+            cc[1].metric("Buy & hold", f"${bh:,.0f}", f"{bh/start-1:+.2%}")
+            cc[2].metric("Beating buy&hold?", "✅ yes" if cur > bh else "❌ no")
+            cols = [c for c in ["equity", "buyhold"] if c in eq]
+            st.line_chart(eq[cols].rename(columns={"equity": "strategy"}),
+                          height=240, color=["#16C784", "#8892A0"])
+            st.caption("Dono $10,000 se start (nakli). 🟢 strategy ⚪ buy&hold. Strategy ⚪ se upar "
+                       "rahe tabhi signals useful — warna 'bas hold karo' hi behtar. Hafton ka data chahiye.")
         else:
             st.info("Paper-trade abhi start nahi hua — collector chalne ke baad equity curve banega.")
 

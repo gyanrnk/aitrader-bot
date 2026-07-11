@@ -1,12 +1,11 @@
 """Forward paper-trading with FAKE money on LIVE data — the honest real test.
 
-Each cycle: mark positions to the latest live prices, act on the current signals with
-fake money, and log the equity. Forward-only (no lookahead), free, no broker account.
-Over weeks the equity curve shows whether the signals actually make money live — the one
-test that can't be curve-fit.
+Tracks TWO equity curves so the comparison is meaningful:
+  * strategy  — trades the current signals with fake money
+  * buy&hold  — equal-weight the coins once and just hold (the benchmark to beat)
 
-Signed-units accounting handles longs and shorts:
-  cash -= delta_units * price + cost ;  equity = cash + sum(units * price)
+If the strategy line can't beat the buy&hold line, the signals add no value — that is
+the single most honest question this whole project answers. Forward-only, free.
 """
 from __future__ import annotations
 
@@ -20,18 +19,17 @@ STATE = ROOT / "data" / "paper_state.json"
 EQUITY = ROOT / "data" / "paper_equity.csv"
 
 START_EQUITY = 10_000.0
-RISK_FRAC = 0.15          # target weight per active signal (fraction of equity)
-COST_BPS = 5.0            # per-side cost
+RISK_FRAC = 0.15
+COST_BPS = 5.0
 
 
 def _load_state() -> dict:
     if STATE.exists():
         return json.loads(STATE.read_text())
-    return {"cash": START_EQUITY, "units": {}, "start_equity": START_EQUITY}
+    return {"cash": START_EQUITY, "units": {}, "start_equity": START_EQUITY, "bh_units": {}}
 
 
 def mark_and_trade(history: pd.DataFrame, analytics) -> dict:
-    """Advance the paper portfolio one step using the latest snapshot + signals."""
     if history.empty:
         return {"note": "no data"}
     latest = history.sort_values("ts").groupby("symbol").tail(1)
@@ -40,11 +38,16 @@ def mark_and_trade(history: pd.DataFrame, analytics) -> dict:
     st = _load_state()
     cash = float(st["cash"])
     units = {k: float(v) for k, v in st.get("units", {}).items()}
+    bh_units = {k: float(v) for k, v in st.get("bh_units", {}).items()}
 
-    # equity BEFORE trading (mark to market)
+    # initialize buy & hold ONCE: split start equity equally across the coins
+    if not bh_units and prices:
+        per = START_EQUITY / len(prices)
+        bh_units = {s: per / p for s, p in prices.items() if p}
+
     equity = cash + sum(units.get(s, 0.0) * prices.get(s, 0.0) for s in prices)
     if equity <= 0:
-        equity = START_EQUITY  # safety
+        equity = START_EQUITY
 
     # act on current signals
     n_active = 0
@@ -65,15 +68,20 @@ def mark_and_trade(history: pd.DataFrame, analytics) -> dict:
         units[sym] = tgt_units
 
     equity = cash + sum(units.get(s, 0.0) * prices.get(s, 0.0) for s in prices)
+    bh_equity = sum(bh_units.get(s, 0.0) * prices.get(s, 0.0) for s in prices)
+    if bh_equity <= 0:
+        bh_equity = START_EQUITY
     ts = history["ts"].max()
 
-    # persist
     STATE.write_text(json.dumps({"cash": cash, "units": units,
-                                 "start_equity": st["start_equity"]}, indent=2))
+                                 "start_equity": st["start_equity"],
+                                 "bh_units": bh_units}, indent=2))
     row = pd.DataFrame([{"ts": ts.isoformat(), "equity": round(equity, 2),
-                         "cash": round(cash, 2), "active_positions": n_active}])
+                         "buyhold": round(bh_equity, 2), "cash": round(cash, 2),
+                         "active_positions": n_active}])
     row.to_csv(EQUITY, mode="a", header=not EQUITY.exists(), index=False)
 
-    pnl = equity / st["start_equity"] - 1
-    return {"equity": round(equity, 2), "pnl_pct": round(pnl * 100, 3),
-            "active_positions": n_active}
+    return {"equity": round(equity, 2), "buyhold": round(bh_equity, 2),
+            "pnl_pct": round((equity / st["start_equity"] - 1) * 100, 3),
+            "bh_pnl_pct": round((bh_equity / START_EQUITY - 1) * 100, 3),
+            "beating_buyhold": bool(equity > bh_equity), "active_positions": n_active}
