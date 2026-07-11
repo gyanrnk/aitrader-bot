@@ -235,6 +235,25 @@ with tab_sig:
             st.caption("Hit-rate akela profit nahi — **expectancy** (net return per call) decide karta hai.")
         st.warning("⚠️ Realistic accuracy ~50–55%. 90% dikhe toh leakage. Koi profit guarantee nahi.")
 
+        # --- forward paper-trade equity (fake money, live data — THE real test) ---
+        st.markdown("**📈 Paper P&L — fake ₹, live data, forward (the real test)**")
+        eq_path = analytics.ROOT / "data" / "paper_equity.csv"
+        if eq_path.exists():
+            eq = pd.read_csv(eq_path)
+            eq["ts"] = pd.to_datetime(eq["ts"], utc=True)
+            eq = eq.set_index("ts")
+            start = 10_000.0
+            cur = float(eq["equity"].iloc[-1])
+            cc = st.columns(3)
+            cc[0].metric("Fake equity", f"${cur:,.0f}", f"{cur/start-1:+.2%}")
+            cc[1].metric("Steps", f"{len(eq)}")
+            cc[2].metric("Open positions", f"{int(eq['active_positions'].iloc[-1])}")
+            st.line_chart(eq["equity"], height=240, color="#16C784")
+            st.caption("Start $10,000 (nakli). Ye curve upar jaye = signals live paisa bana rahe. "
+                       "Hafton ka data chahiye — abhi shuruaat hai.")
+        else:
+            st.info("Paper-trade abhi start nahi hua — collector chalne ke baad equity curve banega.")
+
 # ----------------------------------------------------------------- LEARNINGS
 with tab_learn:
     st.subheader("🧪 Experiments + Validation Gauntlet")

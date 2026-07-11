@@ -50,6 +50,11 @@ def main() -> None:
     score = analytics.score_predictions(hist)
     print("Forward accuracy:", score)
 
+    # --- forward paper-trade with fake money (the real test) ---
+    from aitrader.collector import paper
+    pnl = paper.mark_and_trade(hist, analytics)
+    print("Paper P&L:", pnl)
+
 
 if __name__ == "__main__":
     main()
