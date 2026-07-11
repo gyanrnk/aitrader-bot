@@ -213,7 +213,7 @@ with tab_sig:
             st.markdown("**Current signals**")
             st.dataframe(pd.DataFrame(rows), use_container_width=True, hide_index=True)
         else:
-            st.info(f"Signals ~20 snapshots ke baad start honge (abhi {n_snaps}). Roughly ~10 ghante.")
+            st.info(f"Signals ~12 snapshots ke baad start honge (abhi {n_snaps}). Roughly ~2 ghante.")
 
         try:
             piv = hist.pivot_table(index="ts", columns="symbol", values="funding") * 24 * 365 * 100

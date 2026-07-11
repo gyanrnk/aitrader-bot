@@ -4,7 +4,7 @@ name: collect-market-data
 # Cron granularity is ~every 30 min (GitHub may delay under load; min allowed is 5 min).
 on:
   schedule:
-    - cron: "*/30 * * * *"
+    - cron: "*/10 * * * *"    # every 10 min (GitHub may delay under load)
   workflow_dispatch: {}          # lets you run it manually from the Actions tab
 
 permissions:

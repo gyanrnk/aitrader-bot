@@ -34,7 +34,7 @@ def load_history() -> pd.DataFrame:
     return df.sort_values("ts")
 
 
-def compute_signal(sym_df: pd.DataFrame, win: int = 20, k: int = 4) -> dict | None:
+def compute_signal(sym_df: pd.DataFrame, win: int = 12, k: int = 4) -> dict | None:
     """Latest signal for one symbol's time-ordered snapshots."""
     if len(sym_df) < max(win, k) + 1:
         return None                                   # not enough history yet
