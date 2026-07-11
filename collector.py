@@ -17,7 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from aitrader.collector import fetch_snapshot, FIELDS
 from aitrader.collector import analytics
 
-SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT", "XRPUSDT"]
+SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT"]  # Kraken perps (US-accessible)
 STORE = Path(__file__).resolve().parent / "data" / "market"
 
 

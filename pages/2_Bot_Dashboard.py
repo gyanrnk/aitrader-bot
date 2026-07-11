@@ -216,8 +216,8 @@ with tab_sig:
             st.info(f"Signals ~20 snapshots ke baad start honge (abhi {n_snaps}). Roughly ~10 ghante.")
 
         try:
-            piv = hist.pivot_table(index="ts", columns="symbol", values="funding") * 3 * 365 * 100
-            st.markdown("**Funding rate over time (annualized %)**")
+            piv = hist.pivot_table(index="ts", columns="symbol", values="funding") * 24 * 365 * 100
+            st.markdown("**Funding rate over time (annualized %, Kraken hourly)**")
             st.line_chart(piv, height=240)
         except Exception:
             pass

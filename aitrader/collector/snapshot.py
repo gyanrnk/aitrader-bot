@@ -1,7 +1,9 @@
-"""Fetch a point-in-time market snapshot from Bybit (public, no key, not geo-blocked).
+"""Point-in-time market snapshot from Kraken Futures (public, no key).
 
-One call per symbol returns price + funding + open interest + 24h stats. Each row is
-stamped with the UTC time it was observed — so the stored history is lookahead-free.
+Kraken is a US-regulated exchange, so its API works from US-based GitHub Actions
+runners (unlike Bybit/Binance, which geo-block US). One call returns all perpetual
+tickers with funding + open interest. Funding is normalized to a fractional rate
+(fundingRate / price) so it's comparable across symbols; stamped with observation time.
 """
 from __future__ import annotations
 
@@ -9,7 +11,15 @@ import json
 import urllib.request
 from datetime import datetime, timezone
 
-BYBIT = "https://api.bybit.com/v5/market/tickers?category=linear&symbol={}"
+KRAKEN = "https://futures.kraken.com/derivatives/api/v3/tickers"
+
+# our name -> Kraken perpetual symbol
+SYMBOL_MAP = {
+    "BTCUSDT": "PF_XBTUSD",
+    "ETHUSDT": "PF_ETHUSD",
+    "SOLUSDT": "PF_SOLUSD",
+    "XRPUSDT": "PF_XRPUSD",
+}
 
 FIELDS = ["ts", "symbol", "price", "funding", "next_funding_ms",
           "open_interest", "oi_value", "turnover_24h", "chg_24h"]
@@ -22,23 +32,35 @@ def _get(url: str) -> dict:
 
 
 def fetch_snapshot(symbols: list[str]) -> list[dict]:
-    """Return one row per symbol with the current observable market state."""
+    """Return one row per symbol with current price, normalized funding, and OI."""
     ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    try:
+        tickers = _get(KRAKEN).get("tickers", [])
+    except Exception:
+        return []
+    by_sym = {t.get("symbol"): t for t in tickers}
+
     rows: list[dict] = []
     for s in symbols:
+        t = by_sym.get(SYMBOL_MAP.get(s, ""))
+        if not t or t.get("last") in (None, 0):
+            continue
         try:
-            d = _get(BYBIT.format(s))
-            t = d["result"]["list"][0]
+            last = float(t["last"])
+            fr = t.get("fundingRate")
+            funding = float(fr) / last if fr is not None and last else 0.0   # fractional, per-hour
+            oi = float(t.get("openInterest", 0) or 0)
+            open24 = t.get("open24h")
             rows.append({
                 "ts": ts,
                 "symbol": s,
-                "price": float(t["lastPrice"]),
-                "funding": float(t["fundingRate"]),
-                "next_funding_ms": int(t.get("nextFundingTime", 0) or 0),
-                "open_interest": float(t.get("openInterest", 0) or 0),
-                "oi_value": float(t.get("openInterestValue", 0) or 0),
-                "turnover_24h": float(t.get("turnover24h", 0) or 0),
-                "chg_24h": float(t.get("price24hPcnt", 0) or 0),
+                "price": last,
+                "funding": funding,
+                "next_funding_ms": 0,
+                "open_interest": oi,
+                "oi_value": oi * last,
+                "turnover_24h": float(t.get("vol24h", 0) or 0) * last,
+                "chg_24h": (last / float(open24) - 1) if open24 else 0.0,
             })
         except Exception:
             continue
