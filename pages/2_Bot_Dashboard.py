@@ -223,9 +223,12 @@ with tab_sig:
             st.info(f"Signals ~12 snapshots ke baad start honge (abhi {n_snaps}). Roughly ~2 ghante.")
 
         try:
-            piv = hist.pivot_table(index="ts", columns="symbol", values="funding") * 24 * 365 * 100
-            st.markdown("**Funding rate over time (annualized %, Kraken hourly)**")
-            st.line_chart(piv, height=240)
+            crypto_hist = hist[hist["funding"] != 0]   # stocks/forex have no funding
+            if not crypto_hist.empty:
+                piv = crypto_hist.pivot_table(index="ts", columns="symbol",
+                                              values="funding") * 24 * 365 * 100
+                st.markdown("**Crypto funding rate over time (annualized %)**")
+                st.line_chart(piv, height=240)
         except Exception:
             pass
 

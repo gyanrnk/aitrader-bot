@@ -14,17 +14,25 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
+from datetime import datetime, timezone
 from aitrader.collector import fetch_snapshot, FIELDS
 from aitrader.collector import analytics
+from aitrader.collector.snapshot import fetch_yahoo
 
-SYMBOLS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT"]  # Kraken perps (US-accessible)
+CRYPTO = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "XRPUSDT"]          # Kraken perps
+YAHOO = {                                                      # our name -> Yahoo symbol
+    "AAPL": "AAPL", "SPY": "SPY", "NASDAQ": "^IXIC",            # US equities
+    "RELIANCE": "RELIANCE.NS", "NIFTY": "^NSEI", "SENSEX": "^BSESN",  # India
+    "EURUSD": "EURUSD=X", "GOLD": "GC=F",                       # forex / commodity
+}
 STORE = Path(__file__).resolve().parent / "data" / "market"
 
 
 def main() -> None:
-    rows = fetch_snapshot(SYMBOLS)
+    ts = datetime.now(timezone.utc).isoformat(timespec="seconds")
+    rows = fetch_snapshot(CRYPTO, ts) + fetch_yahoo(YAHOO, ts)   # crypto + all markets
     if not rows:
-        print("No data fetched (source unreachable). Nothing written.")
+        print("No data fetched (sources unreachable). Nothing written.")
         return
     STORE.mkdir(parents=True, exist_ok=True)
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
