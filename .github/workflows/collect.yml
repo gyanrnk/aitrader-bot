@@ -1,22 +1,26 @@
 name: collect-market-data
 
-# Free 24/7 collector. Public repos get unlimited Actions minutes.
-# Cron granularity is ~every 30 min (GitHub may delay under load; min allowed is 5 min).
+# Reliable free 24/7 collection WITHOUT any external account or token:
+# each run LOOPS internally, collecting every 10 min for ~5 hours. So even GitHub's
+# slow/erratic scheduler gives near-continuous data — one run covers 5 hours, and the
+# next queued run picks up when it ends (concurrency serializes them). Public repos
+# get unlimited Actions minutes, so this is free.
 on:
   schedule:
-    - cron: "*/10 * * * *"    # every 10 min (GitHub may delay under load)
-  workflow_dispatch: {}          # lets you run it manually from the Actions tab
+    - cron: "*/15 * * * *"
+  workflow_dispatch: {}
 
 permissions:
-  contents: write                # allow the job to commit the collected data
+  contents: write
 
 concurrency:
   group: collect
-  cancel-in-progress: false
+  cancel-in-progress: false     # queue new runs behind the active one (chain them)
 
 jobs:
   collect:
     runs-on: ubuntu-latest
+    timeout-minutes: 330         # ~5.5h, safely under GitHub's 6h job limit
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -24,16 +28,18 @@ jobs:
           python-version: "3.11"
       - name: Install deps
         run: pip install numpy pandas
-      - name: Collect snapshot
-        run: python collector.py
-      - name: Commit data
+      - name: Collect every 10 min for ~5 hours
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data
-          if git diff --staged --quiet; then
-            echo "No new data to commit."
-          else
-            git commit -m "data: market snapshot $(date -u +%FT%TZ)"
-            git push
-          fi
+          END=$(( $(date +%s) + 17400 ))     # loop for 4h50m, then exit cleanly
+          while [ "$(date +%s)" -lt "$END" ]; do
+            python collector.py || true
+            if [ -n "$(git status --porcelain data)" ]; then
+              git add data
+              git commit -m "data: snapshot $(date -u +%FT%TZ)" || true
+              git pull --rebase -X ours -q origin master || true
+              git push -q origin master || true
+            fi
+            sleep 600
+          done
