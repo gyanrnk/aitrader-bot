@@ -45,16 +45,23 @@ def compute_signal(sym_df: pd.DataFrame, win: int = 12, k: int = 4) -> dict | No
     f_mean, f_std = funding.tail(win).mean(), funding.tail(win).std(ddof=0)
     f_z = (funding.iloc[-1] - f_mean) / f_std if f_std > 0 else 0.0
     oi_chg = oi.iloc[-1] / oi.iloc[-k] - 1 if oi.iloc[-k] else 0.0
-    mom = price.iloc[-1] / price.iloc[-k] - 1
+    mom = float(price.iloc[-1] / price.iloc[-k] - 1)
 
-    # transparent, bounded score. Contrarian on funding extreme + small momentum tilt.
-    score = (-0.6 * float(np.clip(f_z / 2.0, -1, 1))
-             + 0.3 * float(np.tanh(mom * 20))
-             - 0.2 * float(np.tanh(oi_chg * 5)) * float(np.sign(mom)))
+    # volatility-normalized so it works across asset classes (crypto AND forex/stocks):
+    vol = float(price.pct_change().tail(win).std(ddof=0))
+    if vol <= 1e-9:                                   # market closed / price frozen -> no trade
+        return {"price": float(price.iloc[-1]), "funding_z": round(f_z, 2),
+                "oi_chg": round(oi_chg, 4), "mom": round(mom, 4),
+                "prob_up": 0.5, "signal": "FLAT", "score": 0.0}
+    mom_z = mom / (vol * (k ** 0.5))                  # trend strength relative to own volatility
+
+    # trend-following (all assets) + funding-contrarian (crypto only; f_z=0 for forex/stocks)
+    score = (0.5 * float(np.tanh(mom_z * 0.7))
+             - 0.5 * float(np.clip(f_z / 2.0, -1, 1)))
     prob_up = 1.0 / (1.0 + math.exp(-2.0 * score))
     signal = "UP" if prob_up > 0.55 else "DOWN" if prob_up < 0.45 else "FLAT"
     return {"price": float(price.iloc[-1]), "funding_z": round(f_z, 2),
-            "oi_chg": round(oi_chg, 4), "mom": round(mom, 4),
+            "oi_chg": round(oi_chg, 4), "mom": round(mom, 4), "mom_z": round(mom_z, 2),
             "prob_up": round(prob_up, 3), "signal": signal, "score": round(score, 3)}
 
 
