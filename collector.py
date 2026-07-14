@@ -61,7 +61,12 @@ def main() -> None:
     # --- forward paper-trade with fake money (the real test) ---
     from aitrader.collector import paper
     pnl = paper.mark_and_trade(hist, analytics)
-    print("Paper P&L:", pnl)
+    print("Paper P&L (directional):", pnl)
+
+    # --- delta-neutral funding carry (the REAL profit mechanism) ---
+    from aitrader.collector import carry_paper
+    carry = carry_paper.step(hist)
+    print("Carry P&L (delta-neutral):", carry)
 
 
 if __name__ == "__main__":
