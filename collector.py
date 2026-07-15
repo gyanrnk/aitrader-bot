@@ -68,6 +68,24 @@ def main() -> None:
     carry = carry_paper.step(hist)
     print("Carry P&L (delta-neutral):", carry)
 
+    # --- cross-exchange funding arbitrage (structural edge) — log spreads over time ---
+    try:
+        from aitrader.research.xexch_funding import fetch_cross_funding, XFUNDING_FIELDS
+        xrows = fetch_cross_funding()
+        if xrows:
+            xpath = STORE.parent / "xfunding.csv"
+            new = not xpath.exists()
+            with open(xpath, "a", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=XFUNDING_FIELDS)
+                if new:
+                    w.writeheader()
+                w.writerows(xrows)
+            best = max(xrows, key=lambda r: r["spread_pct"])
+            print(f"X-exch funding: best spread {best['coin']} {best['spread_pct']}% "
+                  f"(long {best['long_on']} / short {best['short_on']})")
+    except Exception as e:
+        print("x-exch funding skipped:", str(e)[:60])
+
 
 if __name__ == "__main__":
     main()
