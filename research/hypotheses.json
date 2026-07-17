@@ -4,7 +4,7 @@
     "name": "Funding-rate carry (delta-neutral)",
     "family": "funding_carry",
     "economic_rationale": "Spot long + perp short when funding is high: the perp shorts PAY me the funding. Real recurring cash flow, not a price prediction.",
-    "status": "tested",
+    "status": "failed",
     "tests": [
       {
         "stamp": "2026-07-10T07:33:49+00:00",
@@ -116,7 +116,7 @@
     "name": "Time-series momentum (vol-scaled)",
     "family": "vol_momo",
     "economic_rationale": "Trend persistence: past positive return predicts near-term positive (Liu-Tsyvinski up to 8wk). Prediction, not cash flow -- must survive brutal costs.",
-    "status": "tested",
+    "status": "failed",
     "tests": [
       {
         "stamp": "2026-07-10T08:07:04+00:00",

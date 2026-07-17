@@ -43,7 +43,7 @@ profit nahi mila — aur wo bhi imaandaar result hai.)*
 """)
 
 tabs = st.tabs(["📈 Markets", "🧠 Live Decision", "📊 Backtest",
-                "💰 Carry (5–10% path)", "📡 Signals", "🧪 Learnings"])
+                "💰 Carry (☠️ rejected)", "📡 Signals", "🧪 Learnings"])
 tab_mkt, tab_dec, tab_bt, tab_carry, tab_sig, tab_learn = tabs
 
 CARRY_SYMS = ["BTCUSDT", "ETHUSDT", "SOLUSDT", "BNBUSDT"]
@@ -147,11 +147,19 @@ with tab_bt:
 
 # ----------------------------------------------------------------- CARRY
 with tab_carry:
-    st.subheader("💰 The honest path: funding carry")
+    st.subheader("💰 Funding carry — ☠️ TESTED AND REJECTED")
+    st.error(
+        "**Ye tab pehle 'the honest path: 5–10%' kehta tha. Wo galat tha.** Carry gauntlet "
+        "me gaya aur **fail** hua — continuous version ka net APR **−4.14%/yr** (2/6), aur "
+        "selective version 5/6 pe **param_plateau fail** (fragile). Registry verdict: "
+        "**NOT deployable**. Live paper bhi **−3.9%** pe hai.\n\n"
+        "Monitor niche zinda hai kyunki **mechanism asli hai** — bas retail cost pe "
+        "harvest nahi hota. Ise ek *rejected idea ka live record* samjho, **plan nahi**.")
     st.markdown(
         "Delta-neutral carry = **spot long + perp short**. Market upar jaye ya neeche, "
         "hedge cancel ho jaata hai — tum sirf **funding payment** collect karte ho (perp shorts "
-        "tumhe pay karte hain jab funding positive ho). Ye **prediction nahi, cash flow** hai.")
+        "tumhe pay karte hain jab funding positive ho). Ye **prediction nahi, cash flow** hai — "
+        "aur phir bhi kaafi nahi nikla.")
     if st.button("🔄 Fetch live funding rates (Binance)"):
         from aitrader.research.funding_data import latest_funding_rates
         with st.spinner("Fetching…"):
