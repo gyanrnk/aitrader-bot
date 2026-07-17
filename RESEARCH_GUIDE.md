@@ -56,9 +56,25 @@ and it will fail. No exceptions. This one filter kills 95% of ideas before wasti
 - ❌ No mechanism, just a chart pattern
 - ❌ "Dekho is chart pe kaam karta hai" (cherry-picked — we PROVED best-strategy differs per asset)
 - ❌ Backtest without costs
+- ❌ **Statistic without WEIGHTING** ← *learned the hard way, 2026-07-17*
 - ❌ Needs you to predict direction
 - ❌ Everyone knows it (RSI/MACD/supertrend/EMA...) → crowded → dead
 - ❌ **Someone is selling it to you** (if it worked, why sell?)
+
+> ### The weighting trap — a sibling of "backtest without costs"
+> `liq_meanrev` (see `FORCED_FLOW_MAP.md` §5.0) offered a **+74.87 bps** median discount on
+> DOGE liquidations. Real data, real mechanism, 6,068 events. **Notional-weighted: +2.60 bps.**
+>
+> Why: the 74 bps was on fills averaging **$3.71**. Where 53% of the money actually sat, the
+> discount was **+0.70 bps**. Size and edge were inversely correlated (Spearman **−0.36**).
+>
+> **An unweighted statistic silently counts a $3 trade the same as a $50,000 one.** That is not
+> the economics you would trade. Before believing any per-event number, ask:
+>
+> > **"Is this still true when I weight by the money — or only when I count the occurrences?"**
+>
+> Applies to: fill quality, spread capture, event studies, signal hit-rates — anything averaged
+> over events of unequal size. We were one un-weighted median away from building that bot.
 
 ## 4. Green flags — bring me this
 

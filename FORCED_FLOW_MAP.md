@@ -295,6 +295,54 @@ The genuinely structural coin-margined fact: **Kraken caps *retail* inverse leve
 
 ## 5. ☠️ KILLED — with evidence
 
+### 5.0 ☠️ **`liq_meanrev` — TESTED AND REJECTED 2026-07-17** (was this map's #1 candidate)
+
+Pre-registered in `research/hypotheses.json` *before* the pull, with the bar fixed in advance:
+*notional-weighted median `adverse_bps` must exceed 5bps round-trip cost.*
+
+**Data:** 6,068 liquidations · $4.15M notional · 5 symbols · 2026-07-05 → 2026-07-17
+(500k executions walked). `adverse_bps > 0` = forced order filled **worse** than mark = a
+discount available to us. Sign convention unit-tested 4/4 before running.
+
+**The premise is directionally TRUE — and still worthless:**
+
+| | Result |
+|---|---|
+| Forced fills worse than mark | **78.4%** ✅ the overshoot is **REAL** |
+| Pooled **notional-weighted** median | **+1.34 bps** ❌ vs 5bps bar |
+| Best case (2bps, maker both sides) | **−0.66 bps** ❌ **fails at every cost level** |
+
+**ROOT CAUSE — the discount is inversely proportional to size** (Spearman **−0.36**):
+
+| Fill size | n | median discount | % of notional |
+|---|---|---|---|
+| **< $10** | 2,128 | **+74.51 bps** | **0.20%** ← the "edge" |
+| $10–100 | 1,766 | +1.00 bps | 1.8% |
+| $100–1k | 1,400 | +1.53 bps | 11.2% |
+| **$1k–10k** | 716 | **+0.70 bps** | **52.8%** ← where the money is |
+| > $10k | 58 | +1.85 bps | 34.0% |
+
+Kraken's EPP shreds liquidations into **10% child orders** that resting market makers absorb
+near mark. Only the scraps that *walk the book* get a real discount — and **scraps are not a
+business**: 74 bps on a $3.71 average fill is **$0.03 per trade, before fees.** The 74bps is
+the MM's compensation for taking the tail; they get it *because* they're also absorbing the
+$1k–10k at 0.70bps. We cannot compete for the size, so we don't get paid for the tail.
+
+Direction asymmetry is real but doesn't save it: **4,826 longs vs 1,242 shorts liquidated
+(4:1 — retail is structurally long-biased)**, yet Sell-side wmedian is **+1.33bps**, Buy-side
+**+1.75bps**. Both fail.
+
+> ### 🚨 NEW TRAP — notional-weighting is not optional
+> The **unweighted** median says **+74.87 bps on DOGE** and **+1.80 bps pooled**. That looks
+> like a large edge. **Notional-weighted it collapses to +2.60 / +1.34.**
+> **Any analysis of forced-flow fills without notional weighting will manufacture a fake edge**
+> — it counts a $3 fill the same as a $50k one. This trap is not in `RESEARCH_GUIDE.md`'s red
+> flags and it should be: *"backtest without costs"* has a sibling, *"statistic without
+> weighting."* We were one un-weighted median away from building this bot.
+
+**Cost of finding out: one session, zero backtest.** The mark price rides on every execution,
+so the dislocation was directly measurable — no strategy, no engine, no lookahead surface.
+
 ### 5.1 "OI drop + price spike ≈ liquidation cascade" — **empirically dead at our granularity**
 
 Tested directly: 25,000 consecutive PF_XBTUSD executions (7.31h) vs **our own
@@ -371,19 +419,30 @@ OI shrinks your limit but **does not force you out**. This is BLOCKED — §0.
 
 ## 8. Ranked shortlist for THIS project
 
-| # | Mechanism | Forced? | Price-insens.? | Free data? | **History?** |
-|---|---|---|---|---|---|
-| **1** | **Kraken liquidation provision** (§1.1/§1.2) | ✅ | ✅ bounded | ✅ | ✅ **4.3 yrs** |
-| **2** | **Funding-interval escalation flag** (§2.1) | regime | med | ✅ | ❌ snapshot now |
-| **3** | **Kraken forward-known funding** (§3) | info edge | — | ✅ | ✅ ours + Kraken |
-| **4** | Bybit risk-limit buffer (§1.5) | ✅ REDUCE | ✅ at deadline | ✅ | ❌ snapshot now |
-| **5** | Delisting settlement (§1.3) | ✅ SETTLE | ✅ total | ✅ Bybit only | ⚠️ **price response unproven** |
-| **6** | Bybit USDC ADL-rank reset (§2.4) | ✅ if ADL'd | ✅ | clock only | ❌ queue private |
-| — | ~~OI liquidation proxy~~ | — | — | — | ☠️ **§5.1** |
-| — | ~~Funding dodge as forced flow~~ | ❌ elective | ❌ | — | ☠️ **§4.2** |
+| # | Mechanism | Forced? | Price-insens.? | Free data? | **History?** | Status |
+|---|---|---|---|---|---|---|
+| ~~1~~ | ~~**Kraken liquidation provision** (§1.1/§1.2)~~ | ✅ | ✅ bounded | ✅ | ✅ 4.3 yrs | ☠️ **REJECTED §5.0** |
+| **1** | **Funding-interval escalation flag** (§2.1) | regime | med | ✅ | ❌ snapshot now | untested |
+| **2** | **Kraken forward-known funding** (§3) | info edge | — | ✅ | ✅ ours + Kraken | untested |
+| **3** | Bybit risk-limit buffer (§1.5) | ✅ REDUCE | ✅ at deadline | ✅ | ❌ snapshot now | untested |
+| 4 | Bybit USDC ADL-rank reset (§2.4) | ✅ if ADL'd | ✅ | clock only | ❌ queue private | untested |
+| 5 | Delisting settlement (§1.3) | ✅ SETTLE | ✅ total | ✅ Bybit only | ⚠️ **price response unproven** | untested |
+| — | ~~OI liquidation proxy~~ | — | — | — | — | ☠️ §5.1 |
+| — | ~~Funding dodge as forced flow~~ | ❌ elective | ❌ | — | — | ☠️ §4.2 |
 
-**#1 is the only row with forced + price-insensitive + free + deep history.** It is the one we can
-backtest **today** instead of waiting weeks. That is where the gauntlet should point next.
+**The map's original #1 is dead** (§5.0). It had the best profile on paper — forced,
+price-insensitive, free, 4.3 years of history — and the mechanism was **confirmed real**
+(78.4% of forced fills are worse than mark). It still failed, because the discount is
+inversely proportional to size and the money sits where the discount isn't.
+
+**That is the map working, not the map failing.** A ranked shortlist is a *hypothesis queue*,
+not a list of edges. The ranking scores **testability**, not profitability — it tells you what
+to test next, never what will pay.
+
+**Live lesson for the remaining rows:** every one of them is now suspect in the same specific
+way. #1 (escalation flag) and #3 (risk-limit buffer) both look attractive on *count* of events.
+Before either gets built, ask the question that killed liq_meanrev: **is the effect still there
+when you weight by the money, or only when you count the occurrences?**
 
 ---
 

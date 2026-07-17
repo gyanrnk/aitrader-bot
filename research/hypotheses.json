@@ -75,10 +75,31 @@
     "name": "Liquidation-cascade mean reversion",
     "family": "liq_meanrev",
     "economic_rationale": "Forced liquidations overshoot price; I provide liquidity into the cascade and fade it.",
-    "status": "proposed",
-    "tests": [],
-    "best_oos_sharpe": null,
-    "notes": ""
+    "status": "failed",
+    "tests": [
+      {
+        "stamp": "2026-07-17T10:47:43+00:00",
+        "params": {
+          "test": "mark-dislocation (model-free, pre-backtest)",
+          "symbols": [
+            "PF_XBTUSD",
+            "PF_ETHUSD",
+            "PF_SOLUSD",
+            "PF_XRPUSD",
+            "PF_DOGEUSD"
+          ],
+          "n_liquidations": 6068,
+          "notional_usd": 4151017,
+          "window": "2026-07-05 -> 2026-07-17",
+          "cost_bps_bar": 5.0
+        },
+        "is_sharpe": 0.0,
+        "oos_sharpe": 0.0,
+        "note": "REJECTED pre-backtest. Premise is directionally TRUE (78.4% of forced fills are worse than mark -> overshoot is REAL) but the discount is UNCAPTURABLE: pooled notional-weighted median +1.34bps vs 5bps bar. Fails at EVERY cost level incl. theoretical best case (2bps maker/maker -> net -0.66bps). ROOT CAUSE: discount is inversely proportional to size (Spearman -0.36). The <$10 bucket shows +74.5bps but is 0.20% of notional (avg fill $3.71); the $1k-10k bucket is 52.8% of notional and shows +0.70bps. Kraken EPP shreds liqs into 10% child orders absorbed near mark by resting MMs; only scraps that walk the book get a real discount, and scraps are not a business. NEW TRAP FOUND: the UNWEIGHTED median (+74.87bps on DOGE, +1.80 pooled) looks like a large edge. Notional-weighting collapses it to +2.60/+1.34. Any analysis of forced-flow fills without notional weighting will manufacture a fake edge."
+      }
+    ],
+    "best_oos_sharpe": 0.0,
+    "notes": "PRE-REGISTERED 2026-07-17, BEFORE seeing any data (Kraken PF_* liquidation tape). Decisive test is NOT a backtest: each execution carries markPrice at that instant, so dislocation = (fill-mark)/mark is directly observable. Sign folded by direction so adverse_bps>0 == filled WORSE than mark == a discount available to the other side. || FALSIFIABLE PREDICTION: if the premise (\"forced liquidations overshoot\") is true, median adverse_bps across liquidations must be POSITIVE and exceed round-trip maker cost (~4-5bps: Kraken maker ~2bps/side + spread). || PRE-SET BAR: median adverse_bps <= 0  => premise FALSE, reject outright, no backtest. 0 < median <= 5bps => real but uncapturable at retail cost, reject. median > 5bps => proceed to Stage 4 gauntlet. || NOTE the counter-evidence already in hand: the single record inspected pre-pull filled a forced Sell ~+0.6bps ABOVE mark (limitFilled=false), i.e. adverse_bps NEGATIVE. n=1, but it points against the premise. Recording this now so a later negative result cannot be reframed as expected."
   },
   "vol_momo_alts": {
     "id": "vol_momo_alts",
