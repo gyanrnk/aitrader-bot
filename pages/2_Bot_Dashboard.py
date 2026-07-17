@@ -60,23 +60,33 @@ def load_ohlcv(symbol: str, provider: str, n: int = 400):
 
 
 @st.cache_data(ttl=600, show_spinner=False)
-def real_data_works() -> bool:
-    try:
-        d = get_provider(Settings(data_provider="yfinance")).ohlcv("BTC-USD", lookback=5)
-        return len(d) > 0
-    except Exception:
-        return False
+def working_providers() -> list[str]:
+    """Real data FIRST, and probed — not assumed.
+
+    `yahoo` is stdlib-only and works on Streamlit Cloud. `yfinance` is commented out of
+    requirements.txt (its dep tree broke the cloud build), so it exists locally at best —
+    probe rather than trust, or the deployed app silently falls back to fake numbers.
+    """
+    out = []
+    for name in ("yahoo", "yfinance"):
+        try:
+            if len(get_provider(Settings(data_provider=name)).ohlcv("BTC-USD", lookback=5)):
+                out.append(name)
+        except Exception:
+            pass
+    return out + ["mock"]
 
 
-REAL_OK = real_data_works()
-PROVIDERS = ["yfinance", "mock"] if REAL_OK else ["mock"]
+PROVIDERS = working_providers()
+REAL_OK = PROVIDERS[0] != "mock"
 
 
 def provider_picker(key: str) -> str:
     """Real data first, always. Mock is a fallback that announces itself."""
     p = st.selectbox("Data", PROVIDERS, index=0, key=key,
-                     help="yfinance = ASLI market data. mock = NAKLI random numbers "
-                          "(sirf machine test karne ke liye — isse kuch mat seekhna).")
+                     help="yahoo / yfinance = ASLI market data. "
+                          "mock = NAKLI random numbers (sirf ye check karne ke liye ki code "
+                          "chalta hai — isse kuch mat seekhna).")
     if p == "mock":
         st.error("🚨 **NAKLI DATA ON.** Ye random numbers hain, asli market nahi. "
                  "BTC yahan ~$100 dikhega jabki asli ~$63,000 hai. **Neeche ke saare "

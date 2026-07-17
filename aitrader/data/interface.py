@@ -22,6 +22,11 @@ class DataProvider(Protocol):
 def get_provider(settings: Settings) -> DataProvider:
     """Factory: choose provider from settings. Falls back to mock."""
     name = settings.data_provider.lower()
+    if name == "yahoo":
+        # Real data, stdlib only — the only real-data provider that survives the
+        # Streamlit Cloud build (yfinance is not installed there; see yahoo_provider.py).
+        from .yahoo_provider import YahooProvider
+        return YahooProvider()
     if name == "yfinance":
         from .yfinance_provider import YFinanceProvider
         return YFinanceProvider()
