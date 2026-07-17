@@ -161,5 +161,30 @@
     ],
     "best_oos_sharpe": 0.0,
     "notes": "DISCIPLINE GAP: this ran as our ACTIVE BET from 2026-07-15 without ever being registered. Registered retroactively at the moment of its rejection. Every idea gets registered BEFORE it runs \u2014 this one did not, and that is a process failure worth recording, not hiding."
+  },
+  "delist_event": {
+    "id": "delist_event",
+    "name": "Perp delisting forced-settlement event",
+    "family": "forced_settle",
+    "economic_rationale": "Bybit force-closes ALL open positions in a delisted perp at a 30-min index average, on ~2 days notice. Holders cannot decline at any price, and their arb counterparties must unwind the hedged leg too. Market makers rationally withdraw from a contract with a known death date. So: price-insensitive forced exits into deliberately thinning liquidity. This is the purest FORCED-SETTLE in FORCED_FLOW_MAP.md (S1.3) and the first PERCENT-scale candidate we have tested \u2014 every prior rejection died because the edge was bps-scale and retail cost is ~5bps.",
+    "status": "failed",
+    "tests": [
+      {
+        "stamp": "2026-07-17T12:05:42+00:00",
+        "params": {
+          "test": "event study, BTC-adjusted, own-control (pre vs post drift)",
+          "n_events": 186,
+          "window_h": 48,
+          "source": "Bybit announcements API (448 records)",
+          "sample": "193 single USDT-perp delistings; 186 usable, 6 relisted, 1 no-kline",
+          "bar_bps": -50
+        },
+        "is_sharpe": 0.0,
+        "oos_sharpe": 0.0,
+        "note": "REJECTED \u2014 and the sign came out OPPOSITE to the prediction. Predicted: announcement -> negative abnormal return. Observed: the decline DECELERATES. pre-announcement abnormal drift median -4.31%, post -1.72%, so INCREMENTAL = +2.42% (volume-weighted +11.80%) vs a -0.50% bar. THE CONFOUND WAS THE WHOLE ANSWER: raw post-announcement return is -1.72%, which without the pre-drift control reads as a clean short signal. It is not. The coin was already falling faster BEFORE the news. Shorting on announcement yields +1.72% median; shorting the SAME coin 48h EARLIER yields +4.31%. The announcement makes you WORSE off by -2.59% \u2014 it is the worst moment to short, not the best. MECHANISM (monotonic, n=186, quartiles by pre-drift): worst-crash bucket pre -21.44% -> post -6.83% (incremental +17.30%); flat/up bucket pre +3.32% -> post +0.38% (incremental -3.15%). Textbook mean-reversion after a crash. REVERSE CAUSALITY: Bybit DDM auto-delists when last price < 20x tickSize, so the announcement is TRIGGERED BY the crash \u2014 a lagging indicator that arrives near the bottom. 45% of delisted coins were already down >5% vs BTC before the news. STRUCTURAL ERROR IN THE HYPOTHESIS ITSELF (the real lesson): I called delisting \"price-insensitive forced selling\". It is not selling at all. A perp is zero-net-supply \u2014 EVERY long is matched by a short. Delisting cash-settles BOTH sides at a 30-min index average. Cash settlement touches no order book, and the two sides net to zero by construction. There is no forced flow: there is forced SETTLEMENT, which is the OPPOSITE \u2014 a guarantee you need not trade at all. The only real flow is people electing to exit before settlement, which is two-sided and self-cancelling \u2014 the same category as the funding \"dodge\" (FORCED_FLOW_MAP.md 4.2). FORCED_FLOW_MAP.md 1.3 calls this \"the purest forced flow that exists\". That is WRONG and is now corrected. NOTE the weighting went the other way this time: volume-weighted incremental (+11.80%) is MORE positive than count-weighted (+2.42%) \u2014 in the larger coins the bounce is stronger still. Weighting is not always a haircut; it is just the truth."
+      }
+    ],
+    "best_oos_sharpe": 0.0,
+    "notes": "PRE-REGISTERED 2026-07-17 BEFORE computing any return. Data recon only: 448 announcements in Bybit free API; klines for CLOSED symbols ARE retrievable with an explicit start/end (default returns latest bars = empty, which looks like no data but is not). || PREDICTION: announcement -> negative abnormal return, concentrated in the ~2 days between publishTime and the stated delisting time. || THE CONFOUND THAT DECIDES THIS (must be handled, not mentioned): SELECTION BIAS. Bybit delists coins that are ALREADY DYING - its own DDM rule delists when last price < 20x tickSize. So a post-announcement fall may be the coin simply continuing to die, and would have happened with no announcement at all. Therefore the measured quantity is NOT raw return. It is: (a) abnormal return vs BTC over the same window, AND (b) that abnormal return MINUS the same coins own pre-announcement abnormal drift. If the post-announcement drift merely continues the pre-announcement drift, the announcement carries NO information and the hypothesis is dead regardless of how negative the raw return looks. || PRE-SET BAR (fixed now, cannot be moved later): the incremental abnormal return (post-drift minus pre-drift) must be more negative than -50bps ROUND TRIP. 50bps is the honest cost for a DYING MICROCAP perp - 5.5bps taker each way is the fee, but the spread on a contract with a death date is the real cost, and it widens exactly when we would trade. If |incremental| <= 50bps => reject, uncapturable, same as the last three. || MUST ALSO SURVIVE (my own red flag from liq_meanrev, applied to myself): NOTIONAL WEIGHTING. If the effect exists only in coins with negligible traded volume, it is not a business - it is the .71-fill trap in a new costume. Report count-weighted AND volume-weighted; the volume-weighted number decides. || PRIOR: FORCED_FLOW_MAP.md S4.1 records that a predictable price response to PERP delisting is UNVERIFIED folklore - the literature covers spot/regulatory events, not perp forced settlement. The mechanism is certain; the price response is not. Expect rejection."
   }
 }

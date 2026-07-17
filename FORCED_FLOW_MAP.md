@@ -10,15 +10,34 @@
 
 ## 0. The distinction that kills half of all "edge" ideas
 
-Three different things get sloppily called "forced". Only one is real:
+Four different things get sloppily called "forced". **Only one produces a trade you can take
+the other side of:**
 
-| Type | Meaning | Tradeable? |
+| Type | Meaning | Puts an order on the book? |
 |---|---|---|
-| **FORCED-SETTLE** | Exchange closes you at a price you don't choose | ✅ Genuinely price-insensitive |
-| **FORCED-REDUCE** | Shrink by a deadline or be liquidated | ✅ Price-insensitive *at the deadline* |
-| **BLOCKED** | Can't *add*, but keep what you have | ❌ **Not a forced flow at all** |
+| **FORCED-SELL** | Engine must hit the book at any price (liquidation) | ✅ **Yes — the only real one** |
+| **FORCED-SETTLE** | Position closed at an index price, in cash | ❌ **No — touches no order book** |
+| **FORCED-REDUCE** | Shrink by a deadline or be liquidated | ⚠️ Only *at* the deadline, and it's elective before |
+| **BLOCKED** | Can't *add*, but keep what you have | ❌ Not a flow at all |
 
-Most "position limit" ideas are only BLOCKED. They die here, before any code.
+**The two questions that kill most ideas before any code:**
+
+> **1. Who must put an ORDER ON THE BOOK?** Not "who must exit" — exiting via cash settlement
+> is not an order. If nobody's order hits the book, there is nothing to provide and no
+> price impact to fade.
+>
+> **2. Must the OTHER SIDE trade too?** Derivatives are **zero-net-supply** — every long is
+> matched by a short. If a rule forces *both* sides, **net flow is zero by construction**,
+> no matter how dramatic the rule sounds.
+
+**Both questions are load-bearing, and we learned #2 the expensive way.** §1.3 (delisting) was
+written into this map as *"the purest forced flow that exists"*, ran as a live candidate, and
+was only killed by a 186-event study. It fails question 1 (cash settlement, no book) **and**
+question 2 (both sides settled, nets to zero). Ask them first and it dies in a sentence.
+
+**Scoreboard of this map's own candidates so far: `liq_meanrev` ☠️ · `delist_event` ☠️ ·
+funding dodge ☠️ · OI proxy ☠️.** The only survivor of question 1 is the **liquidation
+engine** — and it still failed on cost (§5.0). That is the honest state.
 
 **And the deepest correction:** *funding rules do not force anyone to trade.* They change the
 price at which trading is rational. The **only** genuinely forced, price-insensitive actor in
@@ -96,7 +115,43 @@ be the counterparty to liquidations:
   is *compensation for real tail risk*. Resolve the floor with Kraken support before sizing.
 - Doc: [Position assignment system](https://support.kraken.com/articles/360022631692-position-assignment-system-derivatives)
 
-### 1.3 ★★ Delisting auto-settlement — the purest forced flow that exists
+### 1.3 ☠️ Delisting auto-settlement — **NOT a forced flow at all. Tested and rejected 2026-07-17.**
+
+> ### 🚨 THIS SECTION WAS WRONG. Correcting it, not deleting it.
+>
+> It called delisting *"the purest forced flow that exists"*. **It is the opposite**, and the
+> error is structural — no amount of data would have saved the idea, because the premise was
+> broken before the first API call:
+>
+> **A perp is zero-net-supply. Every long is matched by a short.** Delisting **cash-settles
+> BOTH sides** at a 30-min index average. Cash settlement touches **no order book**, and the
+> two sides **net to zero by construction**. There is no forced buying and no forced selling —
+> there is forced **settlement**, which is the *opposite* of forced flow: a guarantee that you
+> **need not trade at all**.
+>
+> The only genuine flow is people *electing* to exit before settlement — two-sided,
+> self-cancelling. Same category as the funding "dodge" (§4.2), which this map already
+> demotes for exactly this reason. I applied the test to §4.2 and missed the identical flaw here.
+>
+> **Empirical result (registry `delist_event`, n=186 BTC-adjusted events):** the prediction was
+> "announcement → price falls". Observed: **the decline DECELERATES.** pre-drift **−4.31%** →
+> post-drift **−1.72%**, incremental **+2.42%** (volume-weighted **+11.80%**) vs a −0.50% bar.
+> Shorting on the announcement earns +1.72%; shorting the same coin **48h earlier** earns
+> **+4.31%** — the announcement makes you **worse off by −2.59%**. It is the worst moment to
+> short, not the best.
+>
+> **Reverse causality is why:** Bybit's DDM auto-delists when last price < 20× tickSize, so the
+> announcement is **triggered by** the crash. It is a lagging indicator arriving near the bottom.
+> 45% of delisted coins were already down >5% vs BTC before the news. Mean-reversion is
+> monotonic in the pre-drift: worst-crash quartile bounces **+17.30%** incremental, flat/up
+> quartile **−3.15%**.
+>
+> **The reusable lesson:** "someone is forced to settle" ≠ "someone is forced to trade."
+> Ask who must put an **order on the book**, and whether the other side must too. If both
+> sides are forced, net flow is zero and there is nothing to provide.
+
+The mechanics below are accurate and worth keeping — they were verified against live docs.
+What was wrong was the *interpretation*, not the rulebook.
 
 | | Settlement price | Window | Notice (observed) |
 |---|---|---|---|
@@ -426,7 +481,7 @@ OI shrinks your limit but **does not force you out**. This is BLOCKED — §0.
 | **2** | **Kraken forward-known funding** (§3) | info edge | — | ✅ | ✅ ours + Kraken | untested |
 | **3** | Bybit risk-limit buffer (§1.5) | ✅ REDUCE | ✅ at deadline | ✅ | ❌ snapshot now | untested |
 | 4 | Bybit USDC ADL-rank reset (§2.4) | ✅ if ADL'd | ✅ | clock only | ❌ queue private | untested |
-| 5 | Delisting settlement (§1.3) | ✅ SETTLE | ✅ total | ✅ Bybit only | ⚠️ **price response unproven** | untested |
+| ~~5~~ | ~~Delisting settlement (§1.3)~~ | ❌ **settle ≠ trade** | ❌ **nets to zero** | ✅ | — | ☠️ **REJECTED §1.3** |
 | — | ~~OI liquidation proxy~~ | — | — | — | — | ☠️ §5.1 |
 | — | ~~Funding dodge as forced flow~~ | ❌ elective | ❌ | — | — | ☠️ §4.2 |
 
