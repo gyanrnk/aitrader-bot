@@ -86,6 +86,25 @@ def main() -> None:
     except Exception as e:
         print("x-exch funding skipped:", str(e)[:60])
 
+    # --- OKX funding-interval regime flag (FORCED_FLOW_MAP.md §2.1) ---
+    # Diff-based: the signal is the CHANGE between polls and CANNOT be backfilled, so this
+    # ships before any strategy is written. Every day not polled is lost permanently.
+    try:
+        from aitrader.collector import regime
+        r = regime.step()
+        if r.get("ok"):
+            msg = (f"Regime (OKX): {r['symbols']} swaps | pinned@cap(live) "
+                   f"{r['pinned_live_now']} | events {r['events']}")
+            if r["escalations"]:
+                msg += f" | ESCALATIONS {r['escalations']}"
+            print(msg)
+            if r["hot"]:
+                print("  hot:", ", ".join(r["hot"]))
+        else:
+            print("Regime skipped:", r.get("reason"))
+    except Exception as e:
+        print("Regime skipped:", str(e)[:60])
+
 
 if __name__ == "__main__":
     main()
