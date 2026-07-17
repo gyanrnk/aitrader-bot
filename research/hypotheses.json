@@ -131,5 +131,35 @@
     ],
     "best_oos_sharpe": 0.54,
     "notes": "Research: TSMOM>CSMOM in crypto but gross often insignificant net of costs."
+  },
+  "xexch_arb": {
+    "id": "xexch_arb",
+    "name": "Cross-exchange funding arbitrage",
+    "family": "xexch_arb",
+    "economic_rationale": "Same perp, different exchanges, different funding (fragmented liquidity). Long the exchange paying longs + short the one paying shorts => market-neutral, collect the funding SPREAD. A structural edge, not a prediction.",
+    "status": "failed",
+    "tests": [
+      {
+        "stamp": "2026-07-17T11:41:43+00:00",
+        "params": {
+          "test": "spread survival vs breakeven (model-free)",
+          "coins": [
+            "BTC",
+            "ETH",
+            "SOL",
+            "XRP"
+          ],
+          "window": "2026-07-15 -> 2026-07-17 (51.2h)",
+          "polls": 1036,
+          "entry_thresh_pct": 6.0,
+          "breakeven_hours": 163
+        },
+        "is_sharpe": 0.0,
+        "oos_sharpe": 0.0,
+        "note": "REJECTED. Mechanism REAL (fragmented liquidity does produce persistent funding differences) but UNCAPTURABLE: the spread mean-reverts in HOURS while the one-time round-trip cost needs DAYS to amortise. SURVIVAL: 42 episodes above 6% across 4 coins; 0 lasted past the 163h breakeven. Longest single episode = 13.8h (ETH) vs 163h needed \u2014 short by 12x. Medians: BTC 0.84h, ETH 7.24h, SOL 3.38h, XRP 0.84h. AUTOCORR of spread: 0.86 @10min, 0.25 @1h, NEGATIVE (-0.17) @8h => it does not decay, it FLIPS. Leg-pair flipped 9/7/15/28 times in 260 polls (each flip = a full round-trip cost). arb_calc net_at(30d) = +13.4% APR was fiction: it assumed a 30-day hold on a spread whose longest observed life is 13.8 HOURS. It also omitted the availability multiplier (SOL 70% => 6.7% became ~4.7%). Both now fixed. SAMPLE CAVEAT: 51h, ~6 independent OKX settlements. Small. But 42 episodes with 0 survivors and a 12x shortfall is not a marginal call. MEASUREMENT BUG ALSO FOUND: spread_pct subtracted Kraken (locked forward hourly rate) from OKX (still-updating 8h estimate) \u2014 two different objects. And Bybit was present in only 4/1036 rows (geo-blocked on GitHub runners), so the \"cross-exchange\" monitor was Kraken-vs-OKX only. KEY LESSON: we planned to wait 2-4 WEEKS for this answer. 2 DAYS sufficed \u2014 because the event we were waiting to observe happens 42 times in 2 days and never lasts. Short-lived phenomena need short windows, not long ones."
+      }
+    ],
+    "best_oos_sharpe": 0.0,
+    "notes": "DISCIPLINE GAP: this ran as our ACTIVE BET from 2026-07-15 without ever being registered. Registered retroactively at the moment of its rejection. Every idea gets registered BEFORE it runs \u2014 this one did not, and that is a process failure worth recording, not hiding."
   }
 }
