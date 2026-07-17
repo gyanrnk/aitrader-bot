@@ -3,3 +3,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-17T12:34:39+00:00,LRC-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.07438917
 2026-07-17T12:34:39+00:00,SNOW-USDT-SWAP,listed,,8.0,-0.00330175,,0.01,-0.01,8.0,0.0
 2026-07-17T12:34:39+00:00,APP-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-07-17T14:05:52+00:00,LRC-USDT-SWAP,escalate,2.0,1.0,-0.01,-0.01,0.01,-0.01,1.0,-0.15409304
