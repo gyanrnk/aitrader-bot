@@ -72,4 +72,37 @@ adapted here into one coherent, runnable system.
       task-queue infra).
 - [ ] Deflated/Probabilistic Sharpe + PBO in `discipline/overfit.py`.
 - [ ] ccxt idempotency + order reconciliation before enabling live orders.
+      **☠️ The trap that makes the naive version wrong** (researched 2026-07-18): on
+      **Binance, OKX and Kraken the client-order-ID uniqueness check is scoped to
+      OPEN/PENDING orders only**. Binance spot, verbatim: *"Orders with the same
+      `newClientOrderID` can be accepted only when the previous one is filled."* OKX:
+      *"clOrdId uniqueness check is only applied towards all pending orders."* So in the
+      exact failure we are defending against — submit → fills → response times out →
+      retry same ID — the exchange happily creates a **second order**.
+      **A client order ID is not an idempotency key on those venues; it is a lookup
+      handle. Query-before-retry is mandatory, never blind-retry.** (Bybit is the only
+      one documenting unconditional `orderLinkId` uniqueness; Hyperliquid's `cloid`
+      uniqueness is UNVERIFIED — probe on testnet before relying on it.)
+      Query field names: Binance `origClientOrderId`, Bybit `orderLinkId`, OKX `clOrdId`,
+      Kraken `cl_ord_id` (NOT `userref` — that is documented as *non-unique*).
+      Patterns worth copying, in value-per-hour order:
+      1. **Fill dedup by exchange `trade_id`** (Hummingbot `order_fills: Dict[trade_id,
+         TradeUpdate]`) — makes fill application idempotent under WS/REST duplication.
+         Smallest change, biggest correctness win.
+      2. **Client-order-ID formula** — `prefix + side + pair + hex(nonce) +
+         md5(uname+pid+ppid)`, so two processes can never collide. **Persist it BEFORE
+         the HTTP call, not after.**
+      3. **In-flight resolution state machine** (nautilus_trader): threshold → re-query →
+         retry budget → force a terminal `REJECTED`/`CANCELED`. A timeout must resolve to
+         a *decision*, never stay ambiguous.
+      4. **Adaptive poll as a websocket safety net** (Hummingbot): if
+         `now - last_recv_time > 60s`, drop poll interval 120s → 5s. A dropped socket then
+         degrades latency instead of corrupting state.
+      5. **Inferred-fill delta** (nautilus): when the venue reports more filled than cache,
+         back-solve `last_px` so VWAP matches venue `avg_px`. Add the negative-price guard
+         the original lacks.
+      Reference implementation to copy wholesale: **nautilus_trader** — the only one of the
+      major bots that treats reconciliation as a first-class subsystem. Note freqtrade
+      **does not use client order IDs at all** (recovery is a time-windowed rescan by pair),
+      and ccxt never generates one.
 ```

@@ -199,6 +199,63 @@ basis — stale by seven years. Trust circulars, not summaries.
 
 ---
 
+## 6b. What the public bot ecosystem tells us (researched 2026-07-18)
+
+We analysed the major open-source crypto bots to see whether any of them reveal a mechanism
+that routes around volume-gated fee economics. **None does.** The framing answer:
+
+> **They monetise the trader, not the trade.** Every revenue line in the ecosystem is keyed
+> to user *volume*, never user *P&L*. Hummingbot Foundation: *"the majority of the
+> Foundation's revenues come from fee share partnerships with exchanges"* — and it ran
+> net-negative in 2022 and 2023. OctoBot's own pitch, *"OctoBot takes no percentage of your
+> profits"*, is the tell: zero exposure to whether you make money.
+
+**Liquidity mining — the one candidate that looked like a way past the volume gate — is dead,
+and was negative-sum while alive.** Hummingbot Miner ceased operations **2026-03-16**. Its only
+published aggregate (Year 1): **$376k rewards on $837M filled volume = 4.49 bps** reward yield,
+against a Binance VIP0 maker fee of **10 bps**. Participants paid the exchange **$628k–837k in
+fees to collect $376k in rewards** — negative before inventory risk even enters. Distribution:
+top 2 of 1,622 miners took **23.4%**; the other ~1,620 averaged **~$178 gross for the year**.
+
+And the "10–50% annually" figure that seeded the whole ecosystem is not a profitability claim.
+From the Liquidity Mining whitepaper §3.5.1, verbatim: *"Any profits or losses from filling
+market orders are **not taken into account**."* It is reward-yield-on-capital with trading P&L
+set to zero and order flow modelled as a coin flip — **adverse selection assumed away**, which
+is the entire question.
+
+The vendor's own co-founder, publicly: *"It's difficult to make money from spot market making
+without rewards or rebates, and not having a high VIP tier and paying standard fees makes it
+extra challenging."* His live results: September **−4.84 USDT**, October **+0.85 USDT**.
+
+**Verifiable evidence of profitability anywhere in the ecosystem: none.** No peer-reviewed live
+evaluations, no third-party audits. Public leaderboards (strat.ninja, freqst.com) are **100%
+backtest**. There is no public registry where a strategy is hash-committed before a live period
+and its P&L reported regardless of outcome — so leaderboards measure curve-fitting skill.
+
+**Strategy mix across ~90 shipped strategies:** TA/indicator **~64%**, market making ~22%,
+grid/DCA ~9%, arbitrage ~6%, stat-arb ~3%, **funding capture ~2%** (one real implementation in
+the entire ecosystem, shipped at Hummingbot's *prototyping* tier). Scarcity there cannot
+distinguish "under-exploited" from "everyone tried it and it died" — and the related
+`spot_perpetual_arbitrage` sits in the explicitly **unmaintained** tier, weak evidence in the
+pessimistic direction.
+
+**What's ABSENT is the informative part.** MEV/searcher bots, latency arb, and options market
+making are all missing, for one documented reason: there, **code IS the edge**, so publishing
+destroys it.
+
+> **Open source contains what is safe to give away.** Market making is publishable because its
+> edge lives in fee tier and latency, not logic. TA is publishable because it doesn't work.
+> Nobody publishes a working retail edge, because a published retail edge stops working.
+
+**Our five rejections are consistent with the public record, not contradicted by it.**
+
+One correction to a tempting number: the research flagged Hyperliquid tier-0 perp maker at
+**1.5 bps** as "6.7× cheaper" — but that compares against Binance *spot* (10 bps), which we
+don't use. Our model already assumes Bybit perp VIP0 maker **2 bps/side**. The real improvement
+is **2 → 1.5 bps (25%)**, ungated. Small, free, worth taking — not a game-changer.
+
+---
+
 ## 7. Open questions — honestly unresolved
 
 - **Does the target zone (§3) contain anything real?** Unknown. It is a well-defined
