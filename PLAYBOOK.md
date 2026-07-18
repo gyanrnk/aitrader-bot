@@ -142,12 +142,70 @@ being registered. It was registered retroactively, at the moment of its rejectio
 
 ---
 
-## 6. Open questions — honestly unresolved
+## 6. Arena — DECIDED 2026-07-18: we stay in crypto perps
 
-- **Arena.** Everything above is crypto perps — the most arbitraged retail arena there
-  is. Cost stacks for India F&O / equities are still being researched. **Not yet decided.**
+Not because crypto is good. Because it is **cheap**, and cost is what has killed us.
+
+The obvious alternative was India F&O — we're India-based, it's retail-heavy, and
+"retail-heavy" sounds like thin competition. We priced it against primary sources
+(NSE circulars, Finance Act 2026, SEBI). It is **worse, by a lot**:
+
+| Arena | Round-trip cost | Edge needed at R3 (2×) |
+|---|---|---|
+| **Crypto perp** (majors, maker both sides) | **~4 bps** | >8 bps |
+| Crypto perp (taker out) | ~7 bps | >14 bps |
+| **India F&O, 1 lot** | **72.1 bps** of premium | **>144 bps** |
+| India F&O, 25 lots | 25.6 bps | >51 bps |
+
+India F&O is **6–18× more expensive** than crypto perps. Worse, **23.7 bps of it is an
+irreducible statutory floor** — STT + exchange + stamp + GST. No size, no broker
+shopping, no negotiation removes it, because it is statute. STT alone is 15.0 of those
+23.7 bps after the **April 2026 hike** (options premium 0.10→0.15%, futures 0.02→0.05%,
+Finance Act 2026, NSE/FATAX/73524).
+
+And the bid-ask spread sits on top: 3–33 bps on an ATM NIFTY weekly, widening away from
+ATM and near expiry — i.e. widening exactly when you'd want to trade.
+
+**Who we would be competing against there**, from SEBI's own study (PR 22/2024):
+**93% of 1 crore+ individual F&O traders lost money**, averaging **₹2 lakh each**;
+aggregate losses **>₹1.8 lakh crore** over FY22–24. Individuals paid **~₹50,000 crore in
+transaction costs**, of which **51% was brokerage**. The winners were prop desks and FPIs
+— and **96–97% of their profits came from algorithmic trading**. The FY25 follow-up:
+91% still losing, aggregate net loss up 41% to ₹1.06 lakh crore.
+
+> **"Retail-heavy" does not mean weak competition. It means a large, reliable supply of
+> losers — and the professionals harvesting them are algos with cost structures we
+> cannot match.** Going there would mean paying 6–18× more to compete with the same
+> class of opponent.
+
+### ☠️ Landmine, recorded so we never step on it
+
+**Physically-settled STOCK options: STT is charged on the FULL DELIVERY VALUE**
+(0.1% buy + 0.1% sell), not the premium. A ₹10 lakh-notional stock option with ₹15,000
+premium incurs **₹1,000 STT on delivery vs ₹22.50 if squared off — ~44×**.
+
+For cash-settled INDEX options this was fixed on **1 Sep 2019** (Finance (No.2) Act 2019
+s.99 changed the exercise base from settlement price to **intrinsic value** — a ~109×
+reduction). **NIFTY is cash-settled and safe. Single-stock options are not.**
+Note many secondary sources (incl. ClearTax) still state the old "settlement price"
+basis — stale by seven years. Trust circulars, not summaries.
+
+### What this decision does and does not mean
+
+- It does **not** mean crypto has an edge. It is the most arbitraged retail arena there is.
+- It means: **if we cannot find edge where cost is 4 bps, we certainly won't where it is 25–72 bps.**
+- The `R3` bar stands. `§3`'s target zone (absorbs $10k–100k, not $10M) stands. We look
+  for it in the cheap arena.
+
+---
+
+## 7. Open questions — honestly unresolved
+
 - **Does the target zone (§3) contain anything real?** Unknown. It is a well-defined
   place to look, not evidence that something is there.
 - **Is `R3`'s 2× safety factor right?** Chosen by judgement, not measurement.
+- **Untested queue:** `basis_conv`, `vol_momo_alts` (registry), plus `FORCED_FLOW_MAP.md`
+  §8 — now led by the OKX funding-interval escalation flag, which has no history and is
+  accumulating from 2026-07-17.
 
 **Nothing has passed the napkin test yet.** That is the current, honest state.
