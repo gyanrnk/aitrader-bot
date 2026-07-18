@@ -25,6 +25,8 @@ CASES = [
         cost_bps=5.0,           # maker+taker round trip
         trades_per_year=6068 * (365 / 12),   # observed rate, annualised
         capacity_usd=25.62,     # median fill size — this is the killer
+        barrier="",             # there is none — MMs simply absorb it near mark
+        wins_by_being_first=True,   # it is a queue-position race
         edge_is_notional_weighted=True,
         edge_measured=True,
      ), "R3"),
@@ -36,6 +38,8 @@ CASES = [
         cost_bps=5.0,
         trades_per_year=1000,
         capacity_usd=3.71,      # ...on $3.71 fills
+        barrier="",
+        wins_by_being_first=True,
         edge_is_notional_weighted=False,
         edge_measured=True,
      ), "R6"),
@@ -50,6 +54,7 @@ CASES = [
         breakeven_hold_h=163.0,      # what the cost actually needs
         trades_per_year=42 * (365 / 2),
         capacity_usd=50_000,
+        barrier="capital must sit on two exchanges at once",
         edge_is_notional_weighted=True,
         edge_measured=True,
      ), "R4"),
@@ -63,6 +68,7 @@ CASES = [
         capacity_usd=1_000_000,
         order_hits_book=False,       # cash settlement — R1
         both_sides_forced=True,      # zero-net-supply — R2
+        barrier="",                  # none: 448 delistings are announced publicly
         edge_is_notional_weighted=True,
         edge_measured=True,
      ), "R1"),
@@ -74,6 +80,7 @@ CASES = [
         cost_bps=10.0,
         trades_per_year=100,
         capacity_usd=100_000,
+        barrier="",
      ), "R0"),
 
     (Idea(
@@ -84,9 +91,22 @@ CASES = [
         cost_bps=16.0,
         trades_per_year=12,
         capacity_usd=50_000,
+        barrier="",                  # none — capital-unconstrained, anyone can run it
         edge_is_notional_weighted=True,
         edge_measured=True,
      ), "R3"),
+
+    # R7 case: an idea that clears cost easily but is a pure speed race.
+    (Idea(
+        name="latency arb — hit the stale quote on the slower venue",
+        mechanism="Venue B's quote is stale for milliseconds after venue A moves; "
+                  "I trade against it. No prediction — I already know the price moved.",
+        edge_bps=50.0, cost_bps=4.0,     # economics are fine...
+        trades_per_year=100_000, capacity_usd=500_000,
+        barrier="speed — whoever is first",
+        wins_by_being_first=True,        # ...but we are 400-1000x too slow
+        edge_is_notional_weighted=True, edge_measured=True,
+     ), "R7"),
 ]
 
 
@@ -106,21 +126,39 @@ def main() -> None:
         print(f"\n[{status}] expected rule {must_fire}")
         print(report(idea))
 
-    # --- control: a hypothetical idea that SHOULD survive ---------------------
-    good = Idea(
-        name="CONTROL — a hypothetical idea that should NOT be killed",
-        mechanism="Someone is contractually obliged to pay me a fee for a service.",
-        edge_bps=60.0, cost_bps=10.0,
-        opportunity_life_h=200.0, breakeven_hold_h=20.0,
-        trades_per_year=50, capacity_usd=100_000,
-        edge_is_notional_weighted=True, edge_measured=True,
-    )
-    r = napkin(good)
-    ok = r["verdict"] == "PASS"
-    if not ok:
-        failures += 1
-    print(f"\n[{'PASS' if ok else '*** FILTER FAILED — kills everything ***'}] control must survive")
-    print(report(good))
+    # --- controls: ideas that must SURVIVE, or the filter just kills everything ---
+    controls = [
+        Idea(
+            name="CONTROL — hypothetical idea that should NOT be killed",
+            mechanism="Someone is contractually obliged to pay me a fee for a service.",
+            edge_bps=60.0, cost_bps=10.0,
+            opportunity_life_h=200.0, breakeven_hold_h=20.0,
+            trades_per_year=50, capacity_usd=100_000,
+            barrier="the payer is contractually locked in",
+            edge_is_notional_weighted=True, edge_measured=True,
+        ),
+        # The real one: our sole survivor, with its measured numbers. If the filter
+        # kills this it has become too strict to ever find anything.
+        Idea(
+            name="funding_escalation — OKX interval escalation (our one survivor)",
+            mechanism="OKX escalates settlement frequency when funding hits its cap. "
+                      "Traders desperate enough to pin funding at the exchange maximum "
+                      "pay me while I stay delta-neutral.",
+            edge_bps=394.3, cost_bps=67.0,
+            opportunity_life_h=26.0, breakeven_hold_h=2.0,
+            trades_per_year=91, capacity_usd=2_641,
+            barrier="OKX borrow quota caps the short-spot hedge leg at ~$2k per coin",
+            wins_by_being_first=False,      # 26h episodes — 130ms latency is irrelevant
+            edge_is_notional_weighted=True, edge_measured=True,
+        ),
+    ]
+    for good in controls:
+        r = napkin(good)
+        ok = r["verdict"] == "PASS"
+        if not ok:
+            failures += 1
+        print(f"\n[{'PASS' if ok else '*** FILTER FAILED — too strict ***'}] control must survive")
+        print(report(good))
 
     print("\n" + "=" * 78)
     if failures:

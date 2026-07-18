@@ -20,6 +20,21 @@ The rules below are not theory. Each one is a post-mortem of a specific dead ide
                                 because the big discounts were on $3.71 scraps.
   R6  capacity               <- 74bps on a $3.71 fill is $0.03/trade. A real edge that
                                 cannot absorb capital is a hobby, not a strategy.
+  R7  the barrier            <- measured 2026-07-18: our latency to OKX/Bybit/Kraken is
+                                82-211ms from a home connection. A colocated firm sits at
+                                ~0.2ms; HFT measures in nanoseconds. We are 400-1000x
+                                slower, and our collector polls every 10 MINUTES. So the
+                                question "what stops this being arbed away?" decides
+                                everything. If the answer is SPEED, we lost before we
+                                could see it. If it is a STRUCTURAL constraint (borrow
+                                quota, capital, access, mandate) we may be inside it.
+                                And if you cannot name a barrier at all, either the edge
+                                is not real or you are the one about to be arbed.
+
+                                Our own record backs this: xexch_arb (13.8h life) and
+                                liq_meanrev (a queue-position race) died; the sole
+                                survivor, funding_escalation, runs 26h episodes gated by
+                                borrow quota — slowness costs nothing there.
 
 USAGE
     from aitrader.research.napkin import Idea, napkin
@@ -62,6 +77,10 @@ class Idea:
     # --- structural sanity (R1/R2) ---
     order_hits_book: bool = True        # does anyone actually place an order? (cash settle = No)
     both_sides_forced: bool = False     # if a rule forces long AND short, net flow is zero
+
+    # --- the barrier (R7) — why has this not already been arbed away? ---
+    barrier: str = ""                   # name it. empty => you cannot explain persistence
+    wins_by_being_first: bool = False   # is the edge a speed race? we are 400-1000x slow
 
     # --- honesty flags ---
     edge_is_notional_weighted: bool = False   # False => the edge number is not trustworthy
@@ -127,6 +146,18 @@ def napkin(idea: Idea, safety: float = SAFETY_FACTOR) -> dict:
             "liq_meanrev looked like +74.87bps when the money-weighted truth was +1.34bps.")
     if not idea.edge_measured:
         warns.append("R5b estimated: edge is an estimate, not an observation. Measure it before building.")
+
+    # ---- R7: what stops this being arbed away? ------------------------------
+    if idea.wins_by_being_first:
+        kills.append(
+            "R7 speed race: the edge goes to whoever is first. Measured latency from here "
+            "is 82-211ms vs ~0.2ms colocated — we are 400-1000x slower, and our collector "
+            "polls every 10 MINUTES. This is lost before we can see it.")
+    if not idea.barrier.strip():
+        kills.append(
+            "R7 no barrier: cannot name what stops this being arbed away. Either the edge "
+            "is not real, or we are the one about to be arbed. Every surviving edge has an "
+            "explanation for why it survives — name it or drop it.")
 
     # ---- R6: capacity — can this absorb capital? ----------------------------
     annual_pct = _annual_return_pct(idea)
