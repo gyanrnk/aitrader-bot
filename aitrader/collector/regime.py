@@ -44,6 +44,14 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 OKX_FUNDING = "https://www.okx.com/api/v5/public/funding-rate?instId=ANY"
+OKX_BORROW = "https://www.okx.com/api/v5/public/interest-rate-loan-quota"
+
+# Control coins: deep, liquid borrow pools that should NOT move during a microcap
+# episode. Without them we cannot tell a coin-specific borrow squeeze from a
+# market-wide rate change.
+BORROW_CONTROLS = ("BTC", "ETH", "USDT")
+
+BORROW_FIELDS = ["ts", "ccy", "rate", "quota", "reason", "inst_id", "interval_h"]
 
 EVENT_FIELDS = ["ts", "inst_id", "event", "old", "new", "funding_rate",
                 "sett_funding_rate", "cap", "floor", "interval_h", "premium"]
@@ -174,12 +182,94 @@ def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
 
+# ------------------------------------------------------- borrow-side tracking
+#
+# WHY: `funding_escalation` is our only surviving idea, and the single question that
+# decides it is one history cannot answer — CAN WE ACTUALLY BORROW WHEN IT MATTERS?
+#
+# 9 of 10 measured episodes had NEGATIVE funding, so collecting means LONG perp, so the
+# delta-neutral hedge is SHORT SPOT, which requires borrowing the coin. The uncomfortable
+# hypothesis is that funding sits pinned at the cap PRECISELY BECAUSE the borrow is
+# unavailable — if it were free, someone would short spot / long perp and funding would
+# normalise. On that reading the tiny quota (LRC $2,174) is not a capacity ceiling, it is
+# the REASON the opportunity exists, and every would-be arbitrageur is competing for the
+# same exhausted pool exactly when we want it.
+#
+# WHAT WE CAN AND CANNOT SEE. OKX's public endpoint returns only `ccy`, `quota`, `rate` —
+# the MAXIMUM quota and the base rate. It does NOT expose live pool availability, so we
+# cannot observe exhaustion directly. But OKX raises the borrow rate dynamically under
+# demand, so a RATE SPIKE on the escalating coin (while BTC/ETH/USDT stay flat) is
+# evidence of a borrow squeeze. That is a proxy, not proof.
+#
+# HONEST LIMIT: the rate may not move at all even when the pool is empty — OKX can simply
+# reject the borrow. Only an authenticated account attempting a real borrow settles this.
+# This snapshot narrows the question; it does not close it.
+
+
+def fetch_borrow() -> dict[str, dict]:
+    """{ccy: {rate, quota}} — public, no auth. Empty dict on failure."""
+    try:
+        d = _get(OKX_BORROW).get("data", [])
+    except Exception:
+        return {}
+    out: dict[str, dict] = {}
+    for block in d:
+        for r in block.get("basic", []) or []:
+            try:
+                out[r["ccy"]] = {"rate": float(r["rate"]), "quota": float(r["quota"])}
+            except (KeyError, TypeError, ValueError):
+                continue
+    return out
+
+
+def borrow_rows(curr: dict[str, dict], ts: str) -> list[dict]:
+    """Snapshot borrow terms for coins that are ESCALATED or PINNED, plus controls.
+
+    We deliberately do not snapshot all 500+ symbols: the signal is what happens to the
+    borrow of a coin while it is in an extreme funding state, against a flat control.
+    """
+    interesting: dict[str, tuple[str, str, float]] = {}
+    for inst, s in curr.items():
+        base = inst.split("-")[0]
+        if s.get("at_cap_live") or s.get("at_cap_sett"):
+            interesting[base] = ("pinned_at_cap", inst, s["interval_h"])
+        elif s["interval_h"] < 4:
+            # ONLY 1h and 2h are unambiguously escalated. OKX assigns 8h OR 4h as the
+            # per-symbol DEFAULT (currently 286 vs 225 of the book), so "< 8h" would flag
+            # every 4h-default symbol as escalated — 200 rows of noise per poll, drowning
+            # the signal. This is the same per-symbol-default trap documented in
+            # research/escalation.py, and it bit again here.
+            interesting.setdefault(base, ("short_interval", inst, s["interval_h"]))
+
+    if not interesting:
+        return []                       # nothing in an extreme state — don't log noise
+
+    borrow = fetch_borrow()
+    if not borrow:
+        return []
+    rows = []
+    for ccy in list(interesting) + list(BORROW_CONTROLS):
+        b = borrow.get(ccy)
+        if not b:
+            # not borrowable at all — itself the decisive fact for that coin
+            reason, inst, iv = interesting.get(ccy, ("control", "", 0.0))
+            rows.append({"ts": ts, "ccy": ccy, "rate": None, "quota": 0.0,
+                         "reason": f"{reason}|NOT_BORROWABLE", "inst_id": inst,
+                         "interval_h": iv})
+            continue
+        reason, inst, iv = interesting.get(ccy, ("control", "", 0.0))
+        rows.append({"ts": ts, "ccy": ccy, "rate": b["rate"], "quota": b["quota"],
+                     "reason": reason, "inst_id": inst, "interval_h": iv})
+    return rows
+
+
 # ---------------------------------------------------------------- persistence
 
 STORE = Path(__file__).resolve().parents[2] / "data" / "regime"
 STATE = STORE / "okx_state.json"
 EVENTS = STORE / "okx_events.csv"
 SUMMARY = STORE / "okx_summary.csv"
+BORROW = STORE / "okx_borrow.csv"
 
 
 def _append(path: Path, fields: list[str], rows: list[dict]) -> None:
@@ -214,6 +304,12 @@ def step() -> dict:
     events = diff(prev, curr, ts)
     _append(EVENTS, EVENT_FIELDS, events)
     _append(SUMMARY, SUMMARY_FIELDS, [summarize(curr, ts, len(events))])
+
+    # Borrow terms for anything in an extreme state — only fetched when something is
+    # actually escalated/pinned, so a quiet market costs one extra request and no rows.
+    brows = borrow_rows(curr, ts)
+    _append(BORROW, BORROW_FIELDS, brows)
+
     STATE.write_text(json.dumps(curr, indent=None, separators=(",", ":")))
 
     hot = [e for e in events if e["event"] in ("escalate", "cap_bind", "pin_start")]
@@ -221,4 +317,5 @@ def step() -> dict:
             "escalations": sum(1 for e in events if e["event"] == "escalate"),
             "pinned_live_now": sum(1 for s in curr.values() if s["at_cap_live"]),
             "at_cap_sett_now": sum(1 for s in curr.values() if s["at_cap_sett"]),
+            "borrow_rows": len(brows),
             "hot": [f'{e["inst_id"]}:{e["event"]}:{e["old"]}->{e["new"]}' for e in hot[:5]]}
