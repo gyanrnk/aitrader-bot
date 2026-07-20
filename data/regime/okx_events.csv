@@ -8,3 +8,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-17T15:06:43+00:00,LRC-USDT-SWAP,cap_release,True,False,-0.00818866,-0.00963466,0.01,-0.01,1.0,-0.03967883
 2026-07-19T12:07:48+00:00,HOME-USDT-SWAP,de_escalate,2.0,4.0,-0.00081623,-0.00034635,0.01,-0.01,4.0,-0.00059714
 2026-07-20T08:08:22+00:00,LRC-USDT-SWAP,delisted,1.0,,0,,0,,0,0
+2026-07-20T11:01:30+00:00,KAITO-USD_UM_XPERP-310725,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
