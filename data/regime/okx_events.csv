@@ -19,3 +19,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-21T16:04:37+00:00,ONE-USDT-SWAP,escalate,8.0,4.0,-0.0093393,-0.01,0.01,-0.01,4.0,-0.01466742
 2026-07-21T16:04:37+00:00,ONE-USDT-SWAP,pin_end,True,False,-0.0093393,-0.01,0.01,-0.01,4.0,-0.01466742
 2026-07-21T16:04:37+00:00,ONE-USDT-SWAP,cap_bind,False,True,-0.0093393,-0.01,0.01,-0.01,4.0,-0.01466742
+2026-07-21T18:07:02+00:00,LA-USDT-SWAP,cap_release,True,False,-0.00148754,-0.00147606,0.01,-0.01,2.0,-0.00762735
