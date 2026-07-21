@@ -12,3 +12,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-21T05:32:15+00:00,LA-USDT-SWAP,pin_start,False,True,-0.01,-0.00283924,0.01,-0.01,4.0,-0.02357716
 2026-07-21T07:44:27+00:00,LA-USDT-SWAP,pin_end,True,False,-0.00884764,-0.00283924,0.01,-0.01,4.0,0.00059973
 2026-07-21T12:09:33+00:00,LA-USDT-SWAP,pin_start,False,True,-0.01,-0.00969115,0.01,-0.01,4.0,-0.02030405
+2026-07-21T15:03:24+00:00,ONE-USDT-SWAP,pin_start,False,True,-0.01,0.0001,0.01,-0.01,8.0,-0.01453122
