@@ -1,18 +1,18 @@
 {
-  "cash": 6355.25071754277,
+  "cash": 11553.830336651605,
   "units": {
-    "ETHUSDT": 0.8999929100996283,
+    "ETHUSDT": 0.0,
     "SOLUSDT": 0.0,
     "BTCUSDT": 0.0,
-    "XRPUSDT": 0.0,
+    "XRPUSDT": -1507.5440827695822,
     "AAPL": 0.0,
     "GOLD": 0.0,
     "NIFTY": 0.0,
     "RELIANCE": 0.0,
-    "EURUSD": 1519.6252527786312,
+    "EURUSD": 0.0,
     "SENSEX": 0.0,
     "NASDAQ": 0.0,
-    "SPY": 2.3167717670010606
+    "SPY": 2.3153921474260115
   },
   "start_equity": 10000.0,
   "bh_units": {
