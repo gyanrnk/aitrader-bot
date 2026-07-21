@@ -35,6 +35,50 @@ per-bar loop, no API bill. The LLM is **optional** and reserved for the slow loo
 
 See `.env.example` for every knob.
 
+## Strategies — pluggable, and gated before they run
+
+```bash
+python scripts/napkin.py --help                        # kill an idea in 60 seconds
+python scripts/strategy_backtest.py BTC-USD 730 5.0    # net-of-cost backtest vs buy & hold
+```
+
+Every strategy inherits from `aitrader/strategy/base.py` and **must** implement
+`describe()`, returning a napkin `Idea` — who pays me, why, and what barrier stops this
+being arbed away. `gate()` runs the napkin test against that self-description, so a
+strategy with no mechanism is refused **at definition time**, before it emits a signal.
+
+Two shapes, because the work genuinely has two:
+
+| | For | Produces |
+|---|---|---|
+| `Strategy` | bar-by-bar (trend, mean-reversion) | `Signal`: action · confidence · **reason** · price · timestamp |
+| `MechanismStudy` | event-driven (funding escalation, liquidations) | a measured edge, not a per-bar signal |
+
+`reason` names **which rule fired**. A signal you cannot debug is one you cannot honestly
+reject either.
+
+### Sample output — 2 years of BTC-USD, net of 5 bps/side
+
+```
+        strategy  total_return  sharpe  max_drawdown  win_rate  n_trades  bars_in_market
+ ma_cross_50_200        -0.161  -0.300        -0.203     0.489        48           0.311
+rsi_rev_14_30_70         0.014   0.157        -0.040     0.444        35           0.037
+      buy & hold        -0.021   0.207        -0.531     0.497         0           1.000
+```
+
+Both fail the napkin gate first (**R0** no mechanism, **R7** no barrier) — they are
+included precisely so the negative is measured rather than assumed.
+
+**Read the RSI row carefully — it is the trap this repo exists to catch.** It "beats"
+buy & hold by +3.5% on total return, which looks like a win. But it is in the market
+**3.7% of the time** (27 of 730 bars), its Sharpe is **lower** than buy & hold's, and the
+t-stat on its active bars is **+0.24**. It did not outperform; it sat in cash through the
+drawdown. Judge on risk-adjusted return and sample size, never on the headline.
+
+MA crossover is the same family as `tsmom`, which scored **3/6** on the Stage-4 gauntlet
+(PBO 0.76, DSR 0, falsification p=0.15) and was rejected. A single-config backtest on one
+symbol is not evidence — see `PLAYBOOK.md`.
+
 ## Layout
 ```
 aitrader/
