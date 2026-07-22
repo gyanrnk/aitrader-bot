@@ -49,14 +49,36 @@ def mark_and_trade(history: pd.DataFrame, analytics) -> dict:
     if equity <= 0:
         equity = START_EQUITY
 
-    # act on current signals
-    n_active = 0
+    # --- size by MEASURED edge, not by a constant (see risk/edge_sizing.py) ----
+    #
+    # The old line was `tgt_w = RISK_FRAC if UP else -RISK_FRAC if DOWN else 0` — a flat
+    # 0.15 per symbol with no aggregate cap, so 8 live signals meant 120% of equity. That
+    # single line is the whole reason this bot ran 6.3x the volatility of buy & hold.
+    #
+    # Now the book is sized from the signal's OWN measured forward record. If expectancy
+    # is not positive, or the hit rate is not distinguishable from a coin flip, every
+    # weight is 0 — the bot declines to trade itself. That is currently the case, and it
+    # is the correct answer, not a bug.
+    from ..risk.edge_sizing import EdgeStats, explain, target_weights
+
+    score = analytics.score_predictions(history)
+    stats = EdgeStats(n=int(score.get("scored", 0) or 0),
+                      hit_rate=float(score.get("hit_rate", 0.5) or 0.5),
+                      expectancy=float(score.get("avg_return_per_call", 0.0) or 0.0))
+
+    signals = {}
     for sym, g in history.groupby("symbol"):
         sig = analytics.compute_signal(g)
+        if sig and prices.get(sym) is not None:
+            signals[sym] = sig["signal"]
+    weights = target_weights(signals, stats)
+    sizing_note = explain(stats)
+
+    n_active = 0
+    for sym, tgt_w in weights.items():
         price = prices.get(sym)
-        if not sig or price is None:
+        if price is None:
             continue
-        tgt_w = RISK_FRAC if sig["signal"] == "UP" else -RISK_FRAC if sig["signal"] == "DOWN" else 0.0
         if tgt_w != 0.0:
             n_active += 1
         tgt_units = tgt_w * equity / price
@@ -84,4 +106,7 @@ def mark_and_trade(history: pd.DataFrame, analytics) -> dict:
     return {"equity": round(equity, 2), "buyhold": round(bh_equity, 2),
             "pnl_pct": round((equity / st["start_equity"] - 1) * 100, 3),
             "bh_pnl_pct": round((bh_equity / START_EQUITY - 1) * 100, 3),
-            "beating_buyhold": bool(equity > bh_equity), "active_positions": n_active}
+            "beating_buyhold": bool(equity > bh_equity),
+            "active_positions": n_active,
+            "gross_exposure": round(sum(abs(w) for w in weights.values()), 3),
+            "sizing": sizing_note}
