@@ -178,6 +178,45 @@ def summarize(curr: dict[str, dict], ts: str, n_events: int) -> dict:
             "n_pinned_live": pinned, "n_at_cap_sett": bound, "n_events": n_events}
 
 
+def _ticker_last(inst_id: str) -> float | None:
+    """Last price for any OKX instrument; None if it doesn't exist / call fails."""
+    try:
+        d = _get(f"https://www.okx.com/api/v5/market/ticker?instId={inst_id}")
+        return float(d["data"][0]["last"])
+    except Exception:
+        return None
+
+
+def episode_rows(curr: dict[str, dict], brows: list[dict], ts: str) -> list[dict]:
+    """One full-detail row per flagged instrument per cycle -> okx_episodes.csv.
+
+    Everything except prices is already in hand: `brows` carries the borrow terms and
+    `curr` the funding state. Prices cost two extra API calls per flagged symbol;
+    episodes are rare (0-3 live at a time), so a quiet market costs nothing.
+    """
+    out = []
+    for b in brows:
+        if b["reason"] == "control" or not b.get("inst_id"):
+            continue
+        s = curr.get(b["inst_id"])
+        if not s:
+            continue
+        out.append({
+            "ts": ts, "inst_id": b["inst_id"], "ccy": b["ccy"],
+            "interval_h": s["interval_h"],
+            "funding_rate": s["funding_rate"],
+            "cap": s.get("cap"), "floor": s.get("floor"),
+            "at_cap_live": bool(s.get("at_cap_live")),
+            "at_cap_sett": bool(s.get("at_cap_sett")),
+            "borrowable": "NOT_BORROWABLE" not in b["reason"],
+            "borrow_rate": b.get("rate"),
+            "borrow_quota": b.get("quota"),
+            "perp_last": _ticker_last(b["inst_id"]),
+            "spot_last": _ticker_last(f'{b["ccy"]}-USDT'),
+        })
+    return out
+
+
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat(timespec="seconds")
 
@@ -270,6 +309,18 @@ STATE = STORE / "okx_state.json"
 EVENTS = STORE / "okx_events.csv"
 SUMMARY = STORE / "okx_summary.csv"
 BORROW = STORE / "okx_borrow.csv"
+EPISODES = STORE / "okx_episodes.csv"
+
+# Full per-cycle record of every live episode. Two jobs at once:
+#   1. SURVIVORSHIP FIX — a delisted symbol's funding history vanishes from OKX's API
+#      (LRC returns 0 rows now), so our historical study could only see the coins that
+#      survived. Recording AT THE TIME, while the coin still exists, closes that hole.
+#   2. PAPER P&L INPUT — with funding, perp and spot prices captured per cycle, a
+#      delta-neutral paper simulation for any episode (incl. a GO episode) can be
+#      computed later from this file alone. Collection stays dumb; analysis stays free.
+EPISODE_FIELDS = ["ts", "inst_id", "ccy", "interval_h", "funding_rate", "cap", "floor",
+                  "at_cap_live", "at_cap_sett", "borrowable", "borrow_rate",
+                  "borrow_quota", "perp_last", "spot_last"]
 
 
 def _append(path: Path, fields: list[str], rows: list[dict]) -> None:
@@ -309,6 +360,10 @@ def step() -> dict:
     # actually escalated/pinned, so a quiet market costs one extra request and no rows.
     brows = borrow_rows(curr, ts)
     _append(BORROW, BORROW_FIELDS, brows)
+
+    # Full episode record (funding + borrow + prices) — the survivorship fix AND the
+    # raw input for paper P&L simulation of any episode, including a future GO.
+    _append(EPISODES, EPISODE_FIELDS, episode_rows(curr, brows, ts))
 
     STATE.write_text(json.dumps(curr, indent=None, separators=(",", ":")))
 

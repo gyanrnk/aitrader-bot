@@ -1,0 +1,2 @@
+ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowable,borrow_rate,borrow_quota,perp_last,spot_last
+2026-07-23T07:13:27+00:00,O-USD_UM_XPERP-310620,O,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.6478,
