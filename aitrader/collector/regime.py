@@ -312,10 +312,16 @@ def step() -> dict:
 
     STATE.write_text(json.dumps(curr, indent=None, separators=(",", ":")))
 
+    # THE GO SIGNAL: an escalated/pinned coin that is ALSO borrowable — the one condition
+    # every episode so far has failed (LRC delisted; LA/ONE/O not borrowable). borrow_rows
+    # already carries exactly this: a non-control row WITHOUT the NOT_BORROWABLE marker.
+    go = [r for r in brows
+          if r["reason"] != "control" and "NOT_BORROWABLE" not in r["reason"]]
+
     hot = [e for e in events if e["event"] in ("escalate", "cap_bind", "pin_start")]
     return {"ok": True, "symbols": len(curr), "events": len(events),
             "escalations": sum(1 for e in events if e["event"] == "escalate"),
             "pinned_live_now": sum(1 for s in curr.values() if s["at_cap_live"]),
             "at_cap_sett_now": sum(1 for s in curr.values() if s["at_cap_sett"]),
-            "borrow_rows": len(brows),
+            "borrow_rows": len(brows), "go_signals": go,
             "hot": [f'{e["inst_id"]}:{e["event"]}:{e["old"]}->{e["new"]}' for e in hot[:5]]}

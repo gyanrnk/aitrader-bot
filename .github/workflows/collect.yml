@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  issues: write        # GO-signal alert: collector opens an issue -> GitHub emails the owner
 
 concurrency:
   group: collect

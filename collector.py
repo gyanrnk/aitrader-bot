@@ -100,10 +100,67 @@ def main() -> None:
             print(msg)
             if r["hot"]:
                 print("  hot:", ", ".join(r["hot"]))
+            gos = r.get("go_signals") or []
+            if gos:
+                print("GO SIGNAL:", ", ".join(f'{g["ccy"]} ({g["inst_id"]})' for g in gos))
+                _go_signal_github_alert(gos)
         else:
             print("Regime skipped:", r.get("reason"))
     except Exception as e:
         print("Regime skipped:", str(e)[:60])
+
+
+def _go_signal_github_alert(gos: list[dict]) -> None:
+    """GO signal -> open a GitHub issue -> GitHub emails the repo owner. Zero setup.
+
+    Why an issue and not email/telegram: the collector already runs inside GitHub
+    Actions with a GITHUB_TOKEN, and GitHub notifies the owner about new issues in
+    their own repo by default. No SMTP password, no bot token, nothing to configure.
+
+    Dedupe matters: the collector fires every 10 minutes and an episode lasts hours
+    (LRC stayed escalated for DAYS) — without dedupe one episode would send hundreds
+    of emails. One OPEN issue per coin = one alert per episode; closing the issue
+    re-arms the alert for that coin.
+    """
+    import json as _json
+    import os as _os
+    import urllib.request as _rq
+
+    token, repo = _os.environ.get("GITHUB_TOKEN"), _os.environ.get("GITHUB_REPOSITORY")
+    if not token or not repo:
+        return                          # local run — the console line above is enough
+    base = f"https://api.github.com/repos/{repo}/issues"
+    hdrs = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json",
+            "User-Agent": "aitrader-collector"}
+    try:
+        with _rq.urlopen(_rq.Request(base + "?state=open&per_page=100", headers=hdrs),
+                         timeout=20) as resp:
+            open_titles = " ".join(i.get("title", "") for i in _json.loads(resp.read()))
+    except Exception as e:
+        print("GO alert: could not list issues:", str(e)[:60])
+        return
+    for g in gos:
+        if f"GO SIGNAL: {g['ccy']}" in open_titles:
+            continue                    # already alerted for this episode
+        body = (f"**Escalated AND borrowable — the condition every prior episode failed.**\n\n"
+                f"| | |\n|---|---|\n"
+                f"| Symbol | `{g['inst_id']}` |\n"
+                f"| Interval | {g['interval_h']}h |\n"
+                f"| Borrow quota | {g['quota']:,.0f} coins |\n"
+                f"| Borrow rate | {(g['rate'] or 0) * 100:.4f}%/day |\n"
+                f"| Detected (UTC) | {g['ts']} |\n\n"
+                f"**Pehla kadam RECORDING hai, trade nahi** — dashboard ka Watchman page kholo, "
+                f"phir Claude ko bolo. Trade sirf gauntlet ke baad.\n\n"
+                f"_Issue close karne par is coin ke liye alert phir se armed ho jayega._")
+        try:
+            req = _rq.Request(base, method="POST", headers=hdrs, data=_json.dumps(
+                {"title": f"🚨 GO SIGNAL: {g['ccy']} — escalated & borrowable",
+                 "body": body}).encode())
+            with _rq.urlopen(req, timeout=20) as resp:
+                print(f"GO alert: issue created for {g['ccy']} (#"
+                      f"{_json.loads(resp.read()).get('number')})")
+        except Exception as e:
+            print(f"GO alert: issue create failed for {g['ccy']}:", str(e)[:60])
 
 
 if __name__ == "__main__":
