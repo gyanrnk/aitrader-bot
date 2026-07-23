@@ -233,6 +233,23 @@
         "is_sharpe": 0.0,
         "oos_sharpe": 0.0,
         "note": "LIVE TRADEABILITY IS THE PROBLEM, and 5 days of tracking now says so directly. Two new escalations since the last check: LA-USDT-SWAP (pin_start x2, then escalate 4h->2h + cap_bind) and ONE-USDT-SWAP (pin_start, escalate 8h->4h + cap_bind). Both are NOT BORROWABLE on OKX at all \u2014 137 and 29 observations respectively, every one returning no borrow quota. SCORECARD OF EVERY COIN WE HAVE TRACKED LIVE: LRC borrowable but DELISTED three days later; LA not borrowable; ONE not borrowable. Three for three untradeable. Delta-neutral needs a SHORT SPOT leg, which needs borrow; no borrow means no hedge means no trade, regardless of how rich the funding looks. ACROSS ALL 12 ESCALATING COINS SEEN (live + historical): only 4 are borrowable = 33.3%, against an OKX baseline of 164/411 = 39.9%. I ALMOST OVERSTATED THIS AND AM RECORDING THE CORRECTION: the direction matches the hypothesis that funding stays pinned BECAUSE the coin cannot be borrowed, but binomial P(k<=4 | n=12, p=0.399) = 0.44. That is NOT significant. n=12 is far too small. The mechanism remains plausible and unproven. WHAT IS NOT IN DOUBT is the absolute number: only ~1 in 3 escalation episodes can be hedged at all, whatever the reason. Combined with the borrow quota ceiling ($1,834-$7,622 per coin) and the delisting risk already logged, the practical opportunity is far thinner than the +322bps median capture implied. BORROW PROXY CONFIRMED DEAD as an instrument: controls BTC/ETH/USDT show exactly 1.0x variation over 649 observations, and LRC moved 1.06x. OKX publishes an administered tier rate. It cannot reveal availability. STILL tested, not failed \u2014 the funding is real and the timing check still passes. But the path to trading it is now blocked in 2 of 3 observed cases, and that is the binding fact."
+      },
+      {
+        "stamp": "2026-07-23T12:46:13+00:00",
+        "params": {
+          "event": "FIRST GO SIGNAL",
+          "symbol": "BARD-USDT-SWAP",
+          "interval_h": 2,
+          "borrow_quota_usd": 2505,
+          "borrow_rate_pct_day": 0.6301,
+          "spot_exists": true,
+          "perp_spread_bps": 15.5,
+          "spot_spread_bps": 7.7,
+          "spot_depth_top5_usd": 680
+        },
+        "is_sharpe": 0.0,
+        "oos_sharpe": 0.0,
+        "note": "FIRST GO SIGNAL IN THE PROJECT. BARD-USDT-SWAP escalated 4h->2h with cap_bind, AND is borrowable, AND has a spot market \u2014 all three conditions met for the first time (LRC was borrowable but delisted; LA/ONE/O had no borrow, and O had no spot at all). Detection, GitHub-issue alert and episode recording all fired automatically with no human action. NOT A WIN \u2014 the money question is unresolved and resolves within 2 hours. THE TIMING PROBLEM SHOWED UP AGAIN, exactly as flagged: the 24h funding total is -1.0289%, of which -1.0000% is the SINGLE 12:00 settlement that hit the floor and TRIGGERED the escalation. That one is already paid \u2014 not capturable. Strip it and the trailing 24h is -0.0289%. BREAKEVEN: borrow costs 0.6301%/day; at a 2h interval that is 12 settlements/day, so we need >0.0525% per settlement just to cover borrow, before the ~46bps round-trip execution (perp spread 15.5bps + spot 7.7bps, both legs, in and out). THE FORK, and it is genuinely open: pre-escalation settlements ran 0.005-0.018% (BELOW breakeven -> napkin KILL, -87bps, -10%/yr). The current quote is 0.428% (8.2x ABOVE breakeven -> +405bps, +48%/yr) but it is method=current_period, i.e. an estimate that keeps moving until settlement, NOT locked. Napkin returns UNKNOWN on that scenario for exactly the right reason: R5b, edge is estimated not observed. CAPACITY IS THE OTHER PROBLEM, and it may bind harder than the rate: quota is $2,505 but spot top-5 depth is only $680. Even in the optimistic case this is ~$100/day on ~$2.5k, and only while the episode lasts (hours). ACTION: RECORD, do not trade. The recorder is already capturing BARD every 10 min including spot price \u2014 the first complete row we have ever had. The next 2-3 settlements settle the question at zero cost. The one thing recording still cannot answer: whether the borrow actually FILLS. That needs a real account attempting a tiny real borrow \u2014 the user, not me."
       }
     ],
     "best_oos_sharpe": 0.0,
