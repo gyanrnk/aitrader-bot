@@ -44,3 +44,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-23T12:02:56+00:00,BARD-USDT-SWAP,cap_bind,False,True,-0.00549549,-0.01,0.01,-0.01,2.0,-0.02670233
 2026-07-23T12:02:56+00:00,O-USD_UM_XPERP-310620,cap_release,True,False,-0.00972467,-0.00960765,0.01,-0.01,4.0,-0.02862118
 2026-07-23T12:13:22+00:00,O-USD_UM_XPERP-310620,pin_start,False,True,-0.01,-0.00960765,0.01,-0.01,4.0,-0.02297772
+2026-07-23T12:51:29+00:00,O-USD_UM_XPERP-310620,pin_end,True,False,-0.00978689,-0.00960765,0.01,-0.01,4.0,-0.01672671
