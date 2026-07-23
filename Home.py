@@ -197,7 +197,9 @@ else:
 
 # ---------------------------------------------------------------- nav
 st.markdown("### 🧭 Aur dekho")
-n1, n2 = st.columns(2)
+n0, n1, n2 = st.columns(3)
+n0.page_link("pages/3_Watchman.py", label="Watchman — GO-SIGNAL live check",
+             icon="🛰️", use_container_width=True)
 n1.page_link("pages/2_Bot_Dashboard.py", label="Bot Dashboard — charts, backtest, gauntlet",
              icon="🤖", use_container_width=True)
 n2.page_link("pages/1_Trading_News.py", label="Trading News — live feed",
