@@ -250,6 +250,24 @@
         "is_sharpe": 0.0,
         "oos_sharpe": 0.0,
         "note": "FIRST GO SIGNAL IN THE PROJECT. BARD-USDT-SWAP escalated 4h->2h with cap_bind, AND is borrowable, AND has a spot market \u2014 all three conditions met for the first time (LRC was borrowable but delisted; LA/ONE/O had no borrow, and O had no spot at all). Detection, GitHub-issue alert and episode recording all fired automatically with no human action. NOT A WIN \u2014 the money question is unresolved and resolves within 2 hours. THE TIMING PROBLEM SHOWED UP AGAIN, exactly as flagged: the 24h funding total is -1.0289%, of which -1.0000% is the SINGLE 12:00 settlement that hit the floor and TRIGGERED the escalation. That one is already paid \u2014 not capturable. Strip it and the trailing 24h is -0.0289%. BREAKEVEN: borrow costs 0.6301%/day; at a 2h interval that is 12 settlements/day, so we need >0.0525% per settlement just to cover borrow, before the ~46bps round-trip execution (perp spread 15.5bps + spot 7.7bps, both legs, in and out). THE FORK, and it is genuinely open: pre-escalation settlements ran 0.005-0.018% (BELOW breakeven -> napkin KILL, -87bps, -10%/yr). The current quote is 0.428% (8.2x ABOVE breakeven -> +405bps, +48%/yr) but it is method=current_period, i.e. an estimate that keeps moving until settlement, NOT locked. Napkin returns UNKNOWN on that scenario for exactly the right reason: R5b, edge is estimated not observed. CAPACITY IS THE OTHER PROBLEM, and it may bind harder than the rate: quota is $2,505 but spot top-5 depth is only $680. Even in the optimistic case this is ~$100/day on ~$2.5k, and only while the episode lasts (hours). ACTION: RECORD, do not trade. The recorder is already capturing BARD every 10 min including spot price \u2014 the first complete row we have ever had. The next 2-3 settlements settle the question at zero cost. The one thing recording still cannot answer: whether the borrow actually FILLS. That needs a real account attempting a tiny real borrow \u2014 the user, not me."
+      },
+      {
+        "stamp": "2026-07-24T05:14:51+00:00",
+        "params": {
+          "event": "FIRST MEASURED PASS",
+          "symbol": "BARD-USDT-SWAP",
+          "episode_hours": 14,
+          "settlements": 8,
+          "funding_pct": 2.4071,
+          "borrow_pct": 0.3308,
+          "exec_pct": 0.46,
+          "net_pct": 1.6163,
+          "capacity_usd": 680,
+          "quota_usd": 2505
+        },
+        "is_sharpe": 0.0,
+        "oos_sharpe": 0.0,
+        "note": "FIRST MEASURED PASS \u2014 the fork opened yesterday resolved in favour of the idea. All 8 post-escalation settlements cleared the 0.0525%/settlement breakeven, by 2.5x to 10x: -0.2089, -0.2457, -0.1659, -0.1279, -0.5350, -0.3310, -0.4023, -0.3904. This is OBSERVED, not the current_period estimate that made yesterday UNKNOWN. The pessimistic scenario (rates revert to the 0.005-0.018% pre-escalation range) did NOT happen over 14 hours. HONEST P&L, 14h episode: funding +2.4071%, borrow -0.3308% (0.5671%/day), execution -0.46% one-time (perp spread 15.5bps + spot 7.7bps, both legs, in and out) => NET +1.6163% on notional over 14h. Napkin with edge_measured=True: PASS, +161.63bps per round trip, +48.49%/yr annualised. BUT R6 FIRES AS A WARNING AND IT IS THE REAL STORY: the percentage is excellent and the absolute amount is tiny. Spot top-5 depth is $680, so a safe fill is ~$11 for the whole 14h episode; at the full $2,505 borrow quota it is ~$40. At a historical rate of ~1 hedgeable episode per 4 days that is roughly $330/yr on $680 deployed. Real, positive, risk-adjusted \u2014 and small. STILL NOT DEPLOYED, and the reason is unchanged: n=1 episode, and the one question no amount of recording can answer is whether the BORROW ACTUALLY FILLS when everyone wants it. That needs a real account attempting a tiny real borrow. WHAT THIS DOES SETTLE: the entry/exit rule is a CONDITION CHECK, not a prediction. Enter when escalated (interval <= 2h) AND borrowable AND settlements above breakeven; exit when the interval reverts or funding falls below breakeven. No forecast required at any point \u2014 which is exactly why this one is measurable and the directional signal (49.3% over 6,939 predictions) never was."
       }
     ],
     "best_oos_sharpe": 0.0,
