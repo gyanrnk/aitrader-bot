@@ -90,8 +90,21 @@ for inst, s in flagged.items():
     b = borrow.get(base)
     (go if b else blocked).append((inst, base, s, b))
 
+from aitrader.collector.regime import VENUE_BLOCK_REASON, VENUE_TRADEABLE  # noqa: E402
+
+OKX_TRADEABLE = VENUE_TRADEABLE.get("okx", True)
+
+if not OKX_TRADEABLE:
+    st.error(f"🚫 **OKX pe TRADE nahi ho sakta.** {VENUE_BLOCK_REASON.get('okx')}\n\n"
+             "Neeche ka sab **research** hai — data aa raha hai, episodes record ho rahe hain, "
+             "par ye actionable signal **nahi** hai. Government block ke around jaane ki koshish "
+             "mat karna: legal risk hai aur paisa fansa toh koi recourse nahi.")
+
 if go:
-    st.success("## 🚨 GO SIGNAL — escalated AND borrowable coin mila!")
+    if OKX_TRADEABLE:
+        st.success("## 🚨 GO SIGNAL — escalated AND borrowable coin mila!")
+    else:
+        st.warning("## 🔬 Research-only GO — mechanism fire hua, par venue reachable nahi")
     for inst, base, s, b in go:
         px = spot_price(base)
         quota_usd = (b["quota"] * px) if px else None
@@ -103,10 +116,18 @@ if go:
                     f'cap ±{s["cap"]*100:.3f}%', delta_color="off")
         c[3].metric("Borrow quota", f'${quota_usd:,.0f}' if quota_usd else f'{b["quota"]:,.0f} coins',
                     f'{b["rate"]*100:.4f}%/day borrow rate', delta_color="off")
-    st.markdown('<div class="lesson">💡 <b>Ab kya karein:</b> Claude ko batao "GO SIGNAL aaya hai" — '
-                'pehla kadam TRADE nahi hai. Pehla kadam: is episode ko live record karna '
-                '(kitna funding accrue hota hai, borrow sach me milta hai ya nahi). '
-                'Trade sirf gauntlet ke baad, chhote size me.</div>', unsafe_allow_html=True)
+    if OKX_TRADEABLE:
+        st.markdown('<div class="lesson">💡 <b>Ab kya karein:</b> Claude ko batao "GO SIGNAL aaya hai" — '
+                    'pehla kadam TRADE nahi hai. Pehla kadam: is episode ko live record karna '
+                    '(kitna funding accrue hota hai, borrow sach me milta hai ya nahi). '
+                    'Trade sirf gauntlet ke baad, chhote size me.</div>', unsafe_allow_html=True)
+    else:
+        st.markdown('<div class="lesson">💡 <b>Isse kya samajhna hai:</b> mechanism <b>asli hai aur '
+                    'fire ho raha hai</b> — humari machine use sahi pakad rahi hai. Par ye venue '
+                    'India se reachable nahi, isliye ye <b>data</b> hai, <b>mauka nahi</b>. '
+                    'Recorder phir bhi sab store kar raha hai: jis din koi <b>reachable</b> venue pe '
+                    'yehi pattern mile, humare paas uska poora reference data pehle se hoga.</div>',
+                    unsafe_allow_html=True)
 elif flagged:
     st.warning(f"## Episode chal raha hai — par tradeable NAHI (borrow nahi milta)")
     for inst, base, s, b in blocked:

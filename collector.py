@@ -104,6 +104,13 @@ def main() -> None:
             if gos:
                 print("GO SIGNAL:", ", ".join(f'{g["ccy"]} ({g["inst_id"]})' for g in gos))
                 _go_signal_github_alert(gos)
+            research = r.get("go_research_only") or []
+            if research:
+                # Detected and recorded, but deliberately NOT alerted: the venue is not
+                # reachable, so raising it as actionable would be a false promise.
+                print("GO (research only, venue not tradeable):",
+                      ", ".join(f'{g["ccy"]}' for g in research))
+                print("  reason:", r.get("venue_block_reason"))
         else:
             print("Regime skipped:", r.get("reason"))
     except Exception as e:

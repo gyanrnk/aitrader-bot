@@ -46,6 +46,27 @@ from pathlib import Path
 OKX_FUNDING = "https://www.okx.com/api/v5/public/funding-rate?instId=ANY"
 OKX_BORROW = "https://www.okx.com/api/v5/public/interest-rate-loan-quota"
 
+# R8 (napkin): can we legally reach the venue we'd have to trade on?
+#
+# okx.com returns a MeitY block page in India under the IT Act, 2000 (observed
+# 2026-07-24). The DATA still flows — the collector runs on GitHub Actions runners in the
+# US — so research, episode recording and the escalation dataset are unaffected. What is
+# closed is EXECUTION.
+#
+# Why this constant exists rather than just switching the alert off: an alert that keeps
+# emailing "GO SIGNAL" for a venue we cannot trade is worse than no alert. It trains you
+# to chase something unreachable, and the only way to act on it would be to circumvent a
+# government block — which is not an edge, it is legal exposure with no recourse.
+#
+# So: keep detecting, keep recording, and mark the finding RESEARCH-ONLY instead of
+# raising it as actionable. If OKX is ever unblocked (or we operate from a jurisdiction
+# where it is reachable), flip this one flag and the alert path comes back.
+VENUE_TRADEABLE = {"okx": False}
+VENUE_BLOCK_REASON = {
+    "okx": "okx.com blocked in India by MeitY order under the IT Act, 2000 "
+           "(observed 2026-07-24). Data still readable from cloud runners; execution is not."
+}
+
 # Control coins: deep, liquid borrow pools that should NOT move during a microcap
 # episode. Without them we cannot tell a coin-specific borrow squeeze from a
 # market-wide rate change.
@@ -373,10 +394,19 @@ def step() -> dict:
     go = [r for r in brows
           if r["reason"] != "control" and "NOT_BORROWABLE" not in r["reason"]]
 
+    # R8 gate: a GO on an unreachable venue is research, not an opportunity. Keep it in
+    # the return value (the dashboard still shows it, the recorder still stores it) but
+    # do NOT let it become an actionable alert.
+    tradeable = VENUE_TRADEABLE.get("okx", True)
+
     hot = [e for e in events if e["event"] in ("escalate", "cap_bind", "pin_start")]
     return {"ok": True, "symbols": len(curr), "events": len(events),
             "escalations": sum(1 for e in events if e["event"] == "escalate"),
             "pinned_live_now": sum(1 for s in curr.values() if s["at_cap_live"]),
             "at_cap_sett_now": sum(1 for s in curr.values() if s["at_cap_sett"]),
-            "borrow_rows": len(brows), "go_signals": go,
+            "borrow_rows": len(brows),
+            "go_signals": go if tradeable else [],   # alert path — R8 gated
+            "go_research_only": [] if tradeable else go,
+            "venue_tradeable": tradeable,
+            "venue_block_reason": None if tradeable else VENUE_BLOCK_REASON.get("okx"),
             "hot": [f'{e["inst_id"]}:{e["event"]}:{e["old"]}->{e["new"]}' for e in hot[:5]]}
