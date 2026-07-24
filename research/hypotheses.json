@@ -268,6 +268,21 @@
         "is_sharpe": 0.0,
         "oos_sharpe": 0.0,
         "note": "FIRST MEASURED PASS \u2014 the fork opened yesterday resolved in favour of the idea. All 8 post-escalation settlements cleared the 0.0525%/settlement breakeven, by 2.5x to 10x: -0.2089, -0.2457, -0.1659, -0.1279, -0.5350, -0.3310, -0.4023, -0.3904. This is OBSERVED, not the current_period estimate that made yesterday UNKNOWN. The pessimistic scenario (rates revert to the 0.005-0.018% pre-escalation range) did NOT happen over 14 hours. HONEST P&L, 14h episode: funding +2.4071%, borrow -0.3308% (0.5671%/day), execution -0.46% one-time (perp spread 15.5bps + spot 7.7bps, both legs, in and out) => NET +1.6163% on notional over 14h. Napkin with edge_measured=True: PASS, +161.63bps per round trip, +48.49%/yr annualised. BUT R6 FIRES AS A WARNING AND IT IS THE REAL STORY: the percentage is excellent and the absolute amount is tiny. Spot top-5 depth is $680, so a safe fill is ~$11 for the whole 14h episode; at the full $2,505 borrow quota it is ~$40. At a historical rate of ~1 hedgeable episode per 4 days that is roughly $330/yr on $680 deployed. Real, positive, risk-adjusted \u2014 and small. STILL NOT DEPLOYED, and the reason is unchanged: n=1 episode, and the one question no amount of recording can answer is whether the BORROW ACTUALLY FILLS when everyone wants it. That needs a real account attempting a tiny real borrow. WHAT THIS DOES SETTLE: the entry/exit rule is a CONDITION CHECK, not a prediction. Enter when escalated (interval <= 2h) AND borrowable AND settlements above breakeven; exit when the interval reverts or funding falls below breakeven. No forecast required at any point \u2014 which is exactly why this one is measurable and the directional signal (49.3% over 6,939 predictions) never was."
+      },
+      {
+        "stamp": "2026-07-24T07:20:09+00:00",
+        "params": {
+          "event": "BLOCKED \u2014 venue inaccessible from India",
+          "venue": "OKX",
+          "block": "MeitY order under IT Act 2000",
+          "alt_checked": "Delta Exchange India",
+          "delta_perps": 220,
+          "delta_spot": 4,
+          "delta_options": 725
+        },
+        "is_sharpe": 0.0,
+        "oos_sharpe": 0.0,
+        "note": "NOT EXECUTABLE FROM INDIA. okx.com returns a MeitY block page under the IT Act, 2000. The economics measured to a genuine PASS two days ago (+1.6163% net over a 14h BARD episode, all 8 settlements above breakeven) and none of it is reachable. We are NOT circumventing the block \u2014 bypassing a government order via VPN carries legal exposure, breaks exchange ToS, and leaves no recourse if funds are stuck. The research is UNAFFECTED: the collector reads OKX public APIs from GitHub Actions runners (US), so episode recording, the Watchman and the escalation dataset all keep working. What closed is EXECUTION, not measurement. ALTERNATIVE CHECKED \u2014 Delta Exchange India (FIU-registered, reachable): 220 perpetual futures with funding, and live extremes today (TLMUSD -0.30%, LABUSD +0.28%). But only 4 SPOT products against 220 perps, so the short-spot hedge leg does not exist for any coin that matters. R8 missing-leg. FRAMEWORK FIX, learned the expensive way: added R8 to the napkin \u2014 venue_accessible and all_legs_available, checked BEFORE the economics are believed. Every prior rule asked whether the edge is real; none asked whether we are allowed to reach it. The BARD case is now a permanent test fixture so this ordering can never regress. THE ONE PROMISING REFRAME, not yet tested: 9 of our 10 OKX episodes had NEGATIVE funding, which forces a SHORT-SPOT hedge and therefore a BORROW. The POSITIVE-funding version inverts it \u2014 longs pay shorts, so you SHORT the perp and hedge by BUYING spot, which needs no borrow at all. That removes both the borrow-quota ceiling and the availability question in one move, and buying spot is possible on India-legal exchanges. Whether the escalation mechanism exists on an accessible venue, and at what cost, is unresearched \u2014 it needs its own pre-registration."
       }
     ],
     "best_oos_sharpe": 0.0,

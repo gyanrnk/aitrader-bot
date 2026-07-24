@@ -82,6 +82,15 @@ class Idea:
     barrier: str = ""                   # name it. empty => you cannot explain persistence
     wins_by_being_first: bool = False   # is the edge a speed race? we are 400-1000x slow
 
+    # --- access (R8) — can we LEGALLY and PRACTICALLY reach every leg? ---
+    # Learned 2026-07-24, the expensive way: we measured funding_escalation to a PASS on
+    # OKX (+1.6163% net, 14h, all 8 settlements above breakeven) and only then discovered
+    # that okx.com is BLOCKED IN INDIA by MeitY order under the IT Act. Every prior rule
+    # asks whether the edge is real; none asked whether we are allowed to reach it.
+    # An unreachable venue is not a small edge — it is a zero.
+    venue_accessible: bool = True       # can we legally use every venue this needs?
+    all_legs_available: bool = True     # does each leg (perp AND hedge) actually exist there?
+
     # --- honesty flags ---
     edge_is_notional_weighted: bool = False   # False => the edge number is not trustworthy
     edge_measured: bool = False               # False => it is an estimate, not an observation
@@ -112,6 +121,21 @@ def napkin(idea: Idea, safety: float = SAFETY_FACTOR) -> dict:
         kills.append(
             "R2 zero-net-supply: the rule forces BOTH sides. Every long is matched by a "
             "short, so net flow is zero by construction — however dramatic the rule sounds.")
+
+    # ---- R8: can we legally and practically reach it? -----------------------
+    # Cheapest possible check, and it must run BEFORE the economics are believed.
+    # funding_escalation passed every other rule on measured data and is still not
+    # executable from India, because okx.com is blocked by MeitY under the IT Act.
+    # Do not answer this by circumventing a block — that is not an edge, it is a risk
+    # with no recourse. If the venue is closed to you, the idea is closed to you.
+    if not idea.venue_accessible:
+        kills.append(
+            "R8 no access: the venue is not legally/practically reachable from here. "
+            "An unreachable edge is worth exactly zero, however well it measures.")
+    if not idea.all_legs_available:
+        kills.append(
+            "R8 missing leg: some leg of the trade (usually the HEDGE) does not exist on "
+            "an accessible venue. A half-built delta-neutral position is a directional bet.")
 
     # ---- R0: mechanism required (RESEARCH_GUIDE's one question) -------------
     if not idea.mechanism.strip():

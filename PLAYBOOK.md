@@ -256,6 +256,59 @@ is **2 → 1.5 bps (25%)**, ungated. Small, free, worth taking — not a game-ch
 
 ---
 
+## 6c. ☠️ R8 — the rule we learned by measuring an edge we cannot reach (2026-07-24)
+
+`funding_escalation` measured to a genuine **PASS** on observed data: **+1.6163% net** over
+a 14h BARD episode, every one of 8 post-escalation settlements above breakeven. The first
+idea in the project to clear its pre-registered bar on measurement rather than estimate.
+
+Then **okx.com returned a MeitY block page** under the IT Act, 2000. The venue is not
+legally reachable from India.
+
+> **Every rule R0–R7 asks whether the edge is REAL. None asked whether we are ALLOWED TO
+> REACH IT.** An unreachable edge is not a small edge — it is exactly zero.
+
+**We do not route around this.** Bypassing a government block carries legal exposure,
+breaks exchange ToS, and leaves no recourse if funds get stuck. A blocked venue is a
+closed door, not an obstacle.
+
+**What did NOT break:** the collector reads OKX public APIs from GitHub Actions runners in
+the US, so episode recording, the Watchman page and the escalation dataset all keep
+working. **Execution closed; measurement did not.**
+
+**Alternative checked — Delta Exchange India** (FIU-registered, reachable): 220 perpetual
+futures with funding, live extremes today (TLMUSD −0.30%, LABUSD +0.28%), 725 options —
+but only **4 spot products**. The short-spot hedge leg does not exist for any coin that
+matters. **R8 missing-leg.**
+
+### The fix, now in code
+
+`napkin.py` gains **R8**, checked *before* the economics are believed:
+
+| Field | Kills when |
+|---|---|
+| `venue_accessible` | the venue is not legally/practically reachable from here |
+| `all_legs_available` | some leg — usually the HEDGE — doesn't exist on an accessible venue |
+
+The BARD case is a permanent fixture in `tests/test_napkin.py` so this ordering can never
+regress: measured PASS economics, `venue_accessible=False`, verdict **KILL**.
+
+### 🔎 The one promising reframe — untested, needs its own pre-registration
+
+**9 of our 10 OKX episodes had NEGATIVE funding.** That forces a *short-spot* hedge, which
+forces a **borrow** — the constraint that gated every single episode.
+
+**The POSITIVE-funding version inverts the whole problem:** longs pay shorts, so you
+**short the perp and hedge by BUYING spot**. Buying needs **no borrow at all** — which
+removes the quota ceiling *and* the availability question in one move, and buying spot is
+possible on India-legal exchanges.
+
+Unresearched: whether an escalation-like mechanism exists on an accessible venue, what the
+costs are, and whether the same coin is listed on both legs. **Do not build it before it is
+pre-registered and napkin-tested — including R8 first.**
+
+---
+
 ## 7. Open questions — honestly unresolved
 
 - **Does the target zone (§3) contain anything real?** Unknown. It is a well-defined

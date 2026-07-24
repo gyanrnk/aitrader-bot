@@ -96,6 +96,23 @@ CASES = [
         edge_measured=True,
      ), "R3"),
 
+    # R8 case: the economics MEASURED to a pass, and the venue is closed to us anyway.
+    # This is funding_escalation's real numbers (BARD, 14h, +1.6163% net) — the only idea
+    # that ever cleared the bar on observed data. okx.com is blocked in India by MeitY
+    # order under the IT Act, so none of it is reachable. Kept as a permanent reminder
+    # that access is checked FIRST, not after a week of measurement.
+    (Idea(
+        name="funding_escalation on OKX — measured PASS, but venue blocked in India",
+        mechanism="OKX escalates settlement when funding pins at its cap; longs get paid "
+                  "by desperate shorts while I stay delta-neutral.",
+        edge_bps=207.63, cost_bps=46.0,
+        opportunity_life_h=14, breakeven_hold_h=2.7,
+        trades_per_year=30, capacity_usd=680,
+        barrier="OKX borrow quota + $680 spot depth",
+        venue_accessible=False,          # MeitY block — this is the whole point
+        edge_is_notional_weighted=True, edge_measured=True,
+     ), "R8"),
+
     # R7 case: an idea that clears cost easily but is a pure speed race.
     (Idea(
         name="latency arb — hit the stale quote on the slower venue",
