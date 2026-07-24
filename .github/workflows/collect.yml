@@ -30,6 +30,11 @@ jobs:
       - name: Install deps
         run: pip install numpy pandas
       - name: Collect every 10 min for ~5 hours
+        env:
+          # collector.py opens a GitHub issue on a GO signal (-> GitHub emails the owner).
+          # GITHUB_TOKEN is NOT an automatic env var in Actions — it must be passed in.
+          # Without this the alert code returns silently and no issue is ever created.
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
