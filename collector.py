@@ -116,6 +116,27 @@ def main() -> None:
     except Exception as e:
         print("Regime skipped:", str(e)[:60])
 
+    # --- Delta Exchange India funding watcher (a venue we CAN trade from India) ---
+    # OKX escalation is unreachable; this points the same watch at Delta, where a
+    # hedgeable-coin funding spike WOULD be actionable (no MeitY block, no borrow needed
+    # — positive funding means short perp + BUY spot). Quiet by design; majors sit at
+    # baseline, so this only speaks up on a genuine spike.
+    try:
+        from aitrader.collector import delta_india
+        dr = delta_india.step()
+        if dr.get("ok"):
+            print(f"Delta India: {dr['perps']} perps | hedgeable {dr['hedgeable']} | "
+                  f"recorded {dr['recorded']}")
+            dgos = dr.get("go_signals") or []
+            if dgos:
+                print("DELTA GO SIGNAL:", ", ".join(
+                    f'{g["symbol"]} {g["annual_funding_pct"]}%/yr' for g in dgos))
+                _delta_go_alert(dgos)
+        else:
+            print("Delta India skipped:", dr.get("reason"))
+    except Exception as e:
+        print("Delta India skipped:", str(e)[:60])
+
 
 def _go_signal_github_alert(gos: list[dict]) -> None:
     """GO signal -> open a GitHub issue -> GitHub emails the repo owner. Zero setup.
@@ -159,15 +180,59 @@ def _go_signal_github_alert(gos: list[dict]) -> None:
                 f"**Pehla kadam RECORDING hai, trade nahi** — dashboard ka Watchman page kholo, "
                 f"phir Claude ko bolo. Trade sirf gauntlet ke baad.\n\n"
                 f"_Issue close karne par is coin ke liye alert phir se armed ho jayega._")
-        try:
-            req = _rq.Request(base, method="POST", headers=hdrs, data=_json.dumps(
-                {"title": f"🚨 GO SIGNAL: {g['ccy']} — escalated & borrowable",
-                 "body": body}).encode())
-            with _rq.urlopen(req, timeout=20) as resp:
-                print(f"GO alert: issue created for {g['ccy']} (#"
-                      f"{_json.loads(resp.read()).get('number')})")
-        except Exception as e:
-            print(f"GO alert: issue create failed for {g['ccy']}:", str(e)[:60])
+        _open_issue(base, hdrs, f"🚨 GO SIGNAL: {g['ccy']} — escalated & borrowable", body,
+                    label=g["ccy"])
+
+
+def _delta_go_alert(gos: list[dict]) -> None:
+    """Delta India GO -> GitHub issue -> email. Same plumbing as the OKX alert, but this
+    one is TRADEABLE: Delta is reachable from India and the hedge is buy-spot (no borrow).
+    """
+    import json as _json
+    import os as _os
+    import urllib.request as _rq
+
+    token, repo = _os.environ.get("GITHUB_TOKEN"), _os.environ.get("GITHUB_REPOSITORY")
+    if not token or not repo:
+        return
+    base = f"https://api.github.com/repos/{repo}/issues"
+    hdrs = {"Authorization": f"Bearer {token}", "Accept": "application/vnd.github+json",
+            "User-Agent": "aitrader-collector"}
+    try:
+        with _rq.urlopen(_rq.Request(base + "?state=open&per_page=100", headers=hdrs),
+                         timeout=20) as resp:
+            open_titles = " ".join(i.get("title", "") for i in _json.loads(resp.read()))
+    except Exception as e:
+        print("Delta alert: could not list issues:", str(e)[:60])
+        return
+    for g in gos:
+        if f"DELTA GO: {g['symbol']}" in open_titles:
+            continue
+        body = (f"**Hedgeable coin on a TRADEABLE venue (Delta India) with rich funding.**\n\n"
+                f"| | |\n|---|---|\n"
+                f"| Symbol | `{g['symbol']}` |\n"
+                f"| Funding | {g['funding_pct_8h']}%/8h  ({g['annual_funding_pct']}%/yr) |\n\n"
+                f"Positive funding -> **short the perp, BUY spot** to hedge. No borrow, "
+                f"no venue block. Still: **first step is RECORD + napkin, not trade.** "
+                f"Verify the funding holds and clears cost over several settlements, then "
+                f"tell Claude. Trade only after the gauntlet, tiny size.\n\n"
+                f"_Closing this re-arms the alert for {g['symbol']}._")
+        _open_issue(base, hdrs, f"📈 DELTA GO: {g['symbol']} — rich funding, hedgeable",
+                    body, label=g["symbol"])
+
+
+def _open_issue(base: str, hdrs: dict, title: str, body: str, label: str) -> None:
+    """POST one GitHub issue. Shared by both alert paths."""
+    import json as _json
+    import urllib.request as _rq
+    try:
+        req = _rq.Request(base, method="POST", headers=hdrs,
+                          data=_json.dumps({"title": title, "body": body}).encode())
+        with _rq.urlopen(req, timeout=20) as resp:
+            print(f"  alert: issue created for {label} (#"
+                  f"{_json.loads(resp.read()).get('number')})")
+    except Exception as e:
+        print(f"  alert: issue create failed for {label}:", str(e)[:60])
 
 
 if __name__ == "__main__":
