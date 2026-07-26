@@ -386,3 +386,4 @@ ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowa
 2026-07-26T15:22:26+00:00,ESP-USDT-SWAP,ESP,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.09302,
 2026-07-26T15:33:03+00:00,ESP-USDT-SWAP,ESP,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.09406,
 2026-07-26T15:43:38+00:00,ESP-USDT-SWAP,ESP,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.09387,
+2026-07-26T15:54:15+00:00,ESP-USDT-SWAP,ESP,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.09763,
