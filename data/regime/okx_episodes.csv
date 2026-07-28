@@ -495,3 +495,4 @@ ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowa
 2026-07-28T09:10:09+00:00,LA-USDT-SWAP,LA,2.0,-0.01,0.01,-0.01,True,True,False,,0.0,0.06352,
 2026-07-28T09:20:52+00:00,LA-USDT-SWAP,LA,2.0,-0.01,0.01,-0.01,True,True,False,,0.0,0.06324,
 2026-07-28T09:31:35+00:00,LA-USDT-SWAP,LA,2.0,-0.01,0.01,-0.01,True,True,False,,0.0,0.06373,
+2026-07-28T09:42:19+00:00,LA-USDT-SWAP,LA,2.0,-0.009757360257559,0.01,-0.01,False,True,False,,0.0,0.06248,
