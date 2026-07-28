@@ -73,3 +73,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-27T11:33:17+00:00,AEON-USDT-SWAP,listed,,4.0,-0.01,,0.01,-0.01,4.0,-0.01556143
 2026-07-27T11:43:55+00:00,AEON-USDT-SWAP,pin_end,True,False,-0.00949431,,0.01,-0.01,4.0,-0.007888
 2026-07-28T01:30:59+00:00,LA-USDT-SWAP,pin_start,False,True,-0.01,-0.00420533,0.01,-0.01,4.0,-0.02968446
+2026-07-28T02:13:07+00:00,LA-USDT-SWAP,pin_end,True,False,-0.00972911,-0.00420533,0.01,-0.01,4.0,-0.01108472
