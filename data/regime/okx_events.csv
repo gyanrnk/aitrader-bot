@@ -81,3 +81,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-28T08:05:45+00:00,LA-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.03957435
 2026-07-28T09:42:19+00:00,LA-USDT-SWAP,pin_end,True,False,-0.00975736,-0.01,0.01,-0.01,2.0,-0.03599969
 2026-07-28T10:03:47+00:00,LA-USDT-SWAP,cap_release,True,False,-0.00775438,-0.00806802,0.01,-0.01,2.0,-0.01798049
+2026-07-29T01:38:44+00:00,LA-USDT-SWAP,pin_start,False,True,-0.00998231,-0.00495717,0.01,-0.01,2.0,-0.03792185
