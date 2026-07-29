@@ -85,3 +85,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-29T02:00:16+00:00,LA-USDT-SWAP,pin_end,True,False,-0.00985742,-0.0098823,0.01,-0.01,2.0,-0.03352062
 2026-07-29T08:06:08+00:00,SHIB-USD_UM_XPERP-310801,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-07-29T08:28:02+00:00,ZIL-USD_UM_XPERP-310801,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
+2026-07-29T09:00:18+00:00,TMF-USDT-SWAP,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
