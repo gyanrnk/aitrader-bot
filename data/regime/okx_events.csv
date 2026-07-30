@@ -87,3 +87,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-29T08:28:02+00:00,ZIL-USD_UM_XPERP-310801,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-07-29T09:00:18+00:00,TMF-USDT-SWAP,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
 2026-07-30T08:07:04+00:00,PROS-USD_UM_XPERP-310801,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-07-30T09:01:39+00:00,OKTA-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
