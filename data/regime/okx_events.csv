@@ -92,3 +92,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-07-30T09:34:13+00:00,INTW-USDT-SWAP,listed,,8.0,-0.0021652,,0.01,-0.01,8.0,-0.0025208
 2026-07-30T15:00:31+00:00,GRVT-USDT-SWAP,listed,,4.0,-0.00690587,,0.01,-0.01,4.0,-0.01431175
 2026-07-30T15:00:31+00:00,GRVT-USD_UM_XPERP-310801,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
+2026-07-30T22:57:27+00:00,ZHIPU-USDT-SWAP,pin_start,False,True,0.01,0.00257148,0.01,-0.01,8.0,0.01754688
