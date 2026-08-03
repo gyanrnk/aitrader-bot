@@ -10195,3 +10195,7 @@ ts,coin,kraken,okx,bybit,spread_pct,short_on,long_on
 2026-08-03T13:40:12+00:00,ETH,16.73,1.97,nan,14.75,kraken,okx
 2026-08-03T13:40:12+00:00,SOL,6.26,0.24,nan,6.02,kraken,okx
 2026-08-03T13:40:12+00:00,XRP,17.07,4.86,nan,12.21,kraken,okx
+2026-08-03T13:51:20+00:00,BTC,3.32,0.38,nan,2.94,kraken,okx
+2026-08-03T13:51:20+00:00,ETH,16.72,2.08,nan,14.64,kraken,okx
+2026-08-03T13:51:20+00:00,SOL,6.27,0.54,nan,5.73,kraken,okx
+2026-08-03T13:51:20+00:00,XRP,17.07,4.33,nan,12.74,kraken,okx
