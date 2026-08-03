@@ -44,8 +44,22 @@ jobs:
             if [ -n "$(git status --porcelain data)" ]; then
               git add data
               git commit -m "data: snapshot $(date -u +%FT%TZ)" || true
-              git pull --rebase -X ours -q origin master || true
-              git push -q origin master || true
+              # Push with retry. The OLD version used `git pull --rebase -X ours`, which
+              # silently DROPPED snapshot commits ("patch contents already upstream") and
+              # then `push || true` hid the fact that origin never advanced — the collector
+              # ran for 6 days (2026-07-28 -> 08-03) committing locally and pushing nothing.
+              # MERGE (not rebase) never drops a commit as a cherry-pick duplicate; -X ours
+              # keeps our data on any conflict; and we surface the outcome instead of
+              # swallowing it, so a future break shows up in the run log immediately.
+              pushed=0
+              for attempt in 1 2 3; do
+                if git push -q origin master; then pushed=1; break; fi
+                echo "push attempt $attempt rejected; merging origin and retrying"
+                git fetch -q origin master
+                git merge -X ours -q --no-edit origin/master || true
+              done
+              if [ "$pushed" = 1 ]; then echo "PUSH OK $(date -u +%FT%TZ)"
+              else echo "::warning::PUSH FAILED after 3 attempts $(date -u +%FT%TZ)"; fi
             fi
             sleep 600
           done
