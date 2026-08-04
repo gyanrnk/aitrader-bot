@@ -1051,3 +1051,4 @@ ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowa
 2026-08-04T06:39:53+00:00,HOME-USDT-SWAP,HOME,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.008501,
 2026-08-04T06:51:11+00:00,HOME-USDT-SWAP,HOME,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.008898,
 2026-08-04T07:02:20+00:00,HOME-USDT-SWAP,HOME,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.009189,
+2026-08-04T07:13:29+00:00,HOME-USDT-SWAP,HOME,4.0,-0.01,0.01,-0.01,True,False,False,,0.0,0.009399,
