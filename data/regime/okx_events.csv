@@ -126,3 +126,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-07T10:18:19+00:00,FWDI-USDT-SWAP,pin_end,True,False,-0.00964703,-0.01,0.01,-0.01,8.0,-0.01399131
 2026-08-07T10:41:05+00:00,FWDI-USDT-SWAP,pin_start,False,True,-0.01,-0.01,0.01,-0.01,8.0,-0.01497
 2026-08-07T12:34:56+00:00,FWDI-USDT-SWAP,pin_end,True,False,-0.00964277,-0.01,0.01,-0.01,8.0,-0.00474807
+2026-08-07T16:00:20+00:00,FWDI-USDT-SWAP,cap_release,True,False,-0.00294136,-0.00296186,0.01,-0.01,8.0,0.0
