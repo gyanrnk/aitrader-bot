@@ -1222,3 +1222,4 @@ ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowa
 2026-08-07T07:04:42+00:00,FWDI-USDT-SWAP,FWDI,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,4.231,
 2026-08-07T07:16:03+00:00,FWDI-USDT-SWAP,FWDI,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,4.258,
 2026-08-07T07:27:24+00:00,FWDI-USDT-SWAP,FWDI,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,4.255,
+2026-08-07T07:38:46+00:00,FWDI-USDT-SWAP,FWDI,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,4.271,
