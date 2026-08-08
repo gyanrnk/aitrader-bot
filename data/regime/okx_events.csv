@@ -129,3 +129,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-07T16:00:20+00:00,FWDI-USDT-SWAP,cap_release,True,False,-0.00294136,-0.00296186,0.01,-0.01,8.0,0.0
 2026-08-08T16:59:21+00:00,KAITO-USDT-SWAP,pin_start,False,True,-0.01,-0.00670718,0.01,-0.01,4.0,-0.02825356
 2026-08-08T17:43:56+00:00,KAITO-USDT-SWAP,pin_end,True,False,-0.00978352,-0.00670718,0.01,-0.01,4.0,-0.01503999
+2026-08-08T18:17:20+00:00,KAITO-USDT-SWAP,pin_start,False,True,-0.01,-0.00670718,0.01,-0.01,4.0,-0.03140063
