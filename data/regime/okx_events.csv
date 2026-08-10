@@ -155,3 +155,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-10T10:50:40+00:00,MOODENG-USD_UM_XPERP-310815,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-08-10T12:00:10+00:00,DOS-USDT-SWAP,listed,,4.0,0.01,,0.01,-0.01,4.0,0.04065905
 2026-08-10T12:00:10+00:00,KAITO-USD_UM_XPERP-310725,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,4.0,-0.01821333
+2026-08-10T12:11:44+00:00,DOS-USDT-SWAP,pin_end,True,False,0.0001369,,0.01,-0.01,4.0,-0.00177624
