@@ -148,3 +148,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-10T09:06:29+00:00,SKUU-USDT-SWAP,listed,,8.0,0.00507635,,0.01,-0.01,8.0,0.00620899
 2026-08-10T09:18:03+00:00,SKDD-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-08-10T09:18:03+00:00,KAITO-USD_UM_XPERP-310725,pin_start,False,True,-0.01,-0.00551537,0.01,-0.01,4.0,-0.02515953
+2026-08-10T09:29:39+00:00,KO-USDT-SWAP,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
