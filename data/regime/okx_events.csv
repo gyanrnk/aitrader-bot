@@ -160,3 +160,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-10T16:04:13+00:00,KAITO-USDT-SWAP,escalate,2.0,1.0,-0.00502226,-0.01,0.01,-0.01,1.0,-0.04991359
 2026-08-10T16:04:13+00:00,KAITO-USDT-SWAP,pin_end,True,False,-0.00502226,-0.01,0.01,-0.01,1.0,-0.04991359
 2026-08-10T16:04:13+00:00,KAITO-USDT-SWAP,cap_bind,False,True,-0.00502226,-0.01,0.01,-0.01,1.0,-0.04991359
+2026-08-10T17:02:14+00:00,KAITO-USDT-SWAP,cap_release,True,False,-0.00434677,-0.0044562,0.01,-0.01,1.0,-0.03117778
