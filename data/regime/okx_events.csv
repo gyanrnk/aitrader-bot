@@ -173,3 +173,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-11T09:24:07+00:00,ARB-USD_UM_XPERP-310815,listed,,8.0,0.0001,,0.01,-0.01,8.0,-0.00012488
 2026-08-11T09:35:47+00:00,OP-USD_UM_XPERP-310815,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-08-11T10:10:45+00:00,DOS-USDT-SWAP,cap_release,True,False,-0.00368897,-0.00366233,0.01,-0.01,2.0,-0.01892307
+2026-08-11T21:44:10+00:00,KAITO-USD_UM_XPERP-310725,pin_start,False,True,-0.01,-0.00314793,0.01,-0.01,4.0,-0.035529
