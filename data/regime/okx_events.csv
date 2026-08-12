@@ -190,3 +190,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-12T09:02:48+00:00,TEST011-USD_UM_XPERP-310815,delisted,8.0,,0,,0,,0,0
 2026-08-12T09:26:20+00:00,APT-USD_UM_XPERP-310815,listed,,8.0,-0.00011775,,0.01,-0.01,8.0,-0.00122829
 2026-08-12T09:38:07+00:00,WIF-USD_UM_XPERP-310815,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-08-12T09:49:55+00:00,DOS-USD_UM_XPERP-310815,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
