@@ -229,3 +229,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-18T07:40:42+00:00,CXMT-USDT-SWAP,listed,,8.0,-0.00139892,,0.01,-0.01,8.0,0.0
 2026-08-18T08:05:26+00:00,CHIP-USD_UM_XPERP-310822,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
 2026-08-18T08:17:52+00:00,ACU-USD_UM_XPERP-310822,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-08-18T08:30:13+00:00,ETHFI-USD_UM_XPERP-310822,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
