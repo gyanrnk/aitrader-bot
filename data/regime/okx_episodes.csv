@@ -1998,3 +1998,4 @@ ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowa
 2026-08-19T06:09:19+00:00,UNITREE-USDT-SWAP,UNITREE,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,118.94,
 2026-08-19T06:21:32+00:00,UNITREE-USDT-SWAP,UNITREE,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,118.34,
 2026-08-19T06:33:45+00:00,UNITREE-USDT-SWAP,UNITREE,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,116.38,
+2026-08-19T06:46:00+00:00,UNITREE-USDT-SWAP,UNITREE,8.0,-0.01,0.01,-0.01,True,False,False,,0.0,113.68,
