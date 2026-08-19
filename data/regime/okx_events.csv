@@ -232,3 +232,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-18T08:30:13+00:00,ETHFI-USD_UM_XPERP-310822,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-08-18T09:32:11+00:00,ARM-USD_UM_XPERP-310822,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-08-18T09:57:03+00:00,RKLB-USD_UM_XPERP-310822,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-08-19T05:20:23+00:00,UNITREE-USDT-SWAP,listed,,8.0,-0.01,,0.01,-0.01,8.0,-0.04036319
