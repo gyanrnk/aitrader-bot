@@ -247,3 +247,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-20T10:24:55+00:00,SNXX-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-08-20T10:37:14+00:00,AXTI-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-08-20T16:04:25+00:00,UNITREE-USDT-SWAP,cap_release,True,False,-0.00200345,-0.00204164,0.01,-0.01,8.0,0.00038089
+2026-08-20T21:28:11+00:00,ONT-USDT-SWAP,pin_start,False,True,-0.01,5e-05,0.01,-0.01,4.0,-0.0501365
