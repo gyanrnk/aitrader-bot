@@ -245,3 +245,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-20T10:12:35+00:00,SKHY-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-08-20T10:24:55+00:00,UNITREE-USDT-SWAP,pin_end,True,False,-0.00977766,-0.01,0.01,-0.01,8.0,0.0
 2026-08-20T10:24:55+00:00,SNXX-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
+2026-08-20T10:37:14+00:00,AXTI-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
