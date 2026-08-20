@@ -242,3 +242,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-20T05:21:49+00:00,UNITREE-USDT-SWAP,pin_start,False,True,-0.01,0.0,0.01,-0.01,8.0,-0.04298428
 2026-08-20T08:07:12+00:00,UNITREE-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,8.0,-0.02013051
 2026-08-20T08:07:12+00:00,ZRO-USD_UM_XPERP-310822,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-08-20T10:12:35+00:00,SKHY-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
