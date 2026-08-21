@@ -256,3 +256,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-21T02:44:41+00:00,TEST002-USD_UM_XPERP-310822,pin_start,False,True,-0.01,,0.01,-0.01,8.0,-0.02152642
 2026-08-21T05:19:01+00:00,UNITREE-USDT-SWAP,pin_start,False,True,-0.01,0.00094235,0.01,-0.01,8.0,-0.01844501
 2026-08-21T07:02:00+00:00,EDGE-USD_UM_XPERP-310822,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
+2026-08-21T07:27:45+00:00,LDO-USD_UM_XPERP-310822,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
