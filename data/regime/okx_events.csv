@@ -252,3 +252,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-21T00:11:33+00:00,ONT-USDT-SWAP,pin_end,True,False,-0.004604,-0.01,0.01,-0.01,2.0,-0.0152594
 2026-08-21T00:11:33+00:00,ONT-USDT-SWAP,cap_bind,False,True,-0.004604,-0.01,0.01,-0.01,2.0,-0.0152594
 2026-08-21T02:06:33+00:00,ONT-USDT-SWAP,cap_release,True,False,-0.00409581,-0.00419344,0.01,-0.01,2.0,-0.01131788
+2026-08-21T02:31:51+00:00,TEST002-USD_UM_XPERP-310822,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
