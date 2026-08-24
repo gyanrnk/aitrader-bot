@@ -273,3 +273,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-24T08:12:56+00:00,ASTER-USD_UM_XPERP-310829,listed,,4.0,5e-05,,0.01,-0.01,4.0,-0.0001455
 2026-08-24T08:26:04+00:00,YB-USD_UM_XPERP-310829,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-08-24T08:39:12+00:00,DASH-USD_UM_XPERP-310829,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-08-24T08:52:20+00:00,POL-USD_UM_XPERP-310829,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
