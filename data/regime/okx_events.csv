@@ -278,3 +278,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-25T08:13:53+00:00,UNITREE-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,8.0,-0.00597522
 2026-08-25T08:13:53+00:00,GRASS-USD_UM_XPERP-310829,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-08-25T08:27:16+00:00,PYTH-USD_UM_XPERP-310829,listed,,4.0,5e-05,,0.01,-0.01,4.0,-0.00019775
+2026-08-25T08:40:37+00:00,UNITREE-USDT-SWAP,pin_end,True,False,-0.0092968,-0.01,0.01,-0.01,8.0,-0.00097536
