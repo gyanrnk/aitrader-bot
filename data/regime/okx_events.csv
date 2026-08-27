@@ -293,3 +293,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-26T21:40:02+00:00,BICO-USD_UM_XPERP-310704,pin_end,True,False,-0.00965875,-0.01,0.01,-0.01,8.0,-0.00219621
 2026-08-26T23:41:48+00:00,BICO-USD_UM_XPERP-310704,pin_start,False,True,-0.01,-0.01,0.01,-0.01,8.0,-0.00799479
 2026-08-26T23:41:48+00:00,OKTA-USDT-SWAP,pin_start,False,True,-0.01,0.0,0.01,-0.01,8.0,-0.01715012
+2026-08-27T00:08:41+00:00,OKTA-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,8.0,-0.01361186
