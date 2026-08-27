@@ -298,3 +298,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-27T04:38:42+00:00,BICO-USDT-SWAP,escalate,4.0,2.0,-0.0047938,-0.01,0.01,-0.01,2.0,-0.0156611
 2026-08-27T04:38:42+00:00,BICO-USDT-SWAP,pin_end,True,False,-0.0047938,-0.01,0.01,-0.01,2.0,-0.0156611
 2026-08-27T04:38:42+00:00,BICO-USDT-SWAP,cap_bind,False,True,-0.0047938,-0.01,0.01,-0.01,2.0,-0.0156611
+2026-08-27T06:13:25+00:00,BICO-USDT-SWAP,cap_release,True,False,-0.00394479,-0.00423315,0.01,-0.01,2.0,-0.01293123
