@@ -300,3 +300,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-08-27T04:38:42+00:00,BICO-USDT-SWAP,cap_bind,False,True,-0.0047938,-0.01,0.01,-0.01,2.0,-0.0156611
 2026-08-27T06:13:25+00:00,BICO-USDT-SWAP,cap_release,True,False,-0.00394479,-0.00423315,0.01,-0.01,2.0,-0.01293123
 2026-08-27T08:01:50+00:00,STX-USD_UM_XPERP-310829,listed,,8.0,-0.0011809,,0.01,-0.01,8.0,-0.0016809
+2026-08-27T08:15:22+00:00,RLS-USD_UM_XPERP-310829,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
