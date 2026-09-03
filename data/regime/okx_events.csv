@@ -339,3 +339,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-03T03:33:33+00:00,CASHCAT-USDT-SWAP,listed,,4.0,7.074e-05,,0.01,-0.01,4.0,0.0
 2026-09-03T04:01:14+00:00,LA-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.01547725
 2026-09-03T04:01:14+00:00,LA-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.01547725
+2026-09-03T04:14:52+00:00,LA-USDT-SWAP,pin_end,True,False,-0.00357584,-0.01,0.01,-0.01,2.0,-0.01443404
