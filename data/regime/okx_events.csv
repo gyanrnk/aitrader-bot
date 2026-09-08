@@ -375,3 +375,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-08T09:21:38+00:00,SOPH-USDT-SWAP,pin_start,False,True,-0.01,-0.00463791,0.01,-0.01,4.0,-0.06934804
 2026-09-08T13:28:53+00:00,SOPH-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.16891756
 2026-09-08T13:28:53+00:00,SOPH-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.16891756
+2026-09-08T14:12:35+00:00,SOPH-USDT-SWAP,escalate,2.0,1.0,-0.01,-0.01,0.01,-0.01,1.0,-0.17083469
