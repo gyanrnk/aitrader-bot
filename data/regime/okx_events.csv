@@ -396,3 +396,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-10T09:46:22+00:00,US500-USDT-SWAP,pin_end,True,False,-0.00206462,,0.01,-0.01,8.0,-0.00280546
 2026-09-10T09:46:22+00:00,US100-USDT-SWAP,listed,,8.0,-0.00064181,,0.01,-0.01,8.0,0.0
 2026-09-10T09:46:22+00:00,XOM-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-09-10T12:14:35+00:00,RVN-USDT-SWAP,pin_start,False,True,-0.01,-0.00027129,0.01,-0.01,8.0,-0.01773349
