@@ -392,3 +392,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-10T06:04:28+00:00,IOST-USDT-SWAP,cap_release,True,False,-0.00163057,-0.00175052,0.01,-0.01,2.0,-0.0020218
 2026-09-10T08:02:19+00:00,ATOM-USD_UM_XPERP-310912,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-09-10T08:17:00+00:00,OL-USD_UM_XPERP-310912,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-09-10T09:01:32+00:00,US500-USDT-SWAP,listed,,8.0,-0.00990625,,0.01,-0.01,8.0,-0.00040582
