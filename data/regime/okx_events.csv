@@ -403,3 +403,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-10T20:11:06+00:00,RVN-USDT-SWAP,cap_release,True,False,-0.00239209,-0.00219177,0.01,-0.01,4.0,-0.00740337
 2026-09-11T07:07:42+00:00,ZEN-USD_UM_XPERP-310912,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
 2026-09-11T07:21:05+00:00,SAHARA-USD_UM_XPERP-310912,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-09-11T09:09:41+00:00,ORCL-USD_UM_XPERP-310912,listed,,8.0,0.0,,0.01,-0.01,8.0,0.00012294
