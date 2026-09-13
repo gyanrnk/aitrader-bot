@@ -410,3 +410,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-13T17:30:37+00:00,GLM-USDT-SWAP,escalate,4.0,2.0,-0.00213666,-0.01,0.01,-0.01,2.0,-0.00766429
 2026-09-13T17:30:37+00:00,GLM-USDT-SWAP,pin_end,True,False,-0.00213666,-0.01,0.01,-0.01,2.0,-0.00766429
 2026-09-13T17:30:37+00:00,GLM-USDT-SWAP,cap_bind,False,True,-0.00213666,-0.01,0.01,-0.01,2.0,-0.00766429
+2026-09-13T18:01:02+00:00,GLM-USDT-SWAP,cap_release,True,False,-0.00157397,-0.00159135,0.01,-0.01,2.0,-0.00366661
