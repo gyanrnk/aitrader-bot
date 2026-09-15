@@ -430,3 +430,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-15T00:06:16+00:00,GLM-USDT-SWAP,de_escalate,2.0,4.0,-0.00013248,2.5e-05,0.01,-0.01,4.0,0.0
 2026-09-15T02:10:55+00:00,CAP-USD_UM_XPERP-310704,pin_start,False,True,-0.01,-0.00314912,0.01,-0.01,4.0,-0.05107084
 2026-09-15T02:24:56+00:00,CAP-USDT-SWAP,pin_start,False,True,-0.01,-0.00727928,0.01,-0.01,2.0,-0.06104979
+2026-09-15T03:19:42+00:00,CAP-USDT-SWAP,pin_end,True,False,-0.0088477,-0.00727928,0.01,-0.01,2.0,-0.01998536
