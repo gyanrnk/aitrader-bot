@@ -455,3 +455,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-16T10:05:10+00:00,HANMI-USDT-SWAP,listed,,8.0,0.0,0.0,0.01,-0.01,8.0,0.0005457
 2026-09-16T10:05:10+00:00,MINIMAX-USD_UM_XPERP-310919,listed,,8.0,2.61e-06,,0.01,-0.01,8.0,3.466e-05
 2026-09-16T10:05:10+00:00,AKE-USDT-SWAP,listed,,4.0,0.00020947,0.00020332,0.01,-0.01,4.0,0.0
+2026-09-17T00:40:19+00:00,ONE-USDT-SWAP,pin_start,False,True,-0.01,-0.00644885,0.01,-0.01,4.0,-0.04454578
