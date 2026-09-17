@@ -458,3 +458,5 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-17T00:40:19+00:00,ONE-USDT-SWAP,pin_start,False,True,-0.01,-0.00644885,0.01,-0.01,4.0,-0.04454578
 2026-09-17T02:38:43+00:00,IOST-USDT-SWAP,pin_start,False,True,-0.01,-0.00556093,0.01,-0.01,4.0,-0.01746763
 2026-09-17T03:08:30+00:00,IOST-USDT-SWAP,pin_end,True,False,-0.00976387,-0.00556093,0.01,-0.01,4.0,-0.01232947
+2026-09-17T04:08:13+00:00,ONE-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.06329834
+2026-09-17T04:08:13+00:00,ONE-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.06329834
