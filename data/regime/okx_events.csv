@@ -473,3 +473,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-18T07:15:46+00:00,UP-USD_UM_XPERP-310919,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-09-18T07:31:08+00:00,DGAI-USD_UM_XPERP-310919,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-09-18T08:47:47+00:00,FLNC-USD_UM_XPERP-310919,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-09-19T01:16:37+00:00,F-USDT-SWAP,pin_start,False,True,-0.00996186,-0.00795825,0.01,-0.01,4.0,-0.01358683
