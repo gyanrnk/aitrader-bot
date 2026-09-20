@@ -480,3 +480,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-20T05:46:49+00:00,AKE-USDT-SWAP,pin_start,False,True,-0.01,-0.00112919,0.01,-0.01,4.0,-0.09851499
 2026-09-20T08:06:47+00:00,AKE-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.17790698
 2026-09-20T08:06:47+00:00,AKE-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.17790698
+2026-09-20T10:11:59+00:00,AKE-USDT-SWAP,escalate,2.0,1.0,-0.01,-0.01,0.01,-0.01,1.0,-0.09075162
