@@ -477,3 +477,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-19T01:32:03+00:00,F-USDT-SWAP,pin_end,True,False,-0.00944039,-0.00795825,0.01,-0.01,4.0,-0.00961656
 2026-09-19T15:13:58+00:00,CAP-USDT-SWAP,pin_start,False,True,-0.00999641,5e-05,0.01,-0.01,4.0,-0.01220724
 2026-09-19T15:29:36+00:00,CAP-USDT-SWAP,pin_end,True,False,-0.00963606,5e-05,0.01,-0.01,4.0,-0.00727197
+2026-09-20T05:46:49+00:00,AKE-USDT-SWAP,pin_start,False,True,-0.01,-0.00112919,0.01,-0.01,4.0,-0.09851499
