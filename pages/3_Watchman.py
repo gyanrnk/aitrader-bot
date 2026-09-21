@@ -30,6 +30,7 @@ import streamlit as st
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from aitrader.collector.regime import fetch_borrow, fetch_okx_regime  # noqa: E402
+from aitrader.research import delta_carry as _dc  # noqa: E402
 
 st.set_page_config(page_title="Watchman", page_icon="🛰️", layout="wide")
 
@@ -136,6 +137,62 @@ elif flagged:
                     f"**{base} NOT BORROWABLE** → hedge impossible → trade nahi")
 else:
     st.info("## Abhi koi escalated/pinned coin nahi — market normal hai")
+
+# ------------------------------------------------------------------ Delta carry: does funding HOLD?
+# OKX above is research-only (blocked from India). Delta India is the venue we CAN trade,
+# so this is the section that actually matters for a real trade. It answers the question
+# from `delta_carry.py`: a GO alert means funding TOUCHED 50%/yr, but did it STAY rich long
+# enough to clear the ~0.40% round-trip cost? A one-print spike is a guaranteed loss.
+st.markdown("### 📈 Delta carry — funding TIKTA hai kya? *(ye tradeable venue hai)*")
+st.caption("50% chhoona kaafi nahi — funding har 8h reset hota hai. Sawaal: itni der tikta hai "
+           "ki 0.40% round-trip cost nikal jaaye? Neeche har hold-window ka net-of-cost.")
+
+_delta_csv = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+                          "data", "delta", "delta_funding.csv")
+_drows = _dc.load(_delta_csv)
+if not _drows:
+    st.info("Delta funding data abhi record ho raha hai — thodi der baad dikhega.")
+else:
+    _sym = _dc.hottest(_drows)
+    _res = _dc.analyze(_drows, _sym) if _sym else {"ok": False}
+    if not _res.get("ok"):
+        st.info("Delta carry data abhi kam hai (settlements ban rahe hain).")
+    else:
+        cc = st.columns(4)
+        cc[0].metric("Hottest hedgeable", _res["symbol"])
+        cc[1].metric("Funding abhi", f'{_res["latest_annual"]:+.1f}%/yr',
+                     f'{_res["latest_8h"]:+.4f}%/8h', delta_color="off")
+        cc[2].metric("GO bar", f'{_res["go_bar_annual"]:.0f}%/yr',
+                     "3-din breakeven", delta_color="off")
+        cc[3].metric("Round-trip cost", f'{_res["breakeven_cost_pct"]:.2f}%',
+                     "entry+exit", delta_color="off")
+
+        _tbl = pd.DataFrame([{
+            "hold": f'{w["days"]}d',
+            "settlements": w["n"],
+            "avg/8h": f'{w["avg_8h"]:.4f}%',
+            "cum funding": f'{w["cum"]:.3f}%',
+            "net after cost": f'{w["net"]:+.2f}%',
+            "realized APR": f'{w["apr"]:.1f}%/yr',
+            "≥50% bar": f'{w["above"]}/{w["n"]}',
+        } for w in _res["windows"]])
+        st.dataframe(_tbl, use_container_width=True, hide_index=True)
+
+        _v = _res["verdict"]
+        _msg = f'**{_v["code"]}** — {_v["msg"]}'
+        if _v["code"] == "CANDIDATE":
+            st.success("🟢 " + _msg)
+            st.markdown('<div class="lesson">💡 <b>Ab kya:</b> ye pehla asli green hai. Claude ko '
+                        'bolo — pehle napkin R8 (venue + dono legs) phir gauntlet. Trade sirf uske '
+                        'baad, <b>tiny</b> size, <b>tumhare</b> haath se.</div>',
+                        unsafe_allow_html=True)
+        elif _v["code"] in ("THIN", "WATCH"):
+            st.warning("🟠 " + _msg)
+        else:  # BELOW / FLIP
+            st.info("⚪ " + _msg)
+        st.caption(f'{_res["symbol"]}: {_res["history_days"]} din history, '
+                   f'{_res["n_settlements_total"]} settlements. net after cost = poora window '
+                   'hold karne pe cumulative funding minus 0.40% round trip.')
 
 # ------------------------------------------------------------------ interval distribution
 from collections import Counter
