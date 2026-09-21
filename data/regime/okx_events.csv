@@ -488,3 +488,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-21T08:18:48+00:00,AGLD-USD_UM_XPERP-310926,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
 2026-09-21T08:34:32+00:00,TSM-USD_UM_XPERP-310926,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-09-21T08:34:32+00:00,CFX-USD_UM_XPERP-310926,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
+2026-09-21T08:50:22+00:00,GLW-USD_UM_XPERP-310926,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
