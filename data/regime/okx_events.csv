@@ -506,3 +506,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-23T09:00:07+00:00,CNPY-USD_UM_XPERP-310926,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
 2026-09-23T09:00:07+00:00,MSTU-USDT-SWAP,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
 2026-09-23T09:15:58+00:00,KSTR-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-09-23T09:31:56+00:00,CYPH-USDT-SWAP,listed,,8.0,0.01,,0.01,-0.01,8.0,0.01452468
