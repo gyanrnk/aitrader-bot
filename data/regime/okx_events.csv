@@ -510,3 +510,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-23T10:48:36+00:00,GTLB-USDT-SWAP,listed,,8.0,0.00044172,,0.01,-0.01,8.0,0.00074146
 2026-09-23T10:48:36+00:00,OURA-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-09-24T08:05:27+00:00,MET-USD_UM_XPERP-310926,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
+2026-09-24T08:21:19+00:00,AR-USD_UM_XPERP-310926,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
