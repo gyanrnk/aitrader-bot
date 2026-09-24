@@ -513,3 +513,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-24T08:21:19+00:00,AR-USD_UM_XPERP-310926,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-09-24T08:37:16+00:00,CORE-USD_UM_XPERP-310926,listed,,8.0,0.0001,,0.01,-0.01,8.0,0.0
 2026-09-24T09:09:07+00:00,IONQ-USD_UM_XPERP-310926,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0002429
+2026-09-24T09:24:56+00:00,SKDD-USD_UM_XPERP-310926,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
