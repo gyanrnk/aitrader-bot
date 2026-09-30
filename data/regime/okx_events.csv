@@ -546,3 +546,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-30T09:11:37+00:00,PURR-USD_UM_XPERP-311003,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
 2026-09-30T11:07:32+00:00,CT-USDT-SWAP,listed,,4.0,-0.01,,0.01,-0.01,4.0,-0.01442801
 2026-09-30T11:56:19+00:00,CT-USDT-SWAP,pin_end,True,False,-0.00200781,,0.01,-0.01,4.0,0.00079723
+2026-09-30T12:11:45+00:00,CT-USD_UM_XPERP-311003,listed,,4.0,-0.00245921,,0.01,-0.01,4.0,-0.01044476
