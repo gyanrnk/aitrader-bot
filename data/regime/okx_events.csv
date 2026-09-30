@@ -544,3 +544,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-09-30T08:05:19+00:00,ONE-USD_UM_XPERP-311003,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
 2026-09-30T08:21:52+00:00,PEOPLE-USD_UM_XPERP-311003,listed,,8.0,6.745e-05,,0.01,-0.01,8.0,0.0
 2026-09-30T09:11:37+00:00,PURR-USD_UM_XPERP-311003,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
+2026-09-30T11:07:32+00:00,CT-USDT-SWAP,listed,,4.0,-0.01,,0.01,-0.01,4.0,-0.01442801
