@@ -557,3 +557,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-02T10:35:27+00:00,BWET-USDT-SWAP,listed,,8.0,-0.00554994,,0.01,-0.01,8.0,-0.01155262
 2026-10-02T10:35:27+00:00,H100-USDT-SWAP,listed,,8.0,0.0022862,,0.01,-0.01,8.0,0.01177584
 2026-10-02T10:35:27+00:00,SECZ-USDT-SWAP,listed,,8.0,-0.0006657,,0.01,-0.01,8.0,-0.00068354
+2026-10-02T10:52:12+00:00,BWET-USDT-SWAP,pin_start,False,True,-0.01,,0.01,-0.01,8.0,-0.02290079
