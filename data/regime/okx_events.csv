@@ -565,3 +565,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-02T16:05:33+00:00,SAND-USDT-SWAP,cap_bind,False,True,-0.0025831,-0.01,0.01,-0.01,4.0,-0.0044344
 2026-10-02T16:05:33+00:00,H100-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,8.0,0.0
 2026-10-02T17:29:20+00:00,H100-USDT-SWAP,pin_end,True,False,-0.00874622,-0.01,0.01,-0.01,8.0,0.01682162
+2026-10-02T20:00:35+00:00,SAND-USDT-SWAP,cap_release,True,False,-0.00212141,-0.00212906,0.01,-0.01,4.0,-0.00339629
