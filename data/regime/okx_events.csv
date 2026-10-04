@@ -575,3 +575,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-03T14:07:45+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,-0.01,0.01,-0.01,8.0,0.03913366
 2026-10-04T00:51:14+00:00,H100-USDT-SWAP,pin_end,True,False,0.00872014,0.01,0.01,-0.01,8.0,-0.05045127
 2026-10-04T07:43:42+00:00,H100-USDT-SWAP,pin_end,True,False,0.00746673,0.01,0.01,-0.01,8.0,0.02498416
+2026-10-04T08:00:54+00:00,H100-USDT-SWAP,cap_release,True,False,0.00952803,0.00940525,0.01,-0.01,8.0,0.02316438
