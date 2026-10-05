@@ -583,3 +583,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-04T23:45:02+00:00,EWZ-USDT-SWAP,pin_start,False,True,0.00996642,0.0,0.01,-0.01,8.0,0.01826752
 2026-10-05T00:00:33+00:00,EWZ-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,8.0,-0.00486618
 2026-10-05T01:17:20+00:00,EWZ-USDT-SWAP,pin_end,True,False,0.00964354,0.01,0.01,-0.01,8.0,0.00669933
+2026-10-05T08:12:28+00:00,EWZ-USDT-SWAP,cap_release,True,False,0.0,0.0,0.01,-0.01,8.0,0.00186176
