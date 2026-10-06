@@ -37,6 +37,24 @@ def test_rich_sustained_is_candidate():
     assert res["verdict"]["go_now"] is True                      # 66% ≥ 50 bar
 
 
+def test_fading_episode_is_not_candidate():
+    # Spiked rich for days, then cooled BELOW the bar in the last 24h. The trailing 3-day
+    # window is still net-positive and rich (backward-looking), but funding NOW is ~35%/yr,
+    # so entering is a false green: the verdict must NOT be CANDIDATE. This is the real
+    # 2026-10-06 XRP case — a decaying episode that the trailing window alone mislabelled.
+    end, rows, t = END, [], END - timedelta(days=7)
+    while t <= end:
+        hrs = (end - t).total_seconds() / 3600
+        fr = 0.032 if hrs <= 24 else 0.065              # last day ~35%/yr, before ~71%/yr
+        rows.append({"ts": t.isoformat(), "symbol": "XRPUSD",
+                     "funding_pct_8h": fr, "annual_funding_pct": fr * 3 * 365,
+                     "mark_price": 2.5, "hedgeable": True, "go": fr * 3 * 365 >= 50})
+        t += timedelta(hours=1)
+    res = dc.analyze(rows, "XRPUSD")
+    assert res["verdict"]["code"] != "CANDIDATE", res["verdict"]   # faded -> not a green
+    assert res["verdict"]["go_now"] is False                       # 35%/yr < 50 bar now
+
+
 def test_thin_steady_is_thin_not_candidate():
     # 0.011%/8h ≈ 12%/yr held 30 days: clears cost ONLY over weeks — real but marginal.
     res = dc.analyze(_rows(30, 0.011), "XRPUSD")
