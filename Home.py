@@ -149,6 +149,24 @@ if res and res.get("ok"):
     st.caption("net after cost = poora window hold karne pe cumulative funding − 0.40% round trip. "
                "Line GO bar ke upar + net positive = tabhi asli mauka.")
 
+# ---------------------------------------------------------------- full scan: all hedgeable coins
+st.markdown("### 🔭 Saare hedgeable coins — full scan")
+st.caption("Delta pe **spot sirf 4 coins** ka hai (BTC/ETH/SOL/XRP) — baaki 222 perps hedge "
+           "nahi ho sakte. Ye **poori tradeable list** hai, best-opportunity upar. (Delta naya "
+           "spot coin add kare toh yahan khud aa jayega — code change nahi.)")
+if rows:
+    VMAP = {"CANDIDATE": "🟢 CANDIDATE", "WATCH": "🟡 WATCH", "THIN": "🟠 THIN",
+            "BELOW": "⚪ BELOW", "FLIP": "⚪ FLIP"}
+    scan_tbl = pd.DataFrame([{
+        "coin": r["symbol"],
+        "funding abhi": f'{r["latest_annual"]:+.0f}%/yr',
+        "verdict": VMAP.get(r["verdict"]["code"], r["verdict"]["code"]),
+        "best net": f'{max((w["net"] for w in r["windows"]), default=0):+.2f}%',
+    } for r in dc.scan(rows)])
+    st.dataframe(scan_tbl, use_container_width=True, hide_index=True)
+    st.caption("Zyada coins = zyada GO — par sirf tab jab Delta zyada spot list kare. Abhi "
+               "ceiling **4** hai. (Aur raasta: options-se-hedge — alag mechanism, baad me research.)")
+
 # ---------------------------------------------------------------- what to do now
 st.markdown("### 🎯 Abhi kya karna hai")
 code = res["verdict"]["code"] if (res and res.get("ok")) else None

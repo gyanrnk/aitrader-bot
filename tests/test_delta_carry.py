@@ -89,6 +89,15 @@ def test_hottest_picks_richest_latest():
     assert dc.hottest(rows) == "XRPUSD"
 
 
+def test_scan_returns_all_symbols_ranked():
+    # Full scan covers every coin in the data, best verdict first (CANDIDATE before THIN).
+    rows = _rows(10, 0.060, symbol="XRPUSD") + _rows(30, 0.011, symbol="BTCUSD")
+    out = dc.scan(rows)
+    assert all(r.get("ok") for r in out)
+    assert [r["symbol"] for r in out] == ["XRPUSD", "BTCUSD"]
+    assert out[0]["verdict"]["code"] == "CANDIDATE"
+
+
 if __name__ == "__main__":
     fns = [v for k, v in sorted(globals().items()) if k.startswith("test_")]
     for fn in fns:
