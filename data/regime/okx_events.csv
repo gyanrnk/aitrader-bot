@@ -595,3 +595,5 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-06T12:05:19+00:00,NMR-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.12123788
 2026-10-06T12:05:19+00:00,NMR-USDT-SWAP,pin_start,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.12123788
 2026-10-06T12:05:19+00:00,NMR-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.12123788
+2026-10-06T14:05:32+00:00,NMR-USDT-SWAP,escalate,2.0,1.0,-0.00550098,-0.01,0.01,-0.01,1.0,-0.04701414
+2026-10-06T14:05:32+00:00,NMR-USDT-SWAP,pin_end,True,False,-0.00550098,-0.01,0.01,-0.01,1.0,-0.04701414
