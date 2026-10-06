@@ -134,14 +134,27 @@ def _verdict(windows: list[dict], latest: dict) -> dict:
                        "enter karna = loss." + (f" Sabse accha window bhi {gap:.2f}% short hai."
                                                 if gap is not None else "")}
 
-    # Fat & fast: a short hold already clears cost at a rich APR — the real green light.
+    # Fat & fast: a short hold already clears cost at a rich APR AND funding is STILL rich
+    # right now. The "still rich" guard (go_now) is essential: the windows are TRAILING, so a
+    # window can stay net-positive while the latest settlements have already cooled below the
+    # bar (a fading episode). Entering then collects the low *current* rate, not the window's
+    # backward-looking average, so it is a false green. Without this guard an episode that
+    # spiked and is now decaying through 50%/yr still reads CANDIDATE — which it is not.
     short_rich = [w for w in positive if w["days"] <= FAST_MAX_DAYS and w["apr"] >= RICH_APR]
-    if short_rich:
+    if short_rich and go_now:
         soon = min(short_rich, key=lambda w: w["days"])
         return {"code": "CANDIDATE", "go_now": go_now,
                 "msg": f"{soon['days']}-din hold pe hi net +{soon['net']:.2f}% "
-                       f"(realized {soon['apr']:.0f}%/yr) — fat aur fast. "
+                       f"(realized {soon['apr']:.0f}%/yr) aur funding abhi bhi "
+                       f"{latest['annual']:.0f}%/yr (bar ke upar) — fat aur fast. "
                        f"Ab napkin R8 + gauntlet, phir TINY real trade."}
+    if short_rich and not go_now:
+        # Trailing window still rich, but funding has already dropped below the bar: a fading
+        # episode, not an entry. Say so plainly instead of flashing a stale green.
+        return {"code": "WATCH", "go_now": go_now,
+                "msg": f"Pichhle dino funding rich tha par ab {latest['annual']:.0f}%/yr pe gir "
+                       f"gaya (50% bar ke neeche) — episode FADE ho raha hai. Ab enter karna "
+                       f"late hai: girti rate milegi, window ka average nahi. Agle GO ka wait."}
 
     # Thin & slow: clears cost only over weeks, at a low APR — real but probably not worth it.
     longest = max(positive, key=lambda w: w["days"])
