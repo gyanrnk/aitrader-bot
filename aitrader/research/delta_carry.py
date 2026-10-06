@@ -212,3 +212,22 @@ def analyze(rows: list[dict], symbol: str,
         "windows": windows,
         "verdict": _verdict(windows, latest),
     }
+
+
+# Verdict ordering for ranking a scan: the one worth acting on first, down to the dead ones.
+_RANK = {"CANDIDATE": 0, "WATCH": 1, "THIN": 2, "FLIP": 3, "BELOW": 4}
+
+
+def scan(rows: list[dict],
+         windows_days: tuple[int, ...] = DEFAULT_WINDOWS_DAYS) -> list[dict]:
+    """Analyze EVERY coin in the data, ranked best-opportunity first.
+
+    The data file only holds hedgeable coins (delta_india.py persists only those), so this
+    IS the full tradeable universe — today just the four Delta lists spot for. Ranking is by
+    verdict (CANDIDATE first) then by current funding, so the one to look at sits on top. If
+    Delta ever adds spot for more coins, they appear here automatically — no code change.
+    """
+    syms = sorted({r.get("symbol") for r in rows} - {None})
+    out = [r for r in (analyze(rows, s, windows_days) for s in syms) if r.get("ok")]
+    out.sort(key=lambda r: (_RANK.get(r["verdict"]["code"], 9), -r["latest_annual"]))
+    return out
