@@ -612,3 +612,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-07T09:31:32+00:00,PARTI-USD_UM_XPERP-311010,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
 2026-10-07T09:49:30+00:00,OURA-USD_UM_XPERP-311010,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-07T14:48:20+00:00,H100-USDT-SWAP,pin_end,True,False,-0.00518362,-0.01,0.01,-0.01,8.0,0.03804099
+2026-10-07T16:15:23+00:00,H100-USDT-SWAP,cap_release,True,False,-0.00558367,-0.00399078,0.01,-0.01,8.0,-0.04732861
