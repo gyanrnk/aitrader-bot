@@ -609,3 +609,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-07T08:06:16+00:00,NMR-USDT-SWAP,de_escalate,1.0,4.0,-0.00489923,-0.00153183,0.01,-0.01,4.0,-0.01045169
 2026-10-07T08:40:19+00:00,EWZ-USD_UM_XPERP-311010,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-07T09:14:28+00:00,SAND-USD_UM_XPERP-311010,listed,,8.0,-4.83e-06,,0.01,-0.01,8.0,-0.00111716
+2026-10-07T09:31:32+00:00,PARTI-USD_UM_XPERP-311010,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
