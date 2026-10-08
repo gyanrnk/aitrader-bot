@@ -624,3 +624,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-08T08:37:16+00:00,PENG-USD_UM_XPERP-311010,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-08T08:53:48+00:00,US100-USD_UM_XPERP-311010,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-08T09:10:25+00:00,NFLX-USD_UM_XPERP-311010,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-10-08T09:27:05+00:00,AXS-USD_UM_XPERP-311010,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
