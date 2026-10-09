@@ -643,3 +643,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-09T01:16:47+00:00,BWET-USDT-SWAP,pin_start,False,True,-0.01,-0.00627978,0.01,-0.01,8.0,-0.01784
 2026-10-09T03:37:03+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,0.01,0.01,-0.01,8.0,0.04749818
 2026-10-09T05:00:20+00:00,BWET-USDT-SWAP,pin_end,True,False,-0.00963831,-0.00627978,0.01,-0.01,8.0,-0.0022004
+2026-10-09T07:49:17+00:00,H100-USDT-SWAP,pin_end,True,False,0.00645303,0.01,0.01,-0.01,8.0,-0.08684514
