@@ -647,3 +647,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-09T08:04:32+00:00,ONDO-USDT-SWAP,de_escalate,4.0,8.0,-4.649e-05,-3.901e-05,0.01,-0.01,8.0,-0.00086501
 2026-10-09T08:04:32+00:00,ENA-USDT-SWAP,de_escalate,4.0,8.0,-7.717e-05,-4.101e-05,0.01,-0.01,8.0,-0.00039476
 2026-10-09T08:04:32+00:00,H100-USDT-SWAP,cap_release,True,False,0.00048459,0.00225333,0.01,-0.01,8.0,-0.07991206
+2026-10-09T08:51:33+00:00,H100-USDT-SWAP,pin_start,False,True,-0.01,0.00225333,0.01,-0.01,8.0,-0.06851478
