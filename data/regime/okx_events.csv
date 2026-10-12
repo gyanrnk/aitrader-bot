@@ -688,3 +688,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-12T12:51:50+00:00,RSR-USDT-SWAP,pin_end,True,False,-0.00908656,-0.01,0.01,-0.01,2.0,-0.01674914
 2026-10-12T14:02:54+00:00,RSR-USDT-SWAP,cap_release,True,False,-0.00605665,-0.00614831,0.01,-0.01,2.0,-0.02486233
 2026-10-12T16:06:03+00:00,H100-USDT-SWAP,escalate,8.0,4.0,-0.01,-0.01,0.01,-0.01,4.0,-0.05033921
+2026-10-12T16:59:30+00:00,NG-USDT-SWAP,pin_start,False,True,0.00993688,0.00825226,0.01,-0.01,8.0,0.01549161
