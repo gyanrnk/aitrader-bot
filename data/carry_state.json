@@ -1,8 +1,8 @@
 {
-  "equity": 5993.453669629567,
+  "equity": 5991.209915490705,
   "weights": {
     "BTCUSDT": 0.25,
-    "ETHUSDT": 0.0,
+    "ETHUSDT": 0.25,
     "XRPUSDT": 0.0,
     "SOLUSDT": 0.0
   }
