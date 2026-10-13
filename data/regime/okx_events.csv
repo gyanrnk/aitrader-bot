@@ -702,3 +702,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-13T16:28:13+00:00,ACN-USDT-SWAP,cap_release,True,False,0.0,0.0,0.01,-0.01,8.0,0.0
 2026-10-13T20:13:34+00:00,H100-USDT-SWAP,pin_end,True,False,-0.00908358,-0.00988453,0.01,-0.01,4.0,-0.02293555
 2026-10-13T20:13:34+00:00,H100-USDT-SWAP,cap_release,True,False,-0.00908358,-0.00988453,0.01,-0.01,4.0,-0.02293555
+2026-10-13T20:29:43+00:00,NG-USDT-SWAP,pin_start,False,True,0.00994243,0.00578616,0.01,-0.01,8.0,0.01183316
