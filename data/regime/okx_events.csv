@@ -713,3 +713,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-14T04:16:16+00:00,H100-USDT-SWAP,cap_release,True,False,-0.00657701,-0.00690928,0.01,-0.01,4.0,0.0
 2026-10-14T09:08:34+00:00,TXN-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.00017369
 2026-10-14T09:22:37+00:00,SOFI-USDT-SWAP,listed,,8.0,0.00073226,,0.01,-0.01,8.0,0.00098168
+2026-10-14T09:36:50+00:00,VICR-USDT-SWAP,listed,,8.0,-0.00583217,,0.01,-0.01,8.0,-0.00575159
