@@ -716,3 +716,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-14T09:36:50+00:00,VICR-USDT-SWAP,listed,,8.0,-0.00583217,,0.01,-0.01,8.0,-0.00575159
 2026-10-14T09:50:47+00:00,TLT-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-14T11:28:55+00:00,H100-USDT-SWAP,pin_start,False,True,-0.01,-0.00251065,0.01,-0.01,4.0,-0.05094261
+2026-10-14T12:11:03+00:00,H100-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,4.0,-0.03399834
