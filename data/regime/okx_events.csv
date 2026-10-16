@@ -738,3 +738,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-16T04:51:35+00:00,BLUR-USDT-SWAP,de_escalate,2.0,4.0,-0.00296439,-0.00084543,0.01,-0.01,4.0,-0.01108015
 2026-10-16T09:02:31+00:00,MCD-USDT-SWAP,listed,,8.0,0.00051456,,0.01,-0.01,8.0,0.001353
 2026-10-16T09:20:18+00:00,JPM-USDT-SWAP,listed,,8.0,0.00093295,,0.01,-0.01,8.0,0.00186885
+2026-10-16T09:38:09+00:00,V-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
