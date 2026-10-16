@@ -741,3 +741,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-16T09:52:26+00:00,GS-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-16T09:52:26+00:00,V-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0004737
 2026-10-16T12:12:40+00:00,DNA-USDT-SWAP,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0004356
+2026-10-16T12:40:39+00:00,DNA-USD_UM_XPERP-311017,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
