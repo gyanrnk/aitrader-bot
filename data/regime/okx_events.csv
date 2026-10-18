@@ -748,3 +748,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-17T18:02:30+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,2.0,0.0493299
 2026-10-17T20:26:58+00:00,H100-USDT-SWAP,pin_end,True,False,-0.00058613,-0.00169813,0.01,-0.01,2.0,0.03378705
 2026-10-17T20:26:58+00:00,H100-USDT-SWAP,cap_release,True,False,-0.00058613,-0.00169813,0.01,-0.01,2.0,0.03378705
+2026-10-18T05:07:36+00:00,SAND-USD_UM_XPERP-311010,pin_start,False,True,-0.01,-0.00127419,0.01,-0.01,8.0,-0.01907864
