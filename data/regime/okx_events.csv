@@ -797,3 +797,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-21T06:08:28+00:00,MEW-USDT-SWAP,cap_release,True,False,-0.00658977,-0.00686529,0.01,-0.01,2.0,-0.02767226
 2026-10-21T06:37:02+00:00,TEST002-USD_UM_XPERP-310822,delisted,8.0,,0,,0,,0,0
 2026-10-21T08:03:25+00:00,DOOD-USD_UM_XPERP-311024,listed,,4.0,0.0,,0.0,0.0,4.0,0.0
+2026-10-21T08:32:12+00:00,LLY-USD_UM_XPERP-311024,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
