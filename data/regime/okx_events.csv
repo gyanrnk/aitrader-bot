@@ -851,3 +851,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-22T08:04:00+00:00,BTW-USDT-SWAP,listed,,4.0,5e-05,,0.01,-0.01,4.0,0.0
 2026-10-22T08:32:37+00:00,VST-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-22T08:32:37+00:00,BTW-USD_UM_XPERP-311024,listed,,4.0,-0.00113544,,0.01,-0.01,4.0,-0.00258522
+2026-10-22T08:46:51+00:00,GE-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
