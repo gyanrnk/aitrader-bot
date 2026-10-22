@@ -841,3 +841,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-22T04:30:45+00:00,H100-USDT-SWAP,cap_release,True,False,-0.00298093,-0.00659219,0.01,-0.01,2.0,0.0
 2026-10-22T05:27:45+00:00,IOST-USD_UM_XPERP-310919,pin_end,True,False,-0.00918542,-0.01,0.01,-0.01,4.0,-0.00534244
 2026-10-22T05:56:10+00:00,UNITREE-USDT-SWAP,pin_start,False,True,-0.00992336,-0.00043441,0.01,-0.01,8.0,-0.0140665
+2026-10-22T06:38:42+00:00,UNITREE-USD_UM_XPERP-311017,pin_start,False,True,-0.01,0.0,0.01,-0.01,8.0,-0.0090944
