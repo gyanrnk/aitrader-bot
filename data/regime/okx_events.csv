@@ -887,3 +887,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-23T02:03:21+00:00,AXIS-USDT-SWAP,pin_end,True,False,-0.00933552,-0.00941805,0.01,-0.01,2.0,-0.04717399
 2026-10-23T02:03:21+00:00,AXIS-USDT-SWAP,cap_release,True,False,-0.00933552,-0.00941805,0.01,-0.01,2.0,-0.04717399
 2026-10-23T02:03:21+00:00,BTW-USDT-SWAP,cap_release,True,False,-0.00102631,-0.00104208,0.01,-0.01,2.0,-0.00344612
+2026-10-23T03:04:04+00:00,H100-USDT-SWAP,pin_start,False,True,-0.00996883,-0.00258358,0.01,-0.01,2.0,-0.05001522
