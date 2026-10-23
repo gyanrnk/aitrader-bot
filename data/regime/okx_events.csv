@@ -907,3 +907,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-23T09:37:44+00:00,TEST003-USDT-SWAP,delisted,8.0,,0,,0,,0,0
 2026-10-23T09:37:44+00:00,TEST003-USD_UM_XPERP-311024,delisted,8.0,,0,,0,,0,0
 2026-10-23T11:10:48+00:00,TEST002-USDT-SWAP,listed,,8.0,0.0,,0.0,0.0,8.0,0.0
+2026-10-23T11:27:43+00:00,AXIS-USD_UM_XPERP-311024,pin_end,True,False,-0.00980481,-0.01,0.01,-0.01,4.0,-0.02105263
