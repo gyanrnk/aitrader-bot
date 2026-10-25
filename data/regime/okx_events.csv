@@ -978,3 +978,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-25T00:02:14+00:00,ANIME-USDT-SWAP,pin_end,True,False,-0.00815823,-0.01,0.01,-0.01,2.0,-0.04144573
 2026-10-25T00:02:14+00:00,ANIME-USDT-SWAP,cap_bind,False,True,-0.00815823,-0.01,0.01,-0.01,2.0,-0.04144573
 2026-10-25T00:02:14+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,2.0,0.03754367
+2026-10-25T00:33:15+00:00,H100-USDT-SWAP,pin_end,True,False,0.00864075,0.01,0.01,-0.01,2.0,0.01581608
