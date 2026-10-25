@@ -986,3 +986,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-25T06:52:58+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,-0.0085818,0.01,-0.01,2.0,0.10879848
 2026-10-25T08:35:53+00:00,H100-USDT-SWAP,pin_end,True,False,0.00377964,0.01,0.01,-0.01,2.0,-0.08321678
 2026-10-25T09:10:11+00:00,H100-USDT-SWAP,pin_start,False,True,-0.01,0.01,0.01,-0.01,2.0,-0.05582693
+2026-10-25T10:19:28+00:00,BTW-USD_UM_XPERP-311024,pin_start,False,True,-0.01,-0.00877064,0.01,-0.01,2.0,-0.05615554
