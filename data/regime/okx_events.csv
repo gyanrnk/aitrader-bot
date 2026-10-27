@@ -1068,3 +1068,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-27T10:19:25+00:00,BAC-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.00084525
 2026-10-27T10:19:25+00:00,UNITREE-USDT-SWAP,pin_end,True,False,-0.00917609,-0.01,0.01,-0.01,8.0,0.0
 2026-10-27T10:32:48+00:00,IBKR-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.00030906
+2026-10-27T10:46:11+00:00,MPWR-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
