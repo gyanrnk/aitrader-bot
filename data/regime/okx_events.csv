@@ -1091,3 +1091,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-28T06:02:00+00:00,DOOD-USDT-SWAP,cap_release,True,False,-0.00699324,-0.00699646,0.01,-0.01,2.0,-0.02758505
 2026-10-28T06:02:00+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,1.0,0.10219569
 2026-10-28T06:02:00+00:00,DOOD-USD_UM_XPERP-311024,cap_release,True,False,-0.00742226,-0.00742741,0.01,-0.01,2.0,-0.02845591
+2026-10-28T06:19:25+00:00,H100-USDT-SWAP,pin_end,True,False,0.0089437,0.01,0.01,-0.01,1.0,0.0
