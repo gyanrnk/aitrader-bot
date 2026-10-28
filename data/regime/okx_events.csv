@@ -1111,3 +1111,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-28T19:46:34+00:00,BLUR-USDT-SWAP,pin_end,True,False,-0.00978376,-0.00777981,0.01,-0.01,4.0,-0.01433533
 2026-10-28T23:36:43+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,0.0044535,0.01,-0.01,1.0,0.11731286
 2026-10-28T23:36:43+00:00,AXIS-USDT-SWAP,pin_start,False,True,-0.01,-0.00689043,0.01,-0.01,4.0,-0.04754226
+2026-10-28T23:54:26+00:00,AXIS-USD_UM_XPERP-311024,pin_start,False,True,-0.01,-0.00656972,0.01,-0.01,4.0,-0.03946637
