@@ -1124,3 +1124,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-29T02:00:14+00:00,AXIS-USD_UM_XPERP-311024,cap_release,True,False,-0.00482081,-0.00482852,0.01,-0.01,2.0,-0.02426882
 2026-10-29T02:13:59+00:00,UNITREE-USD_UM_XPERP-311017,pin_start,False,True,-0.01,-0.0022514,0.01,-0.01,8.0,-0.04857171
 2026-10-29T02:27:35+00:00,H100-USDT-SWAP,pin_end,True,False,0.00838024,0.01,0.01,-0.01,1.0,0.05
+2026-10-29T02:41:10+00:00,BLUR-USDT-SWAP,pin_start,False,True,-0.01,-0.0050818,0.01,-0.01,4.0,-0.03470754
