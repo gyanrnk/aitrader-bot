@@ -1178,3 +1178,5 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-10-30T08:39:51+00:00,PDD-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-30T08:53:53+00:00,BIDU-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-10-30T08:53:53+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,-0.00223741,0.01,-0.01,1.0,0.08666685
+2026-10-30T09:07:50+00:00,GILD-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
+2026-10-30T09:07:50+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,1.0,0.07769231
