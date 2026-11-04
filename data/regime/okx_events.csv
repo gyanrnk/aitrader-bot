@@ -1241,3 +1241,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-03T15:11:22+00:00,H100-USDT-SWAP,cap_release,True,False,-0.00431229,-0.00402742,0.01,-0.01,1.0,-0.06615187
 2026-11-04T06:33:54+00:00,MURATA-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-11-04T07:23:15+00:00,WUXIBIO-USDT-SWAP,pin_start,False,True,-0.01,0.0,0.01,-0.01,8.0,-0.01745732
+2026-11-04T07:56:28+00:00,WUXIBIO-USDT-SWAP,pin_end,True,False,-0.00954236,0.0,0.01,-0.01,8.0,0.00487763
