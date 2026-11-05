@@ -12341,3 +12341,4 @@ ts,inst_id,ccy,interval_h,funding_rate,cap,floor,at_cap_live,at_cap_sett,borrowa
 2026-11-04T23:55:57+00:00,H100-USDT-SWAP,H100,1.0,0.0,0.01,-0.01,False,False,False,,0.0,3.4338,
 2026-11-05T00:11:56+00:00,H100-USDT-SWAP,H100,1.0,0.0,0.01,-0.01,False,False,False,,0.0,3.4235,
 2026-11-05T00:27:56+00:00,H100-USDT-SWAP,H100,1.0,6.66037403445e-05,0.01,-0.01,False,False,False,,0.0,3.4235,
+2026-11-05T00:43:55+00:00,H100-USDT-SWAP,H100,1.0,2.49076144569e-05,0.01,-0.01,False,False,False,,0.0,3.4221,
