@@ -1338,3 +1338,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-11T03:41:25+00:00,INIT-USDT-SWAP,pin_start,False,True,-0.01,-0.00998841,0.01,-0.01,2.0,-0.06250468
 2026-11-11T04:10:13+00:00,INIT-USDT-SWAP,escalate,2.0,1.0,-0.00527381,-0.01,0.01,-0.01,1.0,-0.03780359
 2026-11-11T04:10:13+00:00,INIT-USDT-SWAP,pin_end,True,False,-0.00527381,-0.01,0.01,-0.01,1.0,-0.03780359
+2026-11-11T05:08:46+00:00,INIT-USDT-SWAP,cap_release,True,False,-0.0056074,-0.00528615,0.01,-0.01,1.0,-0.05023928
