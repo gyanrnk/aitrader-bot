@@ -1385,3 +1385,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-14T04:00:45+00:00,BERA-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.01793339
 2026-11-14T04:00:45+00:00,BERA-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.01793339
 2026-11-14T04:15:08+00:00,BERA-USDT-SWAP,pin_end,True,False,-0.00621777,-0.01,0.01,-0.01,2.0,-0.02787826
+2026-11-14T06:11:05+00:00,BERA-USDT-SWAP,cap_release,True,False,-0.0049111,-0.00495347,0.01,-0.01,2.0,-0.02263876
