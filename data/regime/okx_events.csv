@@ -1400,3 +1400,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-14T17:29:52+00:00,SOPH-USDT-SWAP,pin_start,False,True,-0.01,-0.00769879,0.01,-0.01,4.0,-0.02675177
 2026-11-14T17:58:27+00:00,SOPH-USDT-SWAP,pin_end,True,False,-0.00983399,-0.00769879,0.01,-0.01,4.0,-0.01445142
 2026-11-14T20:07:17+00:00,BARD-USDT-SWAP,de_escalate,1.0,4.0,-0.00357599,-0.00084552,0.01,-0.01,4.0,-0.00614995
+2026-11-14T23:28:28+00:00,MSTU-USDT-SWAP,pin_start,False,True,-0.01,-0.00206749,0.01,-0.01,8.0,-0.03672162
