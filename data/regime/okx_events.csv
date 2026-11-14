@@ -1376,3 +1376,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-14T01:18:54+00:00,FWDI-USDT-SWAP,pin_start,False,True,-0.00990128,-0.00807695,0.01,-0.01,8.0,-0.00785124
 2026-11-14T01:36:20+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,0.00754759,0.01,-0.01,1.0,0.09245805
 2026-11-14T01:36:20+00:00,FWDI-USDT-SWAP,pin_end,True,False,-0.00971474,-0.00807695,0.01,-0.01,8.0,-0.00259076
+2026-11-14T01:53:18+00:00,BERA-USDT-SWAP,pin_start,False,True,-0.01,-0.0023269,0.01,-0.01,4.0,-0.02884034
