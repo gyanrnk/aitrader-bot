@@ -1418,3 +1418,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-15T08:10:12+00:00,MSTU-USDT-SWAP,cap_release,True,False,-0.00235399,-0.00262402,0.01,-0.01,8.0,0.0
 2026-11-15T08:27:28+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,0.00819964,0.01,-0.01,1.0,0.09593019
 2026-11-15T09:01:46+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,1.0,0.0918829
+2026-11-15T09:18:56+00:00,H100-USDT-SWAP,pin_end,True,False,0.00811463,0.01,0.01,-0.01,1.0,0.03426575
