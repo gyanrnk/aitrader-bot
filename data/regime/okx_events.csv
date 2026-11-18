@@ -1473,3 +1473,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-18T16:37:59+00:00,IRYS-USDT-SWAP,cap_release,True,False,-0.0013675,-0.00210004,0.01,-0.01,2.0,-0.00484068
 2026-11-18T16:37:59+00:00,ZKP-USD_UM_XPERP-310905,cap_release,True,False,-0.00321289,-0.00376861,0.01,-0.01,2.0,-0.01439047
 2026-11-18T16:37:59+00:00,ZKP-USDT-SWAP,cap_release,True,False,-0.00361103,-0.00430489,0.01,-0.01,2.0,-0.0142228
+2026-11-18T17:16:59+00:00,HUMA-USDT-SWAP,pin_start,False,True,-0.01,-0.00223449,0.01,-0.01,4.0,-0.05959447
