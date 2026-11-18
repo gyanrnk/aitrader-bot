@@ -1460,3 +1460,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-18T09:13:28+00:00,SOXX-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,0.0
 2026-11-18T09:32:35+00:00,SSPC-USDT-SWAP,listed,,8.0,0.0,,0.01,-0.01,8.0,-0.00060221
 2026-11-18T09:32:35+00:00,XLF-USDT-SWAP,listed,,8.0,-0.0019488,,0.01,-0.01,8.0,-0.00267584
+2026-11-18T10:10:45+00:00,H100-USDT-SWAP,cap_bind,False,True,0.00823142,0.01,0.01,-0.01,1.0,-0.0083486
