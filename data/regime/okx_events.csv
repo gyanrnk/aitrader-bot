@@ -1496,3 +1496,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-19T17:26:35+00:00,YB-USDT-SWAP,pin_start,False,True,-0.01,-0.00635651,0.01,-0.01,4.0,-0.02002464
 2026-11-19T21:53:22+00:00,YB-USDT-SWAP,pin_end,True,False,-0.00506018,-0.00695045,0.01,-0.01,4.0,-0.01864022
 2026-11-19T22:51:12+00:00,H100-USDT-SWAP,pin_start,False,True,0.01,0.00581367,0.01,-0.01,1.0,0.1
+2026-11-19T23:10:32+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,1.0,0.1000299
