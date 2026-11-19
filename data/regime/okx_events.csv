@@ -1485,3 +1485,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-19T07:14:23+00:00,H100-USDT-SWAP,cap_bind,False,True,0.01,0.01,0.01,-0.01,1.0,0.09224258
 2026-11-19T08:06:25+00:00,RVN-USDT-SWAP,delisted,4.0,,0,,0,,0,0
 2026-11-19T08:58:32+00:00,H100-USDT-SWAP,pin_end,True,False,0.00947004,0.01,0.01,-0.01,1.0,0.07491809
+2026-11-19T13:35:01+00:00,H100-USDT-SWAP,cap_release,True,False,0.00824217,0.00603571,0.01,-0.01,1.0,0.07355743
