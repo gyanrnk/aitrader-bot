@@ -1508,3 +1508,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-20T04:00:21+00:00,BARD-USDT-SWAP,escalate,4.0,2.0,-0.01,-0.01,0.01,-0.01,2.0,-0.06415029
 2026-11-20T04:00:21+00:00,BARD-USDT-SWAP,pin_start,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.06415029
 2026-11-20T04:00:21+00:00,BARD-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,2.0,-0.06415029
+2026-11-20T04:19:30+00:00,IRYS-USDT-SWAP,pin_end,True,False,-0.00709288,-0.01,0.01,-0.01,1.0,-0.03180039
