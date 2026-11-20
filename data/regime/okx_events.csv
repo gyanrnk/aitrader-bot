@@ -1523,3 +1523,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-20T10:40:36+00:00,YB-USDT-SWAP,pin_end,True,False,-0.00368618,-0.0038609,0.01,-0.01,2.0,-0.01592823
 2026-11-20T10:40:36+00:00,SNDK-USDT-SWAP,pin_end,True,False,0.0,-0.001,0.001,-0.001,8.0,-4.738e-05
 2026-11-20T10:40:36+00:00,SNDK-USDT-SWAP,cap_bind,False,True,0.0,-0.001,0.001,-0.001,8.0,-4.738e-05
+2026-11-20T10:57:53+00:00,SNDK-USDT-SWAP,cap_release,True,False,0.0,-0.001,0.01,-0.01,8.0,0.0
