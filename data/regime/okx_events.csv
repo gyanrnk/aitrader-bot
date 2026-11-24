@@ -1567,3 +1567,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-24T09:59:57+00:00,SAHARA-USDT-SWAP,pin_end,True,False,-0.00968375,-0.00702306,0.01,-0.01,4.0,-0.01595006
 2026-11-24T12:01:35+00:00,H100-USDT-SWAP,pin_start,False,True,-0.01,-0.01,0.01,-0.01,1.0,-0.08628491
 2026-11-24T12:01:35+00:00,H100-USDT-SWAP,cap_bind,False,True,-0.01,-0.01,0.01,-0.01,1.0,-0.08628491
+2026-11-24T13:11:37+00:00,H100-USDT-SWAP,pin_end,True,False,-0.00928733,-0.01,0.01,-0.01,1.0,-0.04986622
