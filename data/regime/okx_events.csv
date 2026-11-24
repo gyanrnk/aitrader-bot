@@ -1554,3 +1554,4 @@ ts,inst_id,event,old,new,funding_rate,sett_funding_rate,cap,floor,interval_h,pre
 2026-11-24T00:07:00+00:00,ENSO-USDT-SWAP,de_escalate,2.0,4.0,-0.00343556,-0.00338791,0.01,-0.01,4.0,-0.0073019
 2026-11-24T02:25:18+00:00,COST-USDT-SWAP,pin_end,True,False,-0.00950617,-0.01,0.01,-0.01,8.0,-0.00104545
 2026-11-24T02:44:59+00:00,WUXIBIO-USDT-SWAP,pin_start,False,True,-0.01,0.0,0.01,-0.01,8.0,-0.04370126
+2026-11-24T04:23:03+00:00,EWZS-USDT-SWAP,pin_start,False,True,-0.01,0.00256038,0.01,-0.01,8.0,-0.00984334
